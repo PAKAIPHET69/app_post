@@ -1,6 +1,10 @@
 import 'package:app_post/core/util/colors.dart';
+import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
+import 'package:app_post/features/post/presentation/cubit/post_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/util/app_navigator.dart';
 import '../../core/util/route.dart';
@@ -20,7 +24,30 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: AboutDialog(),
+      body: BlocBuilder<PostCubit, PostState>(
+        builder: (context, state) {
+          return StreamBuilder(
+            builder: (context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 3,
+                      vertical: 15,
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
       bottomNavigationBar: CupertinoTabBar(
         backgroundColor: Colors.black,
         items: <BottomNavigationBarItem>[
@@ -41,7 +68,9 @@ class HomeScreen extends StatelessWidget {
                 icon: const Icon(
                   Icons.search,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  AppNavigator.navigateTo(AppRoute.searchRoute);
+                },
               ),
               label: '',
               backgroundColor: Colors.black),

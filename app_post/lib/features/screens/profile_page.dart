@@ -25,7 +25,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/profile_picture.jpg'),
+                // backgroundImage: AssetImage(''),
               ),
               SizedBox(height: 16),
               Text(
@@ -44,28 +44,11 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8),
-              Center(
-                child: Row(
-                  children: [
-                    Container(
-                      width: 20,
-                      child: Column(
-                        children: [Text('1')],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [Text('1')],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [Text('1')],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.logout),
+                label: const Text('Logout'),
+              )
             ],
           ),
         ),

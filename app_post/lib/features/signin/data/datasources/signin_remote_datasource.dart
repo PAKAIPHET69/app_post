@@ -10,6 +10,7 @@ import '../../../../core/error/exceptions.dart';
 abstract class SignInDatasource {
   Future<UserModel> signInWithGoogle();
   Future<UserModel> signInWithFacebook();
+  Future<void> logOut();
   Future<void> saveUser(UserModel userModel);
 }
 
@@ -73,6 +74,21 @@ class SignInRemoteDatasource implements SignInDatasource {
         email: userCredential.user?.email,
       );
       return userModel;
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? '');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> logOut() async {
+    try {
+      // Log out from Facebook
+      await FacebookAuth.instance.logOut();
+
+      // Log out from Google
+      await GoogleSignIn().signOut();
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {
