@@ -17,7 +17,6 @@ class PostRepositoryImpl implements PostRepository {
 
   PostRepositoryImpl(this.postRemoteDatasource);
   @override
-  //Future<Either<Failure, void>> postUsecase(Post post) async {
   Future<Either<Failure, void>> postUsecase(Post post) async {
     try {
       final res = await postRemoteDatasource.getPost(post.toModel());
@@ -48,8 +47,14 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<List<PostModel>> getUserPost() async {
-    final userPosts = await postRemoteDatasource.fetchUserPosts();
-    return userPosts;
+  Future<Either<Failure, List<Post>>> getUserPost() async {
+    try {
+      final ref = await postRemoteDatasource.fetchUserPosts();
+      return Right(ref);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.msg));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

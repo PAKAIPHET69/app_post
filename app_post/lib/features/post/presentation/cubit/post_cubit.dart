@@ -41,12 +41,6 @@ class PostCubit extends Cubit<PostState> {
     ));
   }
 
-  // Future<List<PostModel>> fetchPosts() async {
-  //   await Future.delayed(Duration(seconds: 2));
-  //   List<PostModel> posts = [];
-  //   return posts;
-  // }
-
   //postUp
   Future<void> postUp(descipController) async {
     emit(state.copyWith(
@@ -93,18 +87,16 @@ class PostCubit extends Cubit<PostState> {
     return url;
   }
 
-  Future<void> _fetchUserPosts() async {
+  Future<void> fetchUserPosts() async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
-    final querySnapshot = await fetchPostsUsecase;
+    final result = await fetchPostsUsecase(NoParams());
 
-    // querySnapshot.fold((error) {
-    //   emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
-    // }, (querySnapshot) {
-    //   emit(state.copyWith(
-    //     dataStatus: DataStatus.initial,
-    //   ));
-    // });
+    result.fold((error) {
+      emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
+    }, (post) {
+      emit(state.copyWith(dataStatus: DataStatus.initial, listPosts: post));
+    });
   }
 }

@@ -33,7 +33,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     try {
       CollectionReference posts = fireStore.collection('posts');
       await posts.doc(postModel.pid).set(postModel.toJson());
-      //PostModel postModel  = PostModel(description: )
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {

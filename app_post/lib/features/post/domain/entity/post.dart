@@ -25,6 +25,8 @@ class Post extends Equatable {
         imageUrl,
       ];
 
+  get length => null;
+
   PostModel toModel() => PostModel(
         description: description,
         pid: pid,
@@ -32,4 +34,6 @@ class Post extends Equatable {
         datePublished: datePublished,
         imageUrl: imageUrl,
       );
+
+  elementAt(int index) {}
 }
