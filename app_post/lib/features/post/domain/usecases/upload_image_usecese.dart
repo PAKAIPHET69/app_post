@@ -14,6 +14,6 @@ class UploadImageUsecese implements UseCase<String, File> {
   UploadImageUsecese(this.postRepository);
   @override
   Future<Either<Failure, String>> call(File params) async {
-    return await postRepository.uploadToFirebaseStorage(params);
+    return await postRepository.uploadImageUsecase(params);
   }
 }

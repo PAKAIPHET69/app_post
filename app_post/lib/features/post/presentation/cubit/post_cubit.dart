@@ -12,6 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
+import 'package:uuid/uuid.dart';
+
 import '../../domain/usecases/get_currentuser.dart';
 import '../../domain/usecases/post_usecase.dart';
 import '../../domain/usecases/upload_image_usecese.dart';
@@ -47,8 +49,10 @@ class PostCubit extends Cubit<PostState> {
       dataStatus: DataStatus.loading,
     ));
     final url = await uploadImage(state.imageFile);
+    final postId = await Uuid().v1();
     Post postData = Post(
       userId: state.currentUser?.uid, //From current user that logged in
+      pid: postId,
       imageUrl: url,
       datePublished: DateTime.now(),
       description: descipController, //From textfield

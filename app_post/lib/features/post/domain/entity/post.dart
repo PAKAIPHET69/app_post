@@ -25,8 +25,6 @@ class Post extends Equatable {
         imageUrl,
       ];
 
-  get length => null;
-
   PostModel toModel() => PostModel(
         description: description,
         pid: pid,

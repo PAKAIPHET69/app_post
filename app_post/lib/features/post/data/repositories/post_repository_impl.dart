@@ -19,7 +19,7 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<Either<Failure, void>> postUsecase(Post post) async {
     try {
-      final res = await postRemoteDatasource.getPost(post.toModel());
+      final res = await postRemoteDatasource.savePost(post.toModel());
       return Right(res);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.msg));
@@ -34,8 +34,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, String>> uploadToFirebaseStorage(
-      File imageFile) async {
+  Future<Either<Failure, String>> uploadImageUsecase(File imageFile) async {
     try {
       final ref = await postRemoteDatasource.uploadImageToStorage(imageFile);
       return Right(ref);
@@ -47,9 +46,9 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, List<Post>>> getUserPost() async {
+  Future<Either<Failure, List<Post>>> fetchPostUsecase() async {
     try {
-      final ref = await postRemoteDatasource.fetchUserPosts();
+      final ref = await postRemoteDatasource.getUserPosts();
       return Right(ref);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.msg));

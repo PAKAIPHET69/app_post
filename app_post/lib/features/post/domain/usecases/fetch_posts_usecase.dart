@@ -14,6 +14,6 @@ class FetchPostsUsecase extends UseCase<List<Post>, NoParams> {
 
   @override
   Future<Either<Failure, List<Post>>> call(NoParams params) async {
-    return await postRepository.getUserPost();
+    return await postRepository.fetchPostUsecase();
   }
 }

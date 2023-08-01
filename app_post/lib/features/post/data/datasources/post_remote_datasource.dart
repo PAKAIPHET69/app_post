@@ -11,10 +11,10 @@ import '../../../signin/domain/entity/user.dart';
 import '../model/post_model.dart';
 
 abstract class PostRemoteDatasource {
-  Future<void> getPost(PostModel postModel);
+  Future<void> savePost(PostModel postModel);
   Future<String> uploadImageToStorage(File imageFile);
   User getCurrentUser();
-  Future<List<PostModel>> fetchUserPosts();
+  Future<List<PostModel>> getUserPosts();
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -29,7 +29,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     this.storage,
   );
   @override
-  Future<void> getPost(PostModel postModel) async {
+  Future<void> savePost(PostModel postModel) async {
     try {
       CollectionReference posts = fireStore.collection('posts');
       await posts.doc(postModel.pid).set(postModel.toJson());
@@ -73,7 +73,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<List<PostModel>> fetchUserPosts() async {
+  Future<List<PostModel>> getUserPosts() async {
     try {
       QuerySnapshot snapshot = await fireStore.collection('userposts').get();
       List<PostModel> userposts = snapshot.docs.map((doc) {

@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
           }
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: state.listPosts!.length,
+            itemCount: state.listPosts?.length,
             itemBuilder: (context, index) {
               final userPost = state.listPosts?.elementAt(index);
               return SafeArea(
