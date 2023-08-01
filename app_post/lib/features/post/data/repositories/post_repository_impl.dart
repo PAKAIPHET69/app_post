@@ -46,7 +46,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, List<Post>>> fetchPostUsecase() async {
+  Future<Either<Failure, List<Post>>> getPostUsecase() async {
     try {
       final ref = await postRemoteDatasource.getUserPosts();
       return Right(ref);

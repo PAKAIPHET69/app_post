@@ -23,12 +23,12 @@ class PostCubit extends Cubit<PostState> {
   final PostUsecase postUsecase;
   final GetCurrentUser getCurrentUserUsecase;
   final UploadImageUsecese uploadImageUsecese;
-  final FetchPostsUsecase fetchPostsUsecase;
+  final GetPostsUsecase getPostsUsecase;
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
     this.uploadImageUsecese,
-    this.fetchPostsUsecase,
+    this.getPostsUsecase,
   ) : super(const PostState());
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
@@ -91,16 +91,16 @@ class PostCubit extends Cubit<PostState> {
     return url;
   }
 
-  Future<void> fetchUserPosts() async {
+  Future<void> getUserPosts() async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
-    final result = await fetchPostsUsecase(NoParams());
+    final result = await getPostsUsecase(NoParams());
 
     result.fold((error) {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
     }, (post) {
-      emit(state.copyWith(dataStatus: DataStatus.initial, listPosts: post));
+      emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
     });
   }
 }

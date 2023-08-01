@@ -17,9 +17,9 @@ import 'package:app_post/features/post/data/repositories/post_repository_impl.da
 import 'package:app_post/features/post/domain/repositories/post_repository.dart'
     as _i12;
 import 'package:app_post/features/post/domain/usecases/fetch_posts_usecase.dart'
-    as _i20;
-import 'package:app_post/features/post/domain/usecases/get_currentuser.dart'
     as _i21;
+import 'package:app_post/features/post/domain/usecases/get_currentuser.dart'
+    as _i20;
 import 'package:app_post/features/post/domain/usecases/post_usecase.dart'
     as _i14;
 import 'package:app_post/features/post/domain/usecases/upload_image_usecese.dart'
@@ -96,15 +96,15 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i18.SignInRepositoryImpl(gh<_i16.SignInDatasource>()));
     gh.lazySingleton<_i19.UploadImageUsecese>(
         () => _i19.UploadImageUsecese(gh<_i12.PostRepository>()));
-    gh.lazySingleton<_i20.FetchPostsUsecase>(
-        () => _i20.FetchPostsUsecase(gh<_i12.PostRepository>()));
-    gh.lazySingleton<_i21.GetCurrentUser>(
-        () => _i21.GetCurrentUser(gh<_i12.PostRepository>()));
+    gh.lazySingleton<_i20.GetCurrentUser>(
+        () => _i20.GetCurrentUser(gh<_i12.PostRepository>()));
+    gh.lazySingleton<_i21.GetPostsUsecase>(
+        () => _i21.GetPostsUsecase(gh<_i12.PostRepository>()));
     gh.factory<_i22.PostCubit>(() => _i22.PostCubit(
           gh<_i14.PostUsecase>(),
-          gh<_i21.GetCurrentUser>(),
+          gh<_i20.GetCurrentUser>(),
           gh<_i19.UploadImageUsecese>(),
-          gh<_i20.FetchPostsUsecase>(),
+          gh<_i21.GetPostsUsecase>(),
         ));
     gh.lazySingleton<_i23.SigInGoogleUsecase>(
         () => _i23.SigInGoogleUsecase(gh<_i17.SignInRepository>()));

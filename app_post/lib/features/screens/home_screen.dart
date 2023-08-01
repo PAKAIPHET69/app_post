@@ -28,88 +28,98 @@ class HomeScreen extends StatelessWidget {
       ),
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
-          if (state.dataStatus == DataStatus.initial) {
-            return Center(
-              child: CircularProgressIndicator(),
+          if (state.dataStatus == DataStatus.success) {
+            // return Center(
+            //   child: CircularProgressIndicator(),
+            // );
+            return ListView.builder(
+              itemCount: state.listPosts?.length,
+              itemBuilder: (BuildContext context, int index) {
+                final getPost = state.listPosts?[index];
+                return Text('data');
+              },
             );
+            // return ListView.builder(
+            //   shrinkWrap: true,
+            //   itemCount: state.listPosts?.length,
+            //   itemBuilder: (context, index) {
+            //     final userPost = state.listPosts?[index];
+            //     return SafeArea(
+            //       // title: Text('${userPost?.description}'),
+            //       // subtitle: Text('time:${userPost?.datePublished}'),
+            //       child: Container(
+            //         child: Column(
+            //           children: [
+            //             Padding(
+            //               padding: EdgeInsets.symmetric(
+            //                 vertical: 4,
+            //                 horizontal: 16,
+            //               ).copyWith(right: 0),
+            //               child: Row(
+            //                 children: <Widget>[
+            //                   CircleAvatar(
+            //                     radius: 16,
+            //                   ),
+            //                   Expanded(
+            //                     child: Padding(
+            //                       padding: EdgeInsets.only(left: 8),
+            //                       child: Column(
+            //                         mainAxisSize: MainAxisSize.min,
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: <Widget>[
+            //                           Text(
+            //                             "username${userPost?.userId}",
+            //                             style: const TextStyle(
+            //                               fontWeight: FontWeight.bold,
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //             Text('${userPost?.description}'),
+            //             GestureDetector(
+            //               child: Stack(
+            //                 alignment: Alignment.center,
+            //                 children: [
+            //                   SizedBox(
+            //                     height:
+            //                         MediaQuery.of(context).size.height * 0.35,
+            //                     width: double.infinity,
+            //                     // child: Image.network(
+            //                     //   userPost.toString(),
+            //                     //   fit: BoxFit.cover,
+            //                     // )
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //             Row(
+            //               children: <Widget>[
+            //                 IconButton(
+            //                     icon: const Icon(
+            //                       Icons.favorite,
+            //                     ),
+            //                     onPressed: () {}),
+            //                 IconButton(
+            //                     icon: const Icon(
+            //                       Icons.comment_outlined,
+            //                     ),
+            //                     onPressed: () {}),
+            //               ],
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // );
           }
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: state.listPosts?.length,
-            itemBuilder: (context, index) {
-              final userPost = state.listPosts?.elementAt(index);
-              return SafeArea(
-                // title: Text('${userPost?.description}'),
-                // subtitle: Text('time:${userPost?.datePublished}'),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 16,
-                        ).copyWith(right: 0),
-                        child: Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 16,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "username${userPost?.userId}",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text('${userPost?.description}'),
-                      GestureDetector(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.35,
-                              width: double.infinity,
-                              // child: Image.network(
-                              //   userPost.toString(),
-                              //   fit: BoxFit.cover,
-                              // )
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          IconButton(
-                              icon: const Icon(
-                                Icons.favorite,
-                              ),
-                              onPressed: () {}),
-                          IconButton(
-                              icon: const Icon(
-                                Icons.comment_outlined,
-                              ),
-                              onPressed: () {}),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
+          return Text("data");
         },
       ),
       bottomNavigationBar: CupertinoTabBar(

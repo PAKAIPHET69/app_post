@@ -7,13 +7,13 @@ import 'package:injectable/injectable.dart';
 import '../repositories/post_repository.dart';
 
 @lazySingleton
-class FetchPostsUsecase extends UseCase<List<Post>, NoParams> {
+class GetPostsUsecase extends UseCase<List<Post>, NoParams> {
   final PostRepository postRepository;
 
-  FetchPostsUsecase(this.postRepository);
+  GetPostsUsecase(this.postRepository);
 
   @override
   Future<Either<Failure, List<Post>>> call(NoParams params) async {
-    return await postRepository.fetchPostUsecase();
+    return await postRepository.getPostUsecase();
   }
 }

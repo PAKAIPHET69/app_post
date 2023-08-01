@@ -1,87 +1,38 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:app_post/core/util/colors.dart';
-import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
-import 'package:app_post/features/post/presentation/cubit/post_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TestFeedScreen extends StatelessWidget {
-  const TestFeedScreen({super.key});
+  final String documentId;
+
+  TestFeedScreen(this.documentId);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: appbarColor,
-        title: Center(
-          child: Image.asset(
-            'assets/images/logo.png',
-            height: 80,
-          ),
-        ),
-      ),
-      body: BlocBuilder<PostCubit, PostState>(
-        builder: (context, state) {
-          return ListView.builder(itemBuilder: (context, index) {
-            
-          });
-        },
-      ),
-      // bottomNavigationBar: CupertinoTabBar(
-      //   backgroundColor: Colors.black,
-      //   items: <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: IconButton(
-      //         color: Colors.grey,
-      //         icon: const Icon(
-      //           Icons.home,
-      //         ),
-      //         onPressed: () {},
-      //       ),
-      //       label: '',
-      //       backgroundColor: Colors.black,
-      //     ),
-      //     BottomNavigationBarItem(
-      //         icon: IconButton(
-      //           color: Colors.grey,
-      //           icon: const Icon(
-      //             Icons.search,
-      //           ),
-      //           onPressed: () {
-      //             AppNavigator.navigateTo(AppRoute.searchRoute);
-      //           },
-      //         ),
-      //         label: '',
-      //         backgroundColor: Colors.black),
-      //     BottomNavigationBarItem(
-      //         icon: IconButton(
-      //           color: Colors.grey,
-      //           icon: const Icon(
-      //             Icons.add_circle,
-      //           ),
-      //           onPressed: () {
-      //             AppNavigator.navigateTo(AppRoute.postRoute);
-      //           },
-      //         ),
-      //         label: '',
-      //         backgroundColor: Colors.black),
-      //     BottomNavigationBarItem(
-      //       icon: IconButton(
-      //         color: Colors.grey,
-      //         icon: const Icon(
-      //           Icons.person,
-      //         ),
-      //         onPressed: () {
-      //           AppNavigator.navigateTo(AppRoute.profileRoute);
-      //         },
-      //       ),
-      //       label: '',
-      //       backgroundColor: Colors.black,
-      //     ),
-      //   ],
-      // ),
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    return FutureBuilder<DocumentSnapshot>(
+      future: users.doc(documentId).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+
+        if (snapshot.hasData && !snapshot.data!.exists) {
+          return Text("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+          return Text("Full Name: ${data['full_name']} ${data['last_name']}");
+        }
+
+        return Text("loading");
+      },
     );
   }
 }
