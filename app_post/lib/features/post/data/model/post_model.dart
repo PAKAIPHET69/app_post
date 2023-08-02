@@ -10,7 +10,9 @@ class PostModel extends Post {
     String? userId,
     DateTime? datePublished,
     String? imageUrl,
+    String? userName,
   }) : super(
+          userName: userName,
           datePublished: datePublished,
           pid: pid,
           userId: userId,

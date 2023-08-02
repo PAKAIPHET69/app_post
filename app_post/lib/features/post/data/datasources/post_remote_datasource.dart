@@ -75,7 +75,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   Future<List<PostModel>> getUserPosts() async {
     try {
-      QuerySnapshot snapshot = await fireStore.collection('userposts').get();
+      QuerySnapshot snapshot = await fireStore.collection('posts').get();
       List<PostModel> userposts = snapshot.docs.map((doc) {
         return PostModel.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();

@@ -33,92 +33,88 @@ class HomeScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return ListView.builder(
-              itemCount: state.listPosts?.length,
-              itemBuilder: (ctx, index) {
-                final getPost = state.post?.description;
-                return Text('data:${getPost}');
-              });
-
           // return ListView.builder(
-          //   shrinkWrap: true,
-          //   itemCount: state.listPosts?.length,
-          //   itemBuilder: (context, index) {
-          //     final userPost = state.listPosts?[index];
-          //     return SafeArea(
-          //       // title: Text('${userPost?.description}'),
-          //       // subtitle: Text('time:${userPost?.datePublished}'),
-          //       child: Container(
-          //         child: Column(
-          //           children: [
-          //             Padding(
-          //               padding: EdgeInsets.symmetric(
-          //                 vertical: 4,
-          //                 horizontal: 16,
-          //               ).copyWith(right: 0),
-          //               child: Row(
-          //                 children: <Widget>[
-          //                   CircleAvatar(
-          //                     radius: 16,
-          //                   ),
-          //                   Expanded(
-          //                     child: Padding(
-          //                       padding: EdgeInsets.only(left: 8),
-          //                       child: Column(
-          //                         mainAxisSize: MainAxisSize.min,
-          //                         crossAxisAlignment:
-          //                             CrossAxisAlignment.start,
-          //                         children: <Widget>[
-          //                           Text(
-          //                             "username${userPost?.userId}",
-          //                             style: const TextStyle(
-          //                               fontWeight: FontWeight.bold,
-          //                             ),
-          //                           ),
-          //                         ],
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //             Text('${userPost?.description}'),
-          //             GestureDetector(
-          //               child: Stack(
-          //                 alignment: Alignment.center,
-          //                 children: [
-          //                   SizedBox(
-          //                     height:
-          //                         MediaQuery.of(context).size.height * 0.35,
-          //                     width: double.infinity,
-          //                     // child: Image.network(
-          //                     //   userPost.toString(),
-          //                     //   fit: BoxFit.cover,
-          //                     // )
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //             Row(
-          //               children: <Widget>[
-          //                 IconButton(
-          //                     icon: const Icon(
-          //                       Icons.favorite,
-          //                     ),
-          //                     onPressed: () {}),
-          //                 IconButton(
-          //                     icon: const Icon(
-          //                       Icons.comment_outlined,
-          //                     ),
-          //                     onPressed: () {}),
-          //               ],
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // );
+          //     itemCount: state.listPosts!.length,
+          //     itemBuilder: (ctx, index) {
+          //       final showPost = state.listPosts![index];
+          //       return Text(showPost.description??'');
+          //     });
+
+          return ListView.builder(
+            itemCount: state.listPosts!.length,
+            itemBuilder: (context, index) {
+              final showPost = state.listPosts![index];
+              return SafeArea(
+                child: Container(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 16,
+                        ).copyWith(right: 0),
+                        child: Row(
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 16,
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      showPost.userName ?? '',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(showPost.description ?? ''),
+                      GestureDetector(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.35,
+                                width: double.infinity,
+                                // showPost.imageUrl!= null ? :
+                                child: Image.network(
+                                  showPost.imageUrl ?? '',
+                                  fit: BoxFit.cover,
+                                )),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                              icon: const Icon(
+                                Icons.favorite,
+                              ),
+                              onPressed: () {}),
+                          IconButton(
+                              icon: const Icon(
+                                Icons.comment_outlined,
+                              ),
+                              onPressed: () {}),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
         },
       ),
       bottomNavigationBar: CupertinoTabBar(

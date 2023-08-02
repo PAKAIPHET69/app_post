@@ -51,6 +51,7 @@ class PostCubit extends Cubit<PostState> {
     final url = await uploadImage(state.imageFile);
     final postId = await Uuid().v1();
     Post postData = Post(
+      userName: state.currentUser?.displayName,
       userId: state.currentUser?.uid, //From current user that logged in
       pid: postId,
       imageUrl: url,

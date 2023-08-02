@@ -14,6 +14,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
           ? null
           : DateTime.parse(json['datePublished'] as String),
       imageUrl: json['imageUrl'] as String?,
+      userName: json['userName'] as String?,
     );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'datePublished': instance.datePublished?.toIso8601String(),
       'userId': instance.userId,
       'imageUrl': instance.imageUrl,
+      'userName': instance.userName,
     };

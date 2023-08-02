@@ -7,8 +7,10 @@ class Post extends Equatable {
   final DateTime? datePublished;
   final String? userId;
   final String? imageUrl;
+  final String? userName;
 
   const Post({
+    this.userName,
     this.userId,
     this.description,
     this.pid,
@@ -19,6 +21,7 @@ class Post extends Equatable {
   @override
   List<Object?> get props => [
         description,
+        userName,
         pid,
         datePublished,
         userId,
@@ -26,6 +29,7 @@ class Post extends Equatable {
       ];
 
   PostModel toModel() => PostModel(
+        userName: userName,
         description: description,
         pid: pid,
         userId: userId,
