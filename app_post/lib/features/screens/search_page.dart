@@ -19,7 +19,7 @@ class SearchPage extends StatelessWidget {
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
           return Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(5),
             child: Column(
               children: [
                 TextField(
@@ -28,7 +28,6 @@ class SearchPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
                     // Logic for handling search

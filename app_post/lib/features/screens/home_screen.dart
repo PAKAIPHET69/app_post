@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, avoid_unnecessary_containers
 
 import 'package:app_post/core/util/colors.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
@@ -33,83 +33,111 @@ class HomeScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          // return ListView.builder(
-          //     itemCount: state.listPosts!.length,
-          //     itemBuilder: (ctx, index) {
-          //       final showPost = state.listPosts![index];
-          //       return Text(showPost.description??'');
-          //     });
-
           return ListView.builder(
             itemCount: state.listPosts!.length,
             itemBuilder: (context, index) {
               final showPost = state.listPosts![index];
-              return SafeArea(
+              return Container(
                 child: Container(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 16,
-                        ).copyWith(right: 0),
-                        child: Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 16,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      showPost.userName ?? '',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 5,
+                          ).copyWith(right: 0),
+                          child: Row(
+                            children: <Widget>[
+                              CircleAvatar(
+                                radius: 18,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        showPost.userName ?? '',
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      // Text(showPost.datePublished??),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
+                              IconButton(
+                                onPressed: () {
+                                  _dialogBuilder(context);
+                                },
+                                icon: const Icon(Icons.more_vert),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            showPost.description ?? '',
+                            style: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                        GestureDetector(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              showPost.imageUrl != null
+                                  ? SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.35,
+                                      width: double.infinity,
+                                      child: Image.network(
+                                        showPost.imageUrl ?? '',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Container()
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          child: ColoredBox(
+                              color: Color.fromARGB(255, 210, 209, 209)),
+                          height: 2,
+                          width: 1000,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                                icon: const Icon(
+                                  Icons.favorite_border,
+                                ),
+                                onPressed: () {}),
+                            IconButton(
+                                icon: const Icon(
+                                  Icons.comment_outlined,
+                                ),
+                                onPressed: () {}),
                           ],
                         ),
-                      ),
-                      Text(showPost.description ?? ''),
-                      GestureDetector(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.35,
-                                width: double.infinity,
-                                // showPost.imageUrl!= null ? :
-                                child: Image.network(
-                                  showPost.imageUrl ?? '',
-                                  fit: BoxFit.cover,
-                                )),
-                          ],
+                        SizedBox(
+                          child: ColoredBox(
+                              color: Color.fromARGB(255, 210, 209, 209)),
+                          height: 2,
+                          width: 1000,
                         ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          IconButton(
-                              icon: const Icon(
-                                Icons.favorite,
-                              ),
-                              onPressed: () {}),
-                          IconButton(
-                              icon: const Icon(
-                                Icons.comment_outlined,
-                              ),
-                              onPressed: () {}),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -127,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                 Icons.home,
               ),
               onPressed: () {
-                AppNavigator.navigateTo(AppRoute.homeRoute);
+                AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
               },
             ),
             label: '',
@@ -172,6 +200,37 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  //show popup dialog
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      useRootNavigator: false,
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shrinkWrap: true,
+              children: [
+                'Delete',
+              ]
+                  .map(
+                    (e) => InkWell(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 16),
+                          child: Text(e),
+                        ),
+                        onTap: () {
+                          // context.read<PostCubit>().deletePost();
+                          // AppNavigator.goBack();
+                        }),
+                  )
+                  .toList()),
+        );
+      },
     );
   }
 }

@@ -14,7 +14,7 @@ class User extends Equatable {
     this.displayName,
     this.email,
   });
-
+  
   @override
   List<Object?> get props => [followers, following, uid, displayName, email];
 }

@@ -5,6 +5,7 @@ import 'package:app_post/core/usecases/no_params.dart';
 import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
+import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/fetch_posts_usecase.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +25,17 @@ class PostCubit extends Cubit<PostState> {
   final GetCurrentUser getCurrentUserUsecase;
   final UploadImageUsecese uploadImageUsecese;
   final GetPostsUsecase getPostsUsecase;
+  // final DeletePostUsecase deletePostUsecase;
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
     this.uploadImageUsecese,
     this.getPostsUsecase,
+    // this.deletePostUsecase,
   ) : super(const PostState());
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
+
   void getCurrentUser() {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
@@ -104,4 +108,24 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
     });
   }
+
+// //Deletes
+//   Future<String> deletePost(pid) async {
+//     emit(state.copyWith(
+//       dataStatus: DataStatus.loading,
+//     ));
+//     final postId = await Uuid().v1();
+//     Post postData = Post( 
+//       //From current user that logged in
+//       pid: postId, //From textfield
+//     );
+//     final ref = await deletePostUsecase(postData);
+//     ref.fold((error) {
+//       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
+//     }, (pid) {
+//       emit(state.copyWith(
+//         dataStatus: DataStatus.success,
+//       ));
+//     });
+//   }
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:path/path.dart' as path;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +16,7 @@ abstract class PostRemoteDatasource {
   Future<String> uploadImageToStorage(File imageFile);
   User getCurrentUser();
   Future<List<PostModel>> getUserPosts();
+  // Future<String> deletePost({required String pid});
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -86,4 +88,16 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       throw ServerException(e.toString());
     }
   }
+
+  // @override
+  // Future<String> deletePost({required String pid}) async {
+  //   try {
+  //     final ref = await fireStore.collection('posts').doc(pid).delete();
+  //     return ref;
+  //   } on FirebaseException catch (e) {
+  //     throw ServerException(e.toString());
+  //   } catch (e) {
+  //     throw ServerException(e.toString());
+  //   }
+  // }
 }
