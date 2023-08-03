@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:app_post/core/util/app_navigator.dart';
+import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -10,194 +12,207 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PostCubit btnCubit = context.read<PostCubit>();
+
     return Scaffold(
-      body: BlocBuilder<PostCubit, PostState>(
-        builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.listPosts!.length,
-            itemBuilder: (context, index) {
-              final showPost = state.listPosts![index];
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
-                      child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.96,
-                        decoration: BoxDecoration(
-                          color: Colors.black12,
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 4,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              offset: Offset(0, 2),
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        //
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(10, 8, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Container(
-                                    width: 40,
-                                    height: 50,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black26,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    // child: Image.asset(
-                                    //   '',
-                                    // ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12, 0, 0, 0),
-                                      child: Text(
-                                        showPost.userName ?? '',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+        backgroundColor: Colors.grey,
+        body: BlocBuilder<PostCubit, PostState>(
+          builder: (context, state) {
+            return ListView.builder(
+              itemCount: state.listPosts!.length,
+              itemBuilder: (context, index) {
+                final userPost = state.listPosts![index];
+                final userID = state.currentUser!;
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
+                        child: Container(
+                          width: MediaQuery.sizeOf(context).width * 0.96,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 4,
+                                color: Colors.black38,
+                                offset: Offset(0, 2),
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Container(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(10, 8, 0, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 40,
+                                      height: 50,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black26,
+                                        shape: BoxShape.circle,
                                       ),
                                     ),
-                                  ),
-                                  // Padding(
-                                  //   padding: EdgeInsetsDirectional.fromSTEB(
-                                  //       4, 0, 0, 0),
-                                  //   child: Text(
-                                  //     '2h',
-                                  //   ),
-                                  // ),
-                                  showPost.userId == showPost.userId
-                                      ? IconButton(
-                                          onPressed: () {
-                                            // _dialogBuilder(context);
-                                          },
-                                          icon: const Icon(Icons.more_vert),
-                                        )
-                                      : Container(),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 4, 12, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 8),
-                                      child: Text(
-                                        showPost.description ?? '',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(0),
-                                bottomRight: Radius.circular(0),
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8),
-                              ),
-                              child: showPost.imageUrl != null
-                                  ? Image.network(
-                                      showPost.imageUrl ?? '',
-                                      width: MediaQuery.sizeOf(context).width,
-                                      height: 200,
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  : Container(),
-                            ),
-                            Divider(
-                              height: 3,
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 16, 4),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
+                                    Expanded(
+                                      child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 16, 0),
-                                        child: Row(
+                                            12, 0, 0, 0),
+                                        child: Text(
+                                          userPost.userName ?? '',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                    ),
+                                    userPost.userId == userID.uid
+                                        ? IconButton(
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return SimpleDialog(
+                                                      children: <Widget>[
+                                                        SimpleDialogOption(
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                  Icons.upload),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text('Update'),
+                                                            ],
+                                                          ),
+                                                          onPressed: () {
+                                                            btnCubit.updatePost(
+                                                                userPost.pid ??
+                                                                    '');
+                                                            AppNavigator.navigateTo(
+                                                                AppRoute
+                                                                    .updatePostRoute);
+                                                          },
+                                                        ),
+                                                        SimpleDialogOption(
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                  Icons.delete),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text('Delete'),
+                                                            ],
+                                                          ),
+                                                          onPressed: () {
+                                                            btnCubit.delePost(
+                                                                userPost.pid ??
+                                                                    '');
+                                                            AppNavigator
+                                                                .goBack();
+                                                          },
+                                                        ),
+                                                      ]);
+                                                },
+                                              );
+                                            },
+                                            icon: const Icon(Icons.more_vert),
+                                          )
+                                        : IconButton(
+                                            icon: const Icon(Icons.more_vert),
+                                            onPressed: () {},
+                                          ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    12, 4, 12, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 0, 8),
+                                        child: Text(
+                                          userPost.description ?? '',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(0),
+                                  bottomRight: Radius.circular(0),
+                                  topLeft: Radius.circular(0),
+                                  topRight: Radius.circular(0),
+                                ),
+                                child: userPost.imageUrl != null
+                                    ? Image.network(
+                                        userPost.imageUrl ?? '',
+                                        width: MediaQuery.sizeOf(context).width,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Container(),
+                              ),
+                              Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: Color.fromARGB(255, 191, 190, 190),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 4),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(4, 0, 0, 0),
-                                              child: Text(
-                                                '2,493',
-                                              ),
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(Icons.favorite_border),
+                                            ),
+                                            Icon(
+                                              Icons.mode_comment_outlined,
+                                              size: 24,
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Icon(
-                                            Icons.mode_comment_outlined,
-                                            size: 24,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    4, 0, 0, 0),
-                                            child: Text(
-                                              '4',
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.ios_share,
-                                        size: 24,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ));
   }
 }

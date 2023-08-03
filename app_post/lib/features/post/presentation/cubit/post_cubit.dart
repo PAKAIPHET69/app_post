@@ -41,7 +41,6 @@ class PostCubit extends Cubit<PostState> {
 
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
-  //String deletpid = 'd60a3fd0-3198-11ee-8101-35c4068adfb5';
 
   Future<void> delePost(String pid) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
@@ -52,7 +51,7 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(
         dataStatus: DataStatus.success,
       ));
-      AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
+      AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
     });
   }
 
@@ -65,7 +64,6 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(
         dataStatus: DataStatus.success,
       ));
-      AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
     });
   }
 
@@ -103,7 +101,7 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(
         dataStatus: DataStatus.success,
       ));
-      AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
+      AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
     });
   }
 

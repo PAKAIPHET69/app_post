@@ -24,7 +24,7 @@ class SignInCubit extends Cubit<SignInState> {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
     }, (user) {
       emit(state.copyWith(dataStatus: DataStatus.success, user: user));
-      AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
+      AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
     });
   }
 

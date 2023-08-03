@@ -11,14 +11,14 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: appbarColor,
-        title: Text('Search Page'),
-      ),
-      body: BlocBuilder<PostCubit, PostState>(
-        builder: (context, state) {
-          return Container(
+    return BlocBuilder<PostCubit, PostState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: appbarColor,
+            title: Text('Search Page'),
+          ),
+          body: Container(
             padding: EdgeInsets.all(5),
             child: Column(
               children: [
@@ -36,9 +36,9 @@ class SearchPage extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
