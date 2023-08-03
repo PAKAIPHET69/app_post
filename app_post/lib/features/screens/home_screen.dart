@@ -33,10 +33,13 @@ class HomeScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          PostCubit postUpCubit = context.read<PostCubit>();
+
           return ListView.builder(
             itemCount: state.listPosts!.length,
             itemBuilder: (context, index) {
-              final showPost = state.listPosts![index];
+              final userPost = state.listPosts![index];
+              final userID = state.currentUser!;
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -83,24 +86,83 @@ class HomeScreen extends StatelessWidget {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12, 0, 0, 0),
                                       child: Text(
-                                        showPost.userName ?? '',
+                                        userPost.userName ?? '',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+                                            fontSize: 16),
                                       ),
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: EdgeInsetsDirectional.fromSTEB(
-                                  //       4, 0, 0, 0),
-                                  //   child: Text(
-                                  //     '2h',
-                                  //   ),
-                                  // ),
-                                  showPost.userId == showPost.userId
+                                  userPost.userId == userID.uid
                                       ? IconButton(
                                           onPressed: () {
-                                            _dialogBuilder(context);
+                                            // showModalBottomSheet<void>(
+                                            //     context: context,
+                                            //     builder:
+                                            //         (BuildContext context) {
+                                            //       return SizedBox(
+                                            //         height: 150,
+                                            //         child: Center(
+                                            //           child: Column(
+                                            //             mainAxisAlignment:
+                                            //                 MainAxisAlignment
+                                            //                     .center,
+                                            //             mainAxisSize:
+                                            //                 MainAxisSize.min,
+                                            //             children: <Widget>[
+                                            //               const Text(
+                                            //                   'Modal BottomSheet'),
+                                            //               ElevatedButton(
+                                            //                 child: const Text(
+                                            //                     'Close BottomSheet'),
+                                            //                 onPressed: () =>
+                                            //                     Navigator.pop(
+                                            //                         context),
+                                            //               ),
+                                            //             ],
+                                            //           ),
+                                            //         ),
+                                            //       );
+                                            //     });
+                                            showDialog(
+                                              useRootNavigator: false,
+                                              context: context,
+                                              builder: (context) {
+                                                return Dialog(
+                                                  child: ListView(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 16),
+                                                      shrinkWrap: true,
+                                                      children: [
+                                                        'Delete',
+                                                      ]
+                                                          .map(
+                                                            (e) => InkWell(
+                                                                child:
+                                                                    Container(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          12,
+                                                                      horizontal:
+                                                                          16),
+                                                                  child:
+                                                                      Text(e),
+                                                                ),
+                                                                onTap: () {
+                                                                  postUpCubit
+                                                                      .delePost(
+                                                                          userPost.pid ??
+                                                                              '');
+                                                                  AppNavigator
+                                                                      .goBack();
+                                                                }),
+                                                          )
+                                                          .toList()),
+                                                );
+                                              },
+                                            );
                                           },
                                           icon: const Icon(Icons.more_vert),
                                         )
@@ -119,9 +181,10 @@ class HomeScreen extends StatelessWidget {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 0, 8),
                                       child: Text(
-                                        showPost.description ?? '',
+                                        userPost.description ?? '',
                                         style: TextStyle(
-                                            fontWeight: FontWeight.normal),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
                                       ),
                                     ),
                                   ),
@@ -135,9 +198,9 @@ class HomeScreen extends StatelessWidget {
                                 topLeft: Radius.circular(8),
                                 topRight: Radius.circular(8),
                               ),
-                              child: showPost.imageUrl != null
+                              child: userPost.imageUrl != null
                                   ? Image.network(
-                                      showPost.imageUrl ?? '',
+                                      userPost.imageUrl ?? '',
                                       width: MediaQuery.sizeOf(context).width,
                                       height: 200,
                                       fit: BoxFit.fitWidth,
@@ -145,13 +208,13 @@ class HomeScreen extends StatelessWidget {
                                   : Container(),
                             ),
                             Divider(
-                              height: 3,
+                              height: 1,
                               thickness: 1,
-                              color: Colors.grey,
+                              color: Color.fromARGB(255, 191, 190, 190),
                             ),
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 16, 4),
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 4),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -160,47 +223,18 @@ class HomeScreen extends StatelessWidget {
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 16, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(4, 0, 0, 0),
-                                              child: Text(
-                                                '2,493',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
                                       Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: Icon(Icons.favorite_border),
+                                          ),
                                           Icon(
                                             Icons.mode_comment_outlined,
                                             size: 24,
                                           ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    4, 0, 0, 0),
-                                            child: Text(
-                                              '4',
-                                            ),
-                                          ),
                                         ],
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Icon(
-                                        Icons.ios_share,
-                                        size: 24,
                                       ),
                                     ],
                                   ),
@@ -253,7 +287,7 @@ class HomeScreen extends StatelessWidget {
                   Icons.add_circle,
                 ),
                 onPressed: () {
-                  AppNavigator.navigateTo(AppRoute.postRoute);
+                  AppNavigator.navigateTo(AppRoute.addPostRoute);
                 },
               ),
               label: '',
@@ -273,37 +307,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  //show popup dialog
-  Future<void> _dialogBuilder(BuildContext context) {
-    return showDialog<void>(
-      useRootNavigator: false,
-      context: context,
-      builder: (context) {
-        return Dialog(
-          child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shrinkWrap: true,
-              children: [
-                'Delete',
-              ]
-                  .map(
-                    (e) => InkWell(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 16),
-                          child: Text(e),
-                        ),
-                        onTap: () {
-                          // context.read<PostCubit>().deletePost();
-                          // AppNavigator.goBack();
-                        }),
-                  )
-                  .toList()),
-        );
-      },
     );
   }
 }

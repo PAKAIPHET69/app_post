@@ -57,5 +57,15 @@ class PostRepositoryImpl implements PostRepository {
     }
   }
 
-
+  @override
+  Future<Either<Failure, void>> deletePostUsecase(String pid) async {
+    try {
+      final res = await postRemoteDatasource.deletePost(pid);
+      return Right(res);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.msg));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

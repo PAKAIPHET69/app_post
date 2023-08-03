@@ -8,7 +8,8 @@ import '../../../signin/domain/entity/user.dart';
 
 abstract class PostRepository {
   Future<Either<Failure, void>> postUsecase(Post post);
-  User getCurrentUser();
+  Future<Either<Failure, void>> deletePostUsecase(String pid);
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile);
   Future<Either<Failure, List<Post>>> getPostUsecase();
+  User getCurrentUser();
 }

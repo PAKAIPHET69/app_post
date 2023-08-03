@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:path/path.dart' as path;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,10 +12,11 @@ import '../model/post_model.dart';
 
 abstract class PostRemoteDatasource {
   Future<void> savePost(PostModel postModel);
+  Future<void> deletePost(String idPost);
+  Future<void> updatePost(String idPost);
   Future<String> uploadImageToStorage(File imageFile);
-  User getCurrentUser();
   Future<List<PostModel>> getUserPosts();
-  Future<String> deletePost({required String pid});
+  User getCurrentUser();
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -45,7 +45,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   Future<String> uploadImageToStorage(File imageFile) async {
     String basename = path.basename(imageFile.path);
-    // creating location to our firebase storage
     try {
       Reference storageRef = storage.ref("posts").child(basename);
       final uploadTask = await storageRef.putFile(imageFile);
@@ -77,7 +76,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   Future<List<PostModel>> getUserPosts() async {
     try {
-      QuerySnapshot snapshot = await fireStore.collection('posts').get();
+      QuerySnapshot snapshot = await fireStore
+          .collection('posts')
+          .orderBy('datePublished', descending: true)
+          .get();
       List<PostModel> userposts = snapshot.docs.map((doc) {
         return PostModel.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
@@ -90,10 +92,9 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<String> deletePost({required String pid}) async {
-    String res = 'sda';
+  Future<void> deletePost(String delePid) async {
     try {
-      await fireStore.collection('posts').doc(pid).delete();
+      final res = await fireStore.collection('posts').doc(delePid).delete();
       return res;
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());
@@ -102,15 +103,19 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  // @override
-  // Future<String> deletePost({required String pid}) async {
-  //   try {
-  //     final ref = await fireStore.collection('posts').doc(pid).delete();
-  //     return ref;
-  //   } on FirebaseException catch (e) {
-  //     throw ServerException(e.toString());
-  //   } catch (e) {
-  //     throw ServerException(e.toString());
-  //   }
-  // }
+  @override
+  Future<void> updatePost(String idPost) async {
+    try {
+      var descipController, imageUrl;
+      final res = await fireStore.collection('posts').doc(idPost).update({
+        'description': descipController.text.toString(),
+        'imageUrl': imageUrl,
+      });
+      return res;
+    } on FirebaseException catch (e) {
+      throw ServerException(e.toString());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
 }

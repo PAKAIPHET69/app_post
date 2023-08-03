@@ -36,43 +36,55 @@ class PostCard extends StatelessWidget {
                           ],
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        //
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
+                            Container(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 8, 12, 0),
+                                  EdgeInsetsDirectional.fromSTEB(10, 8, 0, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                children: [
+                                children: <Widget>[
                                   Container(
-                                    width: 50,
+                                    width: 40,
                                     height: 50,
                                     clipBehavior: Clip.antiAlias,
                                     decoration: BoxDecoration(
+                                      color: Colors.black26,
                                       shape: BoxShape.circle,
                                     ),
                                     // child: Image.asset(
                                     //   '',
                                     // ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        12, 0, 0, 0),
-                                    child: Text(
-                                      showPost.userName ?? '',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          12, 0, 0, 0),
+                                      child: Text(
+                                        showPost.userName ?? '',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        4, 0, 0, 0),
-                                    child: Text(
-                                      '2h',
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsetsDirectional.fromSTEB(
+                                  //       4, 0, 0, 0),
+                                  //   child: Text(
+                                  //     '2h',
+                                  //   ),
+                                  // ),
+                                  showPost.userId == showPost.userId
+                                      ? IconButton(
+                                          onPressed: () {
+                                            // _dialogBuilder(context);
+                                          },
+                                          icon: const Icon(Icons.more_vert),
+                                        )
+                                      : Container(),
                                 ],
                               ),
                             ),

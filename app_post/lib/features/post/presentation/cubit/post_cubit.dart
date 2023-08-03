@@ -25,16 +25,31 @@ class PostCubit extends Cubit<PostState> {
   final GetCurrentUser getCurrentUserUsecase;
   final UploadImageUsecese uploadImageUsecese;
   final GetPostsUsecase getPostsUsecase;
-  // final DeletePostUsecase deletePostUsecase;
+  final DeletePostUsecase deletePostUsecase;
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
     this.uploadImageUsecese,
     this.getPostsUsecase,
-    // this.deletePostUsecase,
+    this.deletePostUsecase,
   ) : super(const PostState());
+
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
+  //String deletpid = 'd60a3fd0-3198-11ee-8101-35c4068adfb5';
+
+  Future<void> delePost(String pid) async {
+    emit(state.copyWith(dataStatus: DataStatus.loading));
+    final result = await deletePostUsecase(pid);
+    result.fold((error) {
+      emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
+    }, (delePID) {
+      emit(state.copyWith(
+        dataStatus: DataStatus.success,
+      ));
+    });
+    // emit(state.copyWith(dataStatus: DataStatus.failure,error: ))
+  }
 
   void getCurrentUser() {
     emit(state.copyWith(
@@ -108,24 +123,4 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
     });
   }
-
-// //Deletes
-//   Future<String> deletePost(pid) async {
-//     emit(state.copyWith(
-//       dataStatus: DataStatus.loading,
-//     ));
-//     final postId = await Uuid().v1();
-//     Post postData = Post( 
-//       //From current user that logged in
-//       pid: postId, //From textfield
-//     );
-//     final ref = await deletePostUsecase(postData);
-//     ref.fold((error) {
-//       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
-//     }, (pid) {
-//       emit(state.copyWith(
-//         dataStatus: DataStatus.success,
-//       ));
-//     });
-//   }
 }

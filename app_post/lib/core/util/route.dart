@@ -14,7 +14,7 @@ class AppRoute {
   static const String signinRoute = "signin";
   static const String homeRoute = "home";
   static const String searchRoute = "/search";
-  static const String postRoute = "/post";
+  static const String addPostRoute = "/addpost";
   static const String profileRoute = "/profile";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -32,7 +32,9 @@ class AppRoute {
           const HomeScreen(),
           providers: [
             BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()..getUserPosts()),
+              create: ((context) => getIt<PostCubit>()
+                ..getCurrentUser()
+                ..getUserPosts()),
             ),
           ],
         );
@@ -45,7 +47,7 @@ class AppRoute {
             ),
           ],
         );
-      case postRoute:
+      case addPostRoute:
         return _materialRoute(
           const AddPostPage(),
           providers: [
@@ -58,17 +60,25 @@ class AppRoute {
         return _materialRoute(
           const ProfilePage(),
           providers: [
-            BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()..getCurrentUser()),
+            BlocProvider<SignInCubit>(
+              create: ((context) => getIt<SignInCubit>()),
             ),
           ],
         );
       default:
-        return _materialRoute(const HomeScreen());
+        return _mainRoute(const SignInPage());
     }
   }
 
   static Route<dynamic> _materialRoute(Widget screen,
+      {List<BlocProvider> providers = const []}) {
+    return MaterialPageRoute(
+        builder: (context) => providers.isNotEmpty
+            ? MultiBlocProvider(providers: providers, child: screen)
+            : screen);
+  }
+
+  static Route<dynamic> _mainRoute(Widget screen,
       {List<BlocProvider> providers = const []}) {
     return MaterialPageRoute(
         builder: (context) => providers.isNotEmpty
