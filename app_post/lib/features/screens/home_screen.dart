@@ -37,108 +37,181 @@ class HomeScreen extends StatelessWidget {
             itemCount: state.listPosts!.length,
             itemBuilder: (context, index) {
               final showPost = state.listPosts![index];
-              return Container(
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 5,
-                          ).copyWith(right: 0),
-                          child: Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 18,
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width * 0.96,
+                        decoration: BoxDecoration(
+                          color: Colors.black12,
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 4,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        //
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(10, 8, 0, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Container(
+                                    width: 40,
+                                    height: 50,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black26,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    // child: Image.asset(
+                                    //   '',
+                                    // ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          12, 0, 0, 0),
+                                      child: Text(
                                         showPost.userName ?? '',
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsetsDirectional.fromSTEB(
+                                  //       4, 0, 0, 0),
+                                  //   child: Text(
+                                  //     '2h',
+                                  //   ),
+                                  // ),
+                                  showPost.userId == showPost.userId
+                                      ? IconButton(
+                                          onPressed: () {
+                                            _dialogBuilder(context);
+                                          },
+                                          icon: const Icon(Icons.more_vert),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(12, 4, 12, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 8),
+                                      child: Text(
+                                        showPost.description ?? '',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(0),
+                                bottomRight: Radius.circular(0),
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8),
+                              ),
+                              child: showPost.imageUrl != null
+                                  ? Image.network(
+                                      showPost.imageUrl ?? '',
+                                      width: MediaQuery.sizeOf(context).width,
+                                      height: 200,
+                                      fit: BoxFit.fitWidth,
+                                    )
+                                  : Container(),
+                            ),
+                            Divider(
+                              height: 3,
+                              thickness: 1,
+                              color: Colors.grey,
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(16, 0, 16, 4),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 16, 0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 0, 0, 0),
+                                              child: Text(
+                                                '2,493',
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      // Text(showPost.datePublished??),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Icon(
+                                            Icons.mode_comment_outlined,
+                                            size: 24,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    4, 0, 0, 0),
+                                            child: Text(
+                                              '4',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  _dialogBuilder(context);
-                                },
-                                icon: const Icon(Icons.more_vert),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            showPost.description ?? '',
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.normal),
-                          ),
-                        ),
-                        GestureDetector(
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              showPost.imageUrl != null
-                                  ? SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.35,
-                                      width: double.infinity,
-                                      child: Image.network(
-                                        showPost.imageUrl ?? '',
-                                        fit: BoxFit.cover,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Icon(
+                                        Icons.ios_share,
+                                        size: 24,
                                       ),
-                                    )
-                                  : Container()
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          child: ColoredBox(
-                              color: Color.fromARGB(255, 210, 209, 209)),
-                          height: 2,
-                          width: 1000,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            IconButton(
-                                icon: const Icon(
-                                  Icons.favorite_border,
-                                ),
-                                onPressed: () {}),
-                            IconButton(
-                                icon: const Icon(
-                                  Icons.comment_outlined,
-                                ),
-                                onPressed: () {}),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                        SizedBox(
-                          child: ColoredBox(
-                              color: Color.fromARGB(255, 210, 209, 209)),
-                          height: 2,
-                          width: 1000,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               );
             },

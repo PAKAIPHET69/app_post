@@ -32,9 +32,7 @@ class AppRoute {
           const HomeScreen(),
           providers: [
             BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()
-                ..getUserPosts()
-                ..deletePost()),
+              create: ((context) => getIt<PostCubit>()..getUserPosts()),
             ),
           ],
         );

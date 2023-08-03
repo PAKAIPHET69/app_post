@@ -16,7 +16,7 @@ abstract class PostRemoteDatasource {
   Future<String> uploadImageToStorage(File imageFile);
   User getCurrentUser();
   Future<List<PostModel>> getUserPosts();
-  // Future<String> deletePost({required String pid});
+  Future<String> deletePost({required String pid});
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -82,6 +82,19 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         return PostModel.fromJson(doc.data() as Map<String, dynamic>);
       }).toList();
       return userposts;
+    } on FirebaseException catch (e) {
+      throw ServerException(e.toString());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> deletePost({required String pid}) async {
+    String res = 'sda';
+    try {
+      await fireStore.collection('posts').doc(pid).delete();
+      return res;
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());
     } catch (e) {
