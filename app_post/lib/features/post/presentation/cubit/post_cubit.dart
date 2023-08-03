@@ -1,12 +1,15 @@
 // ignore_for_file: unused_element, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ffi';
 import 'dart:io';
 import 'package:app_post/core/usecases/no_params.dart';
 import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/constant.dart';
+import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/fetch_posts_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,12 +29,14 @@ class PostCubit extends Cubit<PostState> {
   final UploadImageUsecese uploadImageUsecese;
   final GetPostsUsecase getPostsUsecase;
   final DeletePostUsecase deletePostUsecase;
+  final UpdatePostUsecase updatePostUsecase;
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
     this.uploadImageUsecese,
     this.getPostsUsecase,
     this.deletePostUsecase,
+    this.updatePostUsecase,
   ) : super(const PostState());
 
   final ImagePicker picker = ImagePicker();
@@ -47,8 +52,21 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(
         dataStatus: DataStatus.success,
       ));
+      AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
     });
-    // emit(state.copyWith(dataStatus: DataStatus.failure,error: ))
+  }
+
+  Future<void> updatePost(String pid) async {
+    emit(state.copyWith(dataStatus: DataStatus.loading));
+    final result = await updatePostUsecase(pid);
+    result.fold((error) {
+      emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
+    }, (updatePost) {
+      emit(state.copyWith(
+        dataStatus: DataStatus.success,
+      ));
+      AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
+    });
   }
 
   void getCurrentUser() {
@@ -85,7 +103,7 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(
         dataStatus: DataStatus.success,
       ));
-      AppNavigator.goBack();
+      AppNavigator.pushAndRemoveUntil(AppRoute.homeRoute);
     });
   }
 

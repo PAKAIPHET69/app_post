@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          PostCubit postUpCubit = context.read<PostCubit>();
+          PostCubit btnCubit = context.read<PostCubit>();
 
           return ListView.builder(
             itemCount: state.listPosts!.length,
@@ -96,77 +96,55 @@ class HomeScreen extends StatelessWidget {
                                   userPost.userId == userID.uid
                                       ? IconButton(
                                           onPressed: () {
-                                            // showModalBottomSheet<void>(
-                                            //     context: context,
-                                            //     builder:
-                                            //         (BuildContext context) {
-                                            //       return SizedBox(
-                                            //         height: 150,
-                                            //         child: Center(
-                                            //           child: Column(
-                                            //             mainAxisAlignment:
-                                            //                 MainAxisAlignment
-                                            //                     .center,
-                                            //             mainAxisSize:
-                                            //                 MainAxisSize.min,
-                                            //             children: <Widget>[
-                                            //               const Text(
-                                            //                   'Modal BottomSheet'),
-                                            //               ElevatedButton(
-                                            //                 child: const Text(
-                                            //                     'Close BottomSheet'),
-                                            //                 onPressed: () =>
-                                            //                     Navigator.pop(
-                                            //                         context),
-                                            //               ),
-                                            //             ],
-                                            //           ),
-                                            //         ),
-                                            //       );
-                                            //     });
                                             showDialog(
-                                              useRootNavigator: false,
                                               context: context,
                                               builder: (context) {
-                                                return Dialog(
-                                                  child: ListView(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical: 16),
-                                                      shrinkWrap: true,
-                                                      children: [
-                                                        'Delete',
-                                                      ]
-                                                          .map(
-                                                            (e) => InkWell(
-                                                                child:
-                                                                    Container(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      vertical:
-                                                                          12,
-                                                                      horizontal:
-                                                                          16),
-                                                                  child:
-                                                                      Text(e),
-                                                                ),
-                                                                onTap: () {
-                                                                  postUpCubit
-                                                                      .delePost(
-                                                                          userPost.pid ??
-                                                                              '');
-                                                                  AppNavigator
-                                                                      .goBack();
-                                                                }),
-                                                          )
-                                                          .toList()),
-                                                );
+                                                return SimpleDialog(
+                                                    children: <Widget>[
+                                                      SimpleDialogOption(
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons.upload),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text('Update'),
+                                                          ],
+                                                        ),
+                                                        onPressed: () {
+                                                          btnCubit.updatePost(
+                                                              userPost.pid ??
+                                                                  '');
+                                                          AppNavigator.goBack();
+                                                        },
+                                                      ),
+                                                      SimpleDialogOption(
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(Icons.delete),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text('Delete'),
+                                                          ],
+                                                        ),
+                                                        onPressed: () {
+                                                          btnCubit.delePost(
+                                                              userPost.pid ??
+                                                                  '');
+                                                          AppNavigator.goBack();
+                                                        },
+                                                      ),
+                                                    ]);
                                               },
                                             );
                                           },
                                           icon: const Icon(Icons.more_vert),
                                         )
-                                      : Container(),
+                                      : IconButton(
+                                          icon: const Icon(Icons.more_vert),
+                                          onPressed: () {},
+                                        ),
                                 ],
                               ),
                             ),

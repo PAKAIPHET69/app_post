@@ -68,4 +68,16 @@ class PostRepositoryImpl implements PostRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+  
+  @override
+  Future<Either<Failure, void>> updatePostUsecase(String pid) async{
+    try {
+      final res = await postRemoteDatasource.updatePost(pid);
+      return Right(res);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.msg));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }
