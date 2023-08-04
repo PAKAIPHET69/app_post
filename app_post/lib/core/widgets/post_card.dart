@@ -2,6 +2,7 @@
 
 import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/route.dart';
+import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:awesome_icons/awesome_icons.dart';
@@ -16,7 +17,7 @@ class PostCard extends StatelessWidget {
     PostCubit btnCubit = context.read<PostCubit>();
 
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.black87,
         body: BlocBuilder<PostCubit, PostState>(
           builder: (context, state) {
             return ListView.builder(
@@ -99,9 +100,26 @@ class PostCard extends StatelessWidget {
                                                             // btnCubit.updatePost(
                                                             //     userPost.pid ??
                                                             //         '');
+                                                            Post sendData = Post(
+                                                                description:
+                                                                    userPost
+                                                                        .description,
+                                                                pid: userPost
+                                                                    .pid,
+                                                                userId: userPost
+                                                                    .userId,
+                                                                userName: userPost
+                                                                    .userName,
+                                                                datePublished:
+                                                                    DateTime
+                                                                        .now(),
+                                                                imageUrl: userPost
+                                                                    .imageUrl);
                                                             AppNavigator.navigateTo(
                                                                 AppRoute
-                                                                    .updatePostRoute);
+                                                                    .updatePostRoute,
+                                                                params:
+                                                                    sendData);
                                                           },
                                                         ),
                                                         Divider(

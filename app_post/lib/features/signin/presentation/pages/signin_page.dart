@@ -47,7 +47,7 @@ class SignInPage extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Color(0xFFF0F5F9),
+                        color: Colors.black26,
                         width: 2,
                       ),
                     ),

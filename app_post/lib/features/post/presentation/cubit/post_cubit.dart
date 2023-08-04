@@ -54,16 +54,14 @@ class PostCubit extends Cubit<PostState> {
     });
   }
 
-  Future<void> updatePost(String pid) async {
+  Future<void> updatePost(Post post) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = await updatePostUsecase(pid);
+    final result = await updatePostUsecase(post);
+
     result.fold((error) {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
     }, (updatePost) {
-      emit(state.copyWith(
-        dataStatus: DataStatus.success,
-      ));
-      // AppNavigator.navigateTo(AppRoute.updatePostRoute);
+      emit(state.copyWith(dataStatus: DataStatus.success));
     });
   }
 
@@ -110,6 +108,8 @@ class PostCubit extends Cubit<PostState> {
     if (img != null) {
       File file = File(img.path);
       emit(state.copyWith(imageFile: file));
+      final url = await uploadImage(state.imageFile);
+      emit(state.copyWith(dataStatus: DataStatus.success, urlPhoto: url));
     }
   }
 

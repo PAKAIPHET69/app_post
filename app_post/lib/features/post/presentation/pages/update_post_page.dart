@@ -2,6 +2,7 @@
 
 import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/route.dart';
+import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +10,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdetePostPage extends StatelessWidget {
-  const UpdetePostPage({super.key});
+  final Post getData;
+
+  const UpdetePostPage({super.key, required this.getData});
   @override
   Widget build(BuildContext context) {
     PostCubit postUpCubit = context.read<PostCubit>();
+    postUpCubit.descipController.text = getData.description ?? '';
 
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
-        // final detailPost = state.listPosts!.single;
-        // final userID = state.currentUser!;
         return Scaffold(
           appBar: AppBar(
               backgroundColor: Colors.black,
@@ -26,9 +28,17 @@ class UpdetePostPage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      print(state.urlPhoto);
+                      await postUpCubit.updatePost(Post(
+                          userName: getData.userName,
+                          userId: getData.userId,
+                          imageUrl: state.urlPhoto,
+                          pid: getData.pid,
+                          description: postUpCubit.descipController.text,
+                          datePublished: getData.datePublished));
+                        
                       AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
-                      postUpCubit.updatePost(postUpCubit.descipController.text);
                     },
                     child: Text(
                       'Update',
@@ -48,9 +58,9 @@ class UpdetePostPage extends StatelessWidget {
                   TextField(
                     controller: postUpCubit.descipController,
                     decoration: InputDecoration(
-                        hintText: "Write a caption...",
-                        border: InputBorder.none),
-                    maxLines: 8,
+                        hintText: 'Write a caption...',
+                        border: OutlineInputBorder()),
+                    maxLines: 3,
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -112,7 +122,14 @@ class UpdetePostPage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           height: 300,
                         )
-                      : Container()
+                      : getData.imageUrl != null
+                          ? Image.network(
+                              getData.imageUrl ?? '',
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              height: 300,
+                            )
+                          : Container()
                 ],
               ),
             ),

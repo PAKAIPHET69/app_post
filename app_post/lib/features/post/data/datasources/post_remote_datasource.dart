@@ -13,7 +13,7 @@ import '../model/post_model.dart';
 abstract class PostRemoteDatasource {
   Future<void> savePost(PostModel postModel);
   Future<void> deletePost(String idPost);
-  Future<void> updatePost(String idPost);
+  Future<void> updatePost(PostModel postModel);
   Future<String> uploadImageToStorage(File imageFile);
   Future<List<PostModel>> getUserPosts();
   User getCurrentUser();
@@ -104,13 +104,18 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<void> updatePost(String idPost) async {
+  Future<void> updatePost(PostModel postModel) async {
     try {
-      var newDescip, newImageUrl;
-      final res = await fireStore.collection('posts').doc(idPost).update({
-        'description': newDescip,
-        'imageUrl': newImageUrl,
-      });
+      final res = await fireStore
+          .collection('posts')
+          .doc(postModel.pid)
+          .set(postModel.toJson());
+      //     .update({
+      print(postModel.pid);
+
+      //   'description': postModel.description,
+      //   'imageUrl': postModel.imageUrl
+      // });
       return res;
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());

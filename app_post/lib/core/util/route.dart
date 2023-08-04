@@ -1,5 +1,6 @@
 import 'package:app_post/core/util/service_locator.dart';
 import 'package:app_post/core/widgets/navigationbar.dart';
+import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
 import 'package:app_post/features/screens/home_screen.dart';
@@ -54,8 +55,9 @@ class AppRoute {
           ],
         );
       case updatePostRoute:
+      final Post args = settings.arguments as Post;
         return _materialRoute(
-          const UpdetePostPage(),
+           UpdetePostPage(getData: args,),
           providers: [
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()

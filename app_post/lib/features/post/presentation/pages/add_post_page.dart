@@ -51,8 +51,8 @@ class AddPostPage extends StatelessWidget {
                     controller: postUpCubit.descipController,
                     decoration: InputDecoration(
                         hintText: "Write a caption...",
-                        border: InputBorder.none),
-                    maxLines: 8,
+                        border: OutlineInputBorder()),
+                    maxLines: 3,
                   ),
                   ElevatedButton(
                     onPressed: () {
