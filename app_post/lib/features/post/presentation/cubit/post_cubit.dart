@@ -1,6 +1,5 @@
 // ignore_for_file: unused_element, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:ffi';
 import 'dart:io';
 import 'package:app_post/core/usecases/no_params.dart';
 import 'package:app_post/core/util/app_navigator.dart';
@@ -64,6 +63,7 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(
         dataStatus: DataStatus.success,
       ));
+      // AppNavigator.navigateTo(AppRoute.updatePostRoute);
     });
   }
 

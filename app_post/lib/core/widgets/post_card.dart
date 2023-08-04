@@ -4,6 +4,7 @@ import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
+import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +16,7 @@ class PostCard extends StatelessWidget {
     PostCubit btnCubit = context.read<PostCubit>();
 
     return Scaffold(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.black,
         body: BlocBuilder<PostCubit, PostState>(
           builder: (context, state) {
             return ListView.builder(
@@ -84,31 +85,47 @@ class PostCard extends StatelessWidget {
                                                           child: Row(
                                                             children: [
                                                               Icon(
-                                                                  Icons.upload),
+                                                                FontAwesomeIcons
+                                                                    .pen,
+                                                                size: 20,
+                                                              ),
                                                               SizedBox(
-                                                                width: 5,
+                                                                width: 10,
                                                               ),
                                                               Text('Update'),
                                                             ],
                                                           ),
                                                           onPressed: () {
-                                                            btnCubit.updatePost(
-                                                                userPost.pid ??
-                                                                    '');
+                                                            // btnCubit.updatePost(
+                                                            //     userPost.pid ??
+                                                            //         '');
                                                             AppNavigator.navigateTo(
                                                                 AppRoute
                                                                     .updatePostRoute);
                                                           },
                                                         ),
+                                                        Divider(
+                                                          thickness: 1,
+                                                          indent: 10,
+                                                          endIndent: 10,
+                                                        ),
                                                         SimpleDialogOption(
                                                           child: Row(
                                                             children: [
                                                               Icon(
-                                                                  Icons.delete),
+                                                                Icons.delete,
+                                                                color:
+                                                                    Colors.red,
+                                                              ),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
-                                                              Text('Delete'),
+                                                              Text(
+                                                                'Delete',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
                                                             ],
                                                           ),
                                                           onPressed: () {

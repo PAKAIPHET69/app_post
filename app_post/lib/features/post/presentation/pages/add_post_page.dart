@@ -92,7 +92,7 @@ class AddPostPage extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
-                  Icon(Icons.camera),
+                  Icon(Icons.camera_alt_rounded),
                   Text('Take a photo'),
                 ],
               ),

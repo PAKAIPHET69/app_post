@@ -106,10 +106,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   @override
   Future<void> updatePost(String idPost) async {
     try {
-      var descipController, imageUrl;
+      var newDescip, newImageUrl;
       final res = await fireStore.collection('posts').doc(idPost).update({
-        'description': descipController.text.toString(),
-        'imageUrl': imageUrl,
+        'description': newDescip,
+        'imageUrl': newImageUrl,
       });
       return res;
     } on FirebaseException catch (e) {
