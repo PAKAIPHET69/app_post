@@ -147,7 +147,7 @@ class PostCard extends StatelessWidget {
                                                             ],
                                                           ),
                                                           onPressed: () {
-                                                            btnCubit.delePost(
+                                                            btnCubit.deletePost(
                                                                 userPost.pid ??
                                                                     '');
                                                             AppNavigator

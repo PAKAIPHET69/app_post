@@ -5,18 +5,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../signin/domain/entity/user.dart';
+import '../../domain/entity/post.dart';
 import '../model/post_model.dart';
 
 abstract class PostRemoteDatasource {
+  Future<PostModel> postMosel();
   Future<void> savePost(PostModel postModel);
   Future<void> deletePost(String idPost);
   Future<void> updatePost(PostModel postModel);
   Future<String> uploadImageToStorage(File imageFile);
   Future<List<PostModel>> getUserPosts();
   User getCurrentUser();
+  Post getCurrentPost();
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -30,6 +34,17 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     this.auth,
     this.storage,
   );
+  /////////////////// Save Post to fireStore ////////////////////////////
+  @override
+  Future<PostModel> postMosel() async {
+    final postId = Uuid().v1();
+    PostModel postData = PostModel(
+      pid: postId,
+      datePublished: DateTime.now(),
+    );
+    return postData;
+  }
+
   @override
   Future<void> savePost(PostModel postModel) async {
     try {
@@ -42,6 +57,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
+  ////////////// Uploads Photo to Storage ///////////////
   @override
   Future<String> uploadImageToStorage(File imageFile) async {
     String basename = path.basename(imageFile.path);
@@ -74,6 +90,22 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
+  Post getCurrentPost() {
+    try {
+      final postId = Uuid().v1();
+      return Post(
+        pid: postId,
+        datePublished: DateTime.now(),
+      );
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? '');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  ///////////// Get UserPosts ////////////////
+  @override
   Future<List<PostModel>> getUserPosts() async {
     try {
       QuerySnapshot snapshot = await fireStore
@@ -91,10 +123,11 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
+  ///////////////// Delete ////////////
   @override
-  Future<void> deletePost(String delePid) async {
+  Future<void> deletePost(String idPost) async {
     try {
-      final res = await fireStore.collection('posts').doc(delePid).delete();
+      final res = await fireStore.collection('posts').doc(idPost).delete();
       return res;
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());
@@ -109,13 +142,11 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       final res = await fireStore
           .collection('posts')
           .doc(postModel.pid)
-          .set(postModel.toJson());
-      //     .update({
-      print(postModel.pid);
-
-      //   'description': postModel.description,
-      //   'imageUrl': postModel.imageUrl
-      // });
+          // .set(postModel.toJson());
+          .update({
+        'description': postModel.description,
+        'imageUrl': postModel.imageUrl,
+      });
       return res;
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());

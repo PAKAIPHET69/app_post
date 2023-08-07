@@ -55,9 +55,11 @@ class AppRoute {
           ],
         );
       case updatePostRoute:
-      final Post args = settings.arguments as Post;
+        final Post args = settings.arguments as Post;
         return _materialRoute(
-           UpdetePostPage(getData: args,),
+          UpdetePostPage(
+            getData: args,
+          ),
           providers: [
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()

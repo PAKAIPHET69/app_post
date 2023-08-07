@@ -27,10 +27,8 @@ class AddPostPage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: TextButton(
-                    onPressed: () {
-                      context
-                          .read<PostCubit>()
-                          .postUp(postUpCubit.descipController.text);
+                    onPressed: () async {
+                      postUpCubit.postUp(postUpCubit.descipController.text);
                     },
                     child: Text(
                       'Post',
