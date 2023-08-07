@@ -47,6 +47,8 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<void> savePost(PostModel postModel) async {
+    // final postId = Uuid().v1();
+
     try {
       CollectionReference posts = fireStore.collection('posts');
       await posts.doc(postModel.pid).set(postModel.toJson());
@@ -136,6 +138,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
+  ///////////////// Update Post ////////////
   @override
   Future<void> updatePost(PostModel postModel) async {
     try {

@@ -29,7 +29,8 @@ class UpdetePostPage extends StatelessWidget {
                   padding: EdgeInsets.all(8.0),
                   child: TextButton(
                     onPressed: () {
-                      postUpCubit.updatePost(postUpCubit.descipController.text);
+                      postUpCubit.updatePost(postUpCubit.descipController.text,
+                          getData.pid, getData.imageUrl);
                       AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
                     },
                     child: Text(
