@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:app_post/core/util/app_navigator.dart';
-import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
@@ -31,7 +29,6 @@ class UpdetePostPage extends StatelessWidget {
                     onPressed: () {
                       postUpCubit.updatePost(postUpCubit.descipController.text,
                           getData.pid, getData.imageUrl);
-                      AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
                     },
                     child: Text(
                       'Update',

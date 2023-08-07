@@ -61,11 +61,12 @@ class PostCubit extends Cubit<PostState> {
   Future<void> updatePost(descipController, getData, urlm) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final url = await uploadImage(state.imageFile);
+    final newUrl = await urlm == null ? url : urlm;
     Post postData = Post(
       userName: state.currentUser?.displayName,
       userId: state.currentUser?.uid, //From current user that logged in
       pid: getData,
-      imageUrl: urlm,
+      imageUrl: newUrl,
       datePublished: DateTime.now(),
       description: descipController, //From textfield
     );
@@ -75,6 +76,7 @@ class PostCubit extends Cubit<PostState> {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
     }, (updatePost) {
       emit(state.copyWith(dataStatus: DataStatus.success));
+      AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
     });
   }
 
