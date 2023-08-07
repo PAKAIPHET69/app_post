@@ -1,5 +1,5 @@
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
-import 'package:app_post/features/post/presentation/pages/search_page.dart';
+import 'package:app_post/features/search/persentitioon/pages/search_page.dart';
 import 'package:app_post/features/screens/home_screen.dart';
 import 'package:app_post/features/screens/profile_page.dart';
 import 'package:flutter/material.dart';
