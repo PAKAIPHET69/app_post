@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FollowRemoteDatasoource {
-  Future<void> followUser(String uid, String followId);
+  Future<void> followUser({required String uid, required String followId});
 }
 
 @LazySingleton(as: FollowRemoteDatasoource)
@@ -15,7 +15,8 @@ class FollowDatasourceImpl implements FollowRemoteDatasoource {
   FollowDatasourceImpl(this.fireStore, this.auth);
 
   @override
-  Future<void> followUser(String uid, String followId) async {
+  Future<void> followUser(
+      {required String uid, required String followId}) async {
     try {
       DocumentSnapshot snapshot =
           await fireStore.collection('users').doc(uid).get();

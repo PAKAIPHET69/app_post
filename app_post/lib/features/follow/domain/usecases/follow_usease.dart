@@ -11,6 +11,6 @@ class FollowUsecase extends UseCase<void, String> {
   FollowUsecase(this.followRepository);
   @override
   Future<Either<Failure, void>> call(String params) async{
-    return await followRepository.followUsecase(followId: params, Uid: params);
+    return await followRepository.followUsecase(followId: params, uid: params);
   }
 }

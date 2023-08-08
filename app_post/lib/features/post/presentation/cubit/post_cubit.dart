@@ -147,7 +147,7 @@ class PostCubit extends Cubit<PostState> {
     });
   }
 
-  ////////////////////////////////////////////////////////
+  ///////////////////// Get CurrenUser ////////////////////////
   void getCurrentUser() {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,

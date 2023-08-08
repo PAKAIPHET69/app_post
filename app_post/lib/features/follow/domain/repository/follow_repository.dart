@@ -3,5 +3,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class FollowRepository {
   Future<Either<Failure, void>> followUsecase(
-      {required String followId, required String Uid});
+      {required String followId, required String uid});
 }

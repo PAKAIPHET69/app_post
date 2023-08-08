@@ -102,14 +102,16 @@ class AppRoute {
           ],
         );
       case profileUserRoute:
-        // final String args = settings.arguments as String;
+        final String args = settings.arguments as String;
         return _materialRoute(
-           ProfileUserPage(),
-          // providers: [
-          //   BlocProvider<PostCubit>(
-          //     create: ((context) => getIt<PostCubit>()),
-          //   ),
-          // ],
+          ProfileUserPage(
+            getDisplayName: args,
+          ),
+          providers: [
+            BlocProvider<PostCubit>(
+              create: ((context) => getIt<PostCubit>()),
+            ),
+          ],
         );
       default:
         return _mainRoute(const SignInPage());

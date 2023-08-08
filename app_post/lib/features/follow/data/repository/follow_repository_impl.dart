@@ -7,14 +7,15 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: FollowRepository)
 class FollowRepositoryImpl implements FollowRepository {
-  final FollowRemoteDatasoource followRemoteDatasoource;
+  final FollowRemoteDatasoource followRemoteDatasource;
 
-  FollowRepositoryImpl(this.followRemoteDatasoource);
+  FollowRepositoryImpl(this.followRemoteDatasource);
   @override
   Future<Either<Failure, void>> followUsecase(
-      {required String followId, required String Uid}) async {
+      {required String followId, required String uid}) async {
     try {
-      final res = await followRemoteDatasoource.followUser(Uid, followId);
+      final res =
+          await followRemoteDatasource.followUser(uid: uid, followId: followId);
       return Right(res);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.msg));
