@@ -66,6 +66,19 @@ class PostCard extends StatelessWidget {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             12, 0, 0, 0),
+                                        // child: InkWell(
+                                        //   onTap: () {
+                                        //     AppNavigator.navigateTo(
+                                        //       AppRoute.profileUserRoute,
+                                        //     );
+                                        //   },
+                                        //   child: Text(
+                                        //     userPost.userName ?? '',
+                                        //     style: TextStyle(
+                                        //         fontWeight: FontWeight.bold,
+                                        //         fontSize: 16),
+                                        //   ),
+                                        // ),
                                         child: Text(
                                           userPost.userName ?? '',
                                           style: TextStyle(

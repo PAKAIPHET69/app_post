@@ -42,7 +42,9 @@ class SearchPage extends StatelessWidget {
               final listUser = searchResults?[index];
               return InkWell(
                 onTap: () {
-                  AppNavigator.navigateTo(AppRoute.profileUserRoute,params:listUser?.displayName??'');
+                  AppNavigator.navigateTo(
+                    AppRoute.profileUserRoute,
+                  );
                 },
                 child: ListTile(
                   leading: CircleAvatar(

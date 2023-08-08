@@ -8,10 +8,14 @@ class UserModel extends User {
     String? uid,
     String? displayName,
     String? email,
+    List? followers,
+    List? following,
   }) : super(
           displayName: displayName,
           uid: uid,
           email: email,
+          followers: followers,
+          following: following,
         );
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

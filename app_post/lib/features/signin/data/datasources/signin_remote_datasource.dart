@@ -39,6 +39,8 @@ class SignInRemoteDatasource implements SignInDatasource {
         uid: userCredential.user?.uid,
         displayName: userCredential.user?.displayName,
         email: userCredential.user?.email,
+        followers: [],
+        following: [],
       );
       return userModel;
     } on FirebaseException catch (e) {
