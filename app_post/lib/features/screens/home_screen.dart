@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, avoid_unnecessary_containers
 
 import 'package:app_post/core/util/colors.dart';
-import 'package:app_post/core/widgets/post_card.dart';
+import 'package:app_post/features/post/presentation/pages/post_card.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/cupertino.dart';

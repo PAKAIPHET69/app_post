@@ -33,11 +33,6 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Post getCurrentPost() {
-    return postRemoteDatasource.getCurrentPost();
-  }
-
-  @override
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile) async {
     try {
       final ref = await postRemoteDatasource.uploadImageToStorage(imageFile);

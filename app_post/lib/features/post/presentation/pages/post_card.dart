@@ -23,8 +23,8 @@ class PostCard extends StatelessWidget {
             return ListView.builder(
               itemCount: state.listPosts!.length,
               itemBuilder: (context, index) {
-                final userPost = state.listPosts![index];
-                final userID = state.currentUser!;
+                final getPostUser = state.listPosts![index];
+                final getCurrenteUser = state.currentUser!;
                 return SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -66,28 +66,15 @@ class PostCard extends StatelessWidget {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             12, 0, 0, 0),
-                                        // child: InkWell(
-                                        //   onTap: () {
-                                        //     AppNavigator.navigateTo(
-                                        //       AppRoute.profileUserRoute,
-                                        //     );
-                                        //   },
-                                        //   child: Text(
-                                        //     userPost.userName ?? '',
-                                        //     style: TextStyle(
-                                        //         fontWeight: FontWeight.bold,
-                                        //         fontSize: 16),
-                                        //   ),
-                                        // ),
                                         child: Text(
-                                          userPost.userName ?? '',
+                                          getPostUser.userName ?? '',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
                                         ),
                                       ),
                                     ),
-                                    userPost.userId == userID.uid
+                                    getPostUser.userId == getCurrenteUser.uid
                                         ? IconButton(
                                             onPressed: () {
                                               showDialog(
@@ -115,19 +102,22 @@ class PostCard extends StatelessWidget {
                                                             //         '');
                                                             Post sendData = Post(
                                                                 description:
-                                                                    userPost
+                                                                    getPostUser
                                                                         .description,
-                                                                pid: userPost
+                                                                pid: getPostUser
                                                                     .pid,
-                                                                userId: userPost
-                                                                    .userId,
-                                                                userName: userPost
-                                                                    .userName,
+                                                                userId:
+                                                                    getPostUser
+                                                                        .userId,
+                                                                userName:
+                                                                    getPostUser
+                                                                        .userName,
                                                                 datePublished:
                                                                     DateTime
                                                                         .now(),
-                                                                imageUrl: userPost
-                                                                    .imageUrl);
+                                                                imageUrl:
+                                                                    getPostUser
+                                                                        .imageUrl);
                                                             AppNavigator.navigateTo(
                                                                 AppRoute
                                                                     .updatePostRoute,
@@ -161,7 +151,8 @@ class PostCard extends StatelessWidget {
                                                           ),
                                                           onPressed: () {
                                                             btnCubit.deletePost(
-                                                                userPost.pid ??
+                                                                getPostUser
+                                                                        .pid ??
                                                                     '');
                                                             AppNavigator
                                                                 .goBack();
@@ -191,7 +182,7 @@ class PostCard extends StatelessWidget {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 0, 0, 8),
                                         child: Text(
-                                          userPost.description ?? '',
+                                          getPostUser.description ?? '',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16),
@@ -208,9 +199,9 @@ class PostCard extends StatelessWidget {
                                   topLeft: Radius.circular(0),
                                   topRight: Radius.circular(0),
                                 ),
-                                child: userPost.imageUrl != null
+                                child: getPostUser.imageUrl != null
                                     ? Image.network(
-                                        userPost.imageUrl ?? '',
+                                        getPostUser.imageUrl ?? '',
                                         width: MediaQuery.sizeOf(context).width,
                                         height: 200,
                                         fit: BoxFit.cover,

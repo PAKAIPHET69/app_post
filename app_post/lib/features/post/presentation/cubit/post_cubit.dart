@@ -7,8 +7,7 @@ import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
-import 'package:app_post/features/post/domain/usecases/fetch_posts_usecase.dart';
-import 'package:app_post/features/post/domain/usecases/get_currentupost.dart';
+import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ import '../../domain/usecases/upload_image_usecese.dart';
 class PostCubit extends Cubit<PostState> {
   final PostUsecase postUsecase;
   final GetCurrentUser getCurrentUserUsecase;
-  final GetCurPost getCurrentPost;
   final UploadImageUsecese uploadImageUsecese;
   final GetPostsUsecase getPostsUsecase;
   final DeletePostUsecase deletePostUsecase;
@@ -37,7 +35,6 @@ class PostCubit extends Cubit<PostState> {
     this.getPostsUsecase,
     this.deletePostUsecase,
     this.updatePostUsecase,
-    this.getCurrentPost,
   ) : super(const PostState());
 
   final ImagePicker picker = ImagePicker();
@@ -118,7 +115,7 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
-  ///////////// Update image to URL /////////////
+  ///////////// Image to URL /////////////
   Future<String?> uploadImage(File? file) async {
     String? url;
     if (file != null) {
@@ -134,7 +131,7 @@ class PostCubit extends Cubit<PostState> {
   }
 
   /////////////// Get Post from  clouad_firestore////////////////////
-  Future<void> getUserPosts() async {
+  void getUserPosts() async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
@@ -156,17 +153,6 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(
       dataStatus: DataStatus.success,
       currentUser: res,
-    ));
-  }
-
-  void getCurPost() {
-    emit(state.copyWith(
-      dataStatus: DataStatus.loading,
-    ));
-    final res = getCurrentPost(NoParams());
-    emit(state.copyWith(
-      dataStatus: DataStatus.success,
-      post: res,
     ));
   }
 }

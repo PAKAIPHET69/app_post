@@ -9,7 +9,6 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../signin/domain/entity/user.dart';
-import '../../domain/entity/post.dart';
 import '../model/post_model.dart';
 
 abstract class PostRemoteDatasource {
@@ -20,7 +19,6 @@ abstract class PostRemoteDatasource {
   Future<String> uploadImageToStorage(File imageFile);
   Future<List<PostModel>> getUserPosts();
   User getCurrentUser();
-  Post getCurrentPost();
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -91,20 +89,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  @override
-  Post getCurrentPost() {
-    try {
-      final postId = Uuid().v1();
-      return Post(
-        pid: postId,
-        datePublished: DateTime.now(),
-      );
-    } on FirebaseException catch (e) {
-      throw ServerException(e.message ?? '');
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
+
 
   ///////////// Get UserPosts ////////////////
   @override

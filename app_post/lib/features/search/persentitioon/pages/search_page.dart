@@ -18,6 +18,7 @@ class SearchPage extends StatelessWidget {
     return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) {
         final searchResults = state.listUser;
+        final getCurrenteUser = state.currentUser;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: appbarColor,
