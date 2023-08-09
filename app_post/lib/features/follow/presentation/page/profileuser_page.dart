@@ -41,7 +41,7 @@ class ProfileUserPage extends StatelessWidget {
                               radius: 40,
                             ),
                             Text(
-                              getDataUser.displayName ?? '',
+                              '',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -64,7 +64,13 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text('0')
+                                      Text(
+                                        '0',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
                                     ],
                                   ),
                                   Column(
@@ -74,7 +80,13 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text('0')
+                                      Text(
+                                        '0',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
                                     ],
                                   )
                                 ],
@@ -88,7 +100,7 @@ class ProfileUserPage extends StatelessWidget {
                       padding: EdgeInsetsDirectional.fromSTEB(125, 0, 0, 0),
                       child: Column(
                         children: [
-                          getDataUser.uid == getCurrentUser.uid
+                          getCurrentUser.uid == getDataUser.uid
                               ? TextButton(
                                   onPressed: () {
                                     context.read<FollowCubit>().followUser(
@@ -123,7 +135,7 @@ class ProfileUserPage extends StatelessWidget {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       border: Border.all(
                                         color: Colors.grey,
                                       ),
@@ -135,7 +147,7 @@ class ProfileUserPage extends StatelessWidget {
                                     child: Text(
                                       'Follow',
                                       style: TextStyle(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),

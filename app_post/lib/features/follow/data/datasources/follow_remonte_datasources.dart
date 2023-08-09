@@ -7,7 +7,6 @@ import 'package:injectable/injectable.dart';
 abstract class FollowRemoteDatasoource {
   Future<void> followUser({required String uid, required String followId});
   User getCurrentUser();
-
 }
 
 @LazySingleton(as: FollowRemoteDatasoource)
@@ -47,22 +46,36 @@ class FollowDatasourceImpl implements FollowRemoteDatasoource {
       throw ServerException(e.toString());
     }
   }
-  
+
   @override
   User getCurrentUser() {
     try {
       final userData = auth.currentUser;
       return User(
-        uid: userData?.uid,
-        displayName: userData?.displayName,
-        email: userData?.email,
-        followers: [],
-        following: [],
-      );
+          uid: userData?.uid,
+          displayName: userData?.displayName,
+          email: userData?.email,
+          followers: [],
+          following: []);
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {
       throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  getCountFollower({required String uid}) async {
+    try {
+      final count = await fireStore
+          .collection('users')
+          .doc(uid)
+          .collection('followers')
+          .count()
+          .get();
+      return count;
+    } catch (e) {
+      ServerException(e.toString());
     }
   }
 }

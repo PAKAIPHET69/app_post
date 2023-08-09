@@ -53,7 +53,13 @@ class SignInRemoteDatasource implements SignInDatasource {
   @override
   Future<void> saveUser(UserModel userModel) async {
     try {
-      CollectionReference users = _fireStore.collection('users');
+      final existingSaveUser =
+          await _fireStore.collection('users').doc(userModel.uid).get();
+      if (existingSaveUser.exists) {
+        return;
+      }
+
+      final CollectionReference users = _fireStore.collection('users');
       await users.doc(userModel.uid).set(userModel.toJson());
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
