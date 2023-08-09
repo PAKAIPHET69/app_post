@@ -1,26 +1,28 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
 import 'package:app_post/core/util/colors.dart';
-import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
-import 'package:app_post/features/post/presentation/cubit/post_state.dart';
+import 'package:app_post/features/follow/presentation/cubit/follow_cubit.dart';
+import 'package:app_post/features/follow/presentation/cubit/follow_state.dart';
+import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileUserPage extends StatelessWidget {
-  final String getDisplayName;
+  final User getDataUser;
   ProfileUserPage({
     super.key,
-    required this.getDisplayName,
+    required this.getDataUser,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PostCubit, PostState>(
+    return BlocBuilder<FollowCubit, FollowState>(
       builder: (context, state) {
+        final getCurrentUser = state.currentUser!;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: appbarColor,
-            title: Text(getDisplayName),
+            title: Text(getDataUser.displayName ?? ''),
           ),
           body: ListView(
             children: [
@@ -39,7 +41,7 @@ class ProfileUserPage extends StatelessWidget {
                               radius: 40,
                             ),
                             Text(
-                              getDisplayName,
+                              getDataUser.displayName ?? '',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -55,16 +57,6 @@ class ProfileUserPage extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  // Column(
-                                  //   children: [
-                                  //     Text(
-                                  //       'Post',
-                                  //       style: TextStyle(
-                                  //           fontWeight: FontWeight.bold),
-                                  //     ),
-                                  //     Text('999')
-                                  //   ],
-                                  // ),
                                   Column(
                                     children: [
                                       Text(
@@ -72,7 +64,7 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text('999')
+                                      Text('0')
                                     ],
                                   ),
                                   Column(
@@ -82,7 +74,7 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text('999')
+                                      Text('0')
                                     ],
                                   )
                                 ],
@@ -96,28 +88,59 @@ class ProfileUserPage extends StatelessWidget {
                       padding: EdgeInsetsDirectional.fromSTEB(125, 0, 0, 0),
                       child: Column(
                         children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.grey,
+                          getDataUser.uid == getCurrentUser.uid
+                              ? TextButton(
+                                  onPressed: () {
+                                    context.read<FollowCubit>().followUser(
+                                        uid: getCurrentUser.uid ?? '',
+                                        followId: getDataUser.uid ?? '');
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    alignment: Alignment.center,
+                                    width: 200,
+                                    height: 30,
+                                    child: Text(
+                                      'Unfollow',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : TextButton(
+                                  onPressed: () {
+                                    context.read<FollowCubit>().followUser(
+                                        uid: getCurrentUser.uid ?? '',
+                                        followId: getDataUser.uid ?? '');
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    alignment: Alignment.center,
+                                    width: 200,
+                                    height: 30,
+                                    child: Text(
+                                      'Follow',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              alignment: Alignment.center,
-                              width: 200,
-                              height: 30,
-                              child: Text(
-                                'Follow',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),

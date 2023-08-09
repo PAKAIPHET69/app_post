@@ -1,11 +1,13 @@
 import 'package:app_post/core/util/service_locator.dart';
 import 'package:app_post/core/widgets/navigationbar.dart';
+import 'package:app_post/features/follow/presentation/cubit/follow_cubit.dart';
 import 'package:app_post/features/follow/presentation/page/profileuser_page.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
 import 'package:app_post/features/screens/home_screen.dart';
 import 'package:app_post/features/post/presentation/pages/update_post_page.dart';
+import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:app_post/features/signin/presentation/cubit/singin_cubit.dart';
 import 'package:app_post/features/signin/presentation/pages/signin_page.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +90,7 @@ class AppRoute {
           const AddPostPage(),
           providers: [
             BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()..getCurrentUser()),
+              create: ((context) => getIt<PostCubit>()),
             ),
           ],
         );
@@ -102,14 +104,14 @@ class AppRoute {
           ],
         );
       case profileUserRoute:
-        final String args = settings.arguments as String;
+        final User args = settings.arguments as User;
         return _materialRoute(
           ProfileUserPage(
-            getDisplayName: args,
+            getDataUser: args,
           ),
           providers: [
-            BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()..getCurrentUser()),
+            BlocProvider<FollowCubit>(
+              create: ((context) => getIt<FollowCubit>()..getCurrentUser()),
             ),
           ],
         );

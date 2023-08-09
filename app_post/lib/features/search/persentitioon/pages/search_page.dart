@@ -5,6 +5,7 @@ import 'package:app_post/core/util/colors.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/search/persentitioon/cubit/search_cubit.dart';
 import 'package:app_post/features/search/persentitioon/cubit/search_state.dart';
+import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,8 +43,11 @@ class SearchPage extends StatelessWidget {
               final listUser = searchResults?[index];
               return InkWell(
                 onTap: () {
+                  User sendParams = User(
+                      uid: listUser?.uid ?? '',
+                      displayName: listUser?.displayName ?? '');
                   AppNavigator.navigateTo(AppRoute.profileUserRoute,
-                      params: listUser?.displayName);
+                      params: sendParams);
                 },
                 child: ListTile(
                   leading: CircleAvatar(

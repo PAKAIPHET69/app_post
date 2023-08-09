@@ -5,10 +5,12 @@ class User extends Equatable {
   final String? displayName;
   final String? email;
   final String? photoUrl;
+  final String? followId;
   final List? followers;
   final List? following;
 
   const User({
+    this.followId,
     this.photoUrl,
     this.followers,
     this.following,
