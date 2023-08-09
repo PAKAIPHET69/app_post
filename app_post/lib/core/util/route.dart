@@ -109,7 +109,7 @@ class AppRoute {
           ),
           providers: [
             BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()),
+              create: ((context) => getIt<PostCubit>()..getCurrentUser()),
             ),
           ],
         );

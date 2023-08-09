@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
 import 'package:app_post/core/util/colors.dart';
-import 'package:app_post/core/widgets/follow_button.dart';
-import 'package:app_post/features/follow/presentation/cubit/follow_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -98,15 +96,28 @@ class ProfileUserPage extends StatelessWidget {
                       padding: EdgeInsetsDirectional.fromSTEB(125, 0, 0, 0),
                       child: Column(
                         children: [
-                          FollowButton(
-                            text: 'Follow',
-                            backgroundColor: Colors.white,
-                            textColor: Colors.black,
-                            borderColor: Colors.grey,
-                            function: () {
-                              context.read<FollowCubit>();
-                            },
-                          )
+                          TextButton(
+                            onPressed: () {},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              alignment: Alignment.center,
+                              width: 200,
+                              height: 30,
+                              child: Text(
+                                'Follow',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
