@@ -40,7 +40,7 @@ class PostCubit extends Cubit<PostState> {
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
 
-  //////////////// Delete ////////////////////////////////
+  ///  Delete ///
   Future<void> deletePost(String pid) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await deletePostUsecase(pid);
@@ -54,7 +54,7 @@ class PostCubit extends Cubit<PostState> {
     });
   }
 
-  ////////////////// Uadte Post //////////////////////////////
+  /// Uadte Post ///
   Future<void> updatePost(descipController, getData, urlm) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final url = await uploadImage(state.imageFile);
@@ -77,7 +77,7 @@ class PostCubit extends Cubit<PostState> {
     });
   }
 
-  /////////////  PostUp button to Save /////////////
+  /// PostUp button to Save ///
   Future<void> postUp(descipController) async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
@@ -104,7 +104,7 @@ class PostCubit extends Cubit<PostState> {
     });
   }
 
-  ///////////// Photo to button /////////////
+  /// Photo to button ///
   Future<void> getImage(ImageSource media) async {
     final img = await picker.pickImage(source: media);
     if (img != null) {
@@ -115,7 +115,7 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
-  ///////////// Image to URL /////////////
+  ///Image to URL ///
   Future<String?> uploadImage(File? file) async {
     String? url;
     if (file != null) {
@@ -130,7 +130,7 @@ class PostCubit extends Cubit<PostState> {
     return url;
   }
 
-  /////////////// Get Post from  clouad_firestore////////////////////
+  /// Get Post from  clouad_firestore ///
   void getUserPosts() async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
@@ -144,7 +144,7 @@ class PostCubit extends Cubit<PostState> {
     });
   }
 
-  ///////////////////// Get CurrenUser ////////////////////////
+  ////Get CurrenUser ///
   void getCurrentUser() {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
