@@ -45,15 +45,9 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, List<Post>>> getPostUsecase() async {
-    try {
-      final ref = await postRemoteDatasource.getUserPosts();
-      return Right(ref);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.msg));
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
-    }
+  Stream<List<Post>> getPostUsecase() {
+    final res = postRemoteDatasource.getUserPosts();
+    return res;
   }
 
   @override

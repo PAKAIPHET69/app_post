@@ -11,6 +11,6 @@ abstract class PostRepository {
   Future<Either<Failure, void>> deletePostUsecase(String pid);
   Future<Either<Failure, void>> updatePostUsecase(Post post);
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile);
-  Future<Either<Failure, List<Post>>> getPostUsecase();
+  Stream< List<Post>> getPostUsecase();
   User getCurrentUser();
 }

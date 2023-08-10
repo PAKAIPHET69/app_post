@@ -44,14 +44,6 @@ class PostCubit extends Cubit<PostState> {
   Future<void> deletePost(String pid) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await deletePostUsecase(pid);
-    result.fold((error) {
-      emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
-    }, (delePID) {
-      emit(state.copyWith(
-        dataStatus: DataStatus.success,
-      ));
-      AppNavigator.pushAndRemoveUntil(AppRoute.nvbRoute);
-    });
   }
 
   /// Uadte Post ///
@@ -110,8 +102,6 @@ class PostCubit extends Cubit<PostState> {
     if (img != null) {
       File file = File(img.path);
       emit(state.copyWith(imageFile: file));
-      final url = await uploadImage(state.imageFile);
-      emit(state.copyWith(dataStatus: DataStatus.success, urlPhoto: url));
     }
   }
 
@@ -131,17 +121,19 @@ class PostCubit extends Cubit<PostState> {
   }
 
   /// Get Post from  clouad_firestore ///
-  void getUserPosts() async {
+  Future<void> getUserPosts() async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
-    final result = await getPostsUsecase(NoParams());
-
-    result.fold((error) {
-      emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
-    }, (post) {
+    final result = getPostsUsecase(NoParams());
+    result.listen((post) {
       emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
     });
+    // result.fold((error) {
+    //   emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
+    // }, (post) {
+    //   emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+    // });
   }
 
   ////Get CurrenUser ///

@@ -5,19 +5,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../signin/domain/entity/user.dart';
 import '../model/post_model.dart';
 
 abstract class PostRemoteDatasource {
-  Future<PostModel> postMosel();
   Future<void> savePost(PostModel postModel);
   Future<void> deletePost(String idPost);
   Future<void> updatePost(PostModel postModel);
   Future<String> uploadImageToStorage(File imageFile);
-  Future<List<PostModel>> getUserPosts();
+  Stream<List<PostModel>> getUserPosts();
   User getCurrentUser();
 }
 
@@ -32,21 +30,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     this.auth,
     this.storage,
   );
-  /////////////////// Save Post to fireStore ////////////////////////////
-  @override
-  Future<PostModel> postMosel() async {
-    final postId = Uuid().v1();
-    PostModel postData = PostModel(
-      pid: postId,
-      datePublished: DateTime.now(),
-    );
-    return postData;
-  }
 
+  /// Save Post to fireStore ///
   @override
   Future<void> savePost(PostModel postModel) async {
-    // final postId = Uuid().v1();
-
     try {
       CollectionReference posts = fireStore.collection('posts');
       await posts.doc(postModel.pid).set(postModel.toJson());
@@ -57,7 +44,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  ////////////// Uploads Photo to Storage ///////////////
+  /// Uploads Photo to Storage ///
   @override
   Future<String> uploadImageToStorage(File imageFile) async {
     String basename = path.basename(imageFile.path);
@@ -89,28 +76,20 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-
-
-  ///////////// Get UserPosts ////////////////
+  /// Get UserPosts ///
   @override
-  Future<List<PostModel>> getUserPosts() async {
-    try {
-      QuerySnapshot snapshot = await fireStore
-          .collection('posts')
-          .orderBy('datePublished', descending: true)
-          .get();
-      List<PostModel> userposts = snapshot.docs.map((doc) {
-        return PostModel.fromJson(doc.data() as Map<String, dynamic>);
-      }).toList();
-      return userposts;
-    } on FirebaseException catch (e) {
-      throw ServerException(e.toString());
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
+  Stream<List<PostModel>> getUserPosts() {
+    final snapshot = fireStore
+        .collection('posts')
+        .orderBy('datePublished', descending: true)
+        .snapshots();
+    Stream<List<PostModel>> userposts = snapshot.map((event) {
+      return event.docs.map((e) => PostModel.fromJson(e.data())).toList();
+    });
+    return userposts;
   }
 
-  ///////////////// Delete ////////////
+  /// Delete ///
   @override
   Future<void> deletePost(String idPost) async {
     try {
@@ -123,7 +102,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  ///////////////// Update Post ////////////
+  /// Update Post ///
   @override
   Future<void> updatePost(PostModel postModel) async {
     try {
