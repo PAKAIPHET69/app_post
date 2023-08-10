@@ -13,4 +13,9 @@ abstract class PostRepository {
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile);
   Stream< List<Post>> getPostUsecase();
   User getCurrentUser();
+  Future<String> commentUsecase(
+      {required String postId,
+      required String text,
+      required String uid,
+      required String name});
 }

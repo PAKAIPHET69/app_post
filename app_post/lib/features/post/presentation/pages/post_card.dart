@@ -97,9 +97,6 @@ class PostCard extends StatelessWidget {
                                                             ],
                                                           ),
                                                           onPressed: () {
-                                                            // btnCubit.updatePost(
-                                                            //     userPost.pid ??
-                                                            //         '');
                                                             Post sendData = Post(
                                                                 description:
                                                                     getPostUser
@@ -231,9 +228,13 @@ class PostCard extends StatelessWidget {
                                               onPressed: () {},
                                               icon: Icon(Icons.favorite_border),
                                             ),
-                                            Icon(
-                                              Icons.mode_comment_outlined,
-                                              size: 24,
+                                            IconButton(
+                                              icon: Icon(
+                                                  Icons.mode_comment_outlined),
+                                              onPressed: () {
+                                                AppNavigator.navigateTo(
+                                                    AppRoute.commentRoute);
+                                              },
                                             ),
                                           ],
                                         ),

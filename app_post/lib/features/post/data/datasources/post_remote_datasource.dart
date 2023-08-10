@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../signin/domain/entity/user.dart';
@@ -14,6 +15,11 @@ abstract class PostRemoteDatasource {
   Future<void> savePost(PostModel postModel);
   Future<void> deletePost(String idPost);
   Future<void> updatePost(PostModel postModel);
+  Future<String> postComment(
+      {required String postId,
+      required String text,
+      required String uid,
+      required String name});
   Future<String> uploadImageToStorage(File imageFile);
   Stream<List<PostModel>> getUserPosts();
   User getCurrentUser();
@@ -114,6 +120,40 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         'description': postModel.description,
         'imageUrl': postModel.imageUrl,
       });
+      return res;
+    } on FirebaseException catch (e) {
+      throw ServerException(e.toString());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  /// Comment ///
+  @override
+  Future<String> postComment(
+      {required String postId,
+      required String text,
+      required String uid,
+      required String name}) async {
+    String res = "Some error occurred";
+
+    try {
+      if (text.isNotEmpty) {
+        String commentId = const Uuid().v1();
+        fireStore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          'name': name,
+          'uid': uid,
+          'text': text,
+          'commentId': commentId,
+          'timestamp': DateTime.now(),
+        });
+        res = 'success';
+      }
       return res;
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());

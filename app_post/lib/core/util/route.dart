@@ -5,6 +5,7 @@ import 'package:app_post/features/follow/presentation/page/profileuser_page.dart
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
+import 'package:app_post/features/screens/comments_page.dart';
 import 'package:app_post/features/screens/home_screen.dart';
 import 'package:app_post/features/post/presentation/pages/update_post_page.dart';
 import 'package:app_post/features/signin/domain/entity/user.dart';
@@ -23,6 +24,7 @@ class AppRoute {
   static const String homeRoute = "home";
   static const String searchRoute = "search";
   static const String addPostRoute = "addpost";
+  static const String commentRoute = "/comment";
   static const String updatePostRoute = "/updatepost";
   static const String profileUserRoute = "/profileUser";
   static const String profileRoute = "profile";
@@ -97,12 +99,13 @@ class AppRoute {
       case profileRoute:
         return _materialRoute(
           const ProfilePage(),
-          providers: [
-            BlocProvider<SignInCubit>(
-              create: ((context) => getIt<SignInCubit>()),
-            ),
-          ],
         );
+      case commentRoute:
+        return _materialRoute(const CommentPage(), providers: [
+          BlocProvider<PostCubit>(
+            create: ((context) => getIt<PostCubit>()..getCurrentUser()),
+          ),
+        ]);
       case profileUserRoute:
         final User args = settings.arguments as User;
         return _materialRoute(

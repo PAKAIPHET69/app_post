@@ -73,4 +73,19 @@ class PostRepositoryImpl implements PostRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<String> commentUsecase(
+      {required String postId,
+      required String text,
+      required String uid,
+      required String name}) async {
+    try {
+      final result = await postRemoteDatasource.postComment(
+          postId: postId, text: text, uid: uid, name: name);
+      return result;
+    } on ServerException catch (e) {
+      throw ServerFailure(e.msg.toString());
+    }
+  }
 }

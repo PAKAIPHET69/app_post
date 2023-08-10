@@ -6,6 +6,7 @@ import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
+import 'package:app_post/features/post/domain/usecases/comments_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
@@ -28,6 +29,7 @@ class PostCubit extends Cubit<PostState> {
   final GetPostsUsecase getPostsUsecase;
   final DeletePostUsecase deletePostUsecase;
   final UpdatePostUsecase updatePostUsecase;
+  final CommentUsecase commentUsecase;
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
@@ -35,15 +37,16 @@ class PostCubit extends Cubit<PostState> {
     this.getPostsUsecase,
     this.deletePostUsecase,
     this.updatePostUsecase,
+    this.commentUsecase,
   ) : super(const PostState());
 
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
 
   ///  Delete ///
-  Future<void> deletePost(String pid) async {
+  Future<void> deletePost(String pid) {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = await deletePostUsecase(pid);
+    return deletePostUsecase(pid);
   }
 
   /// Uadte Post ///
@@ -146,5 +149,16 @@ class PostCubit extends Cubit<PostState> {
       dataStatus: DataStatus.success,
       currentUser: res,
     ));
+  }
+
+  Future<String> postComment(
+      {required String postId,
+      required String text,
+      required String uid,
+      required String name}) async {
+    emit(state.copyWith(dataStatus: DataStatus.loading));
+    final result =
+        await commentUsecase(postId: postId, text: text, uid: uid, name: name);
+    return result;
   }
 }
