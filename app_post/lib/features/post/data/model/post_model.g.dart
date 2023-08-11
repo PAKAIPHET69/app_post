@@ -25,3 +25,22 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'imageUrl': instance.imageUrl,
       'userName': instance.userName,
     };
+
+PostCMModel _$PostCMModelFromJson(Map<String, dynamic> json) => PostCMModel(
+      text: json['text'] as String?,
+      commentId: json['commentId'] as String?,
+      timestamp: json['timestamp'] == null
+          ? null
+          : DateTime.parse(json['timestamp'] as String),
+      uid: json['uid'] as String?,
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$PostCMModelToJson(PostCMModel instance) =>
+    <String, dynamic>{
+      'text': instance.text,
+      'commentId': instance.commentId,
+      'timestamp': instance.timestamp?.toIso8601String(),
+      'uid': instance.uid,
+      'name': instance.name,
+    };

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/util/constant.dart';
@@ -13,7 +14,7 @@ class PostState extends Equatable {
   final User? currentUser;
   final File? imageFile;
   final List<Post>? listPosts;
-  final List<Post>? listPostCM;
+  final List<PostCM>? listPostCM;
   final String? delePid;
 
   const PostState(
@@ -37,7 +38,7 @@ class PostState extends Equatable {
     User? currentUser,
     File? imageFile,
     List<Post>? listPosts,
-    List<Post>? listPostCM,
+    List<PostCM>? listPostCM,
     String? delePid,
   }) {
     return PostState(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_post/features/post/domain/entity/post.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
@@ -12,7 +13,7 @@ abstract class PostRepository {
   Future<Either<Failure, void>> updatePostUsecase(Post post);
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile);
   Stream<List<Post>> getPostUsecase();
-  Stream<List<Post>> getPostCommentsUsecase({required String pId});
+  Stream<List<PostCM>> getPostCommentsUsecase({required String pId});
   User getCurrentUser();
   Future<String> commentUsecase(
       {required String postId,

@@ -36,6 +36,4 @@ class Post extends Equatable {
         datePublished: datePublished,
         imageUrl: imageUrl,
       );
-
-  elementAt(int index) {}
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
@@ -89,9 +90,8 @@ class PostRepositoryImpl implements PostRepository {
     }
   }
 
-  
   @override
-  Stream<List<Post>> getPostCommentsUsecase({required String pId}) {
+  Stream<List<PostCM>> getPostCommentsUsecase({required String pId}) {
     final res = postRemoteDatasource.getPostComments(pId: pId);
     return res;
   }

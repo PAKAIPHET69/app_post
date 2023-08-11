@@ -1,4 +1,5 @@
 import 'package:app_post/features/post/domain/entity/post.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'post_model.g.dart';
 
@@ -22,4 +23,23 @@ class PostModel extends Post {
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);
   Map<String, dynamic> toJson() => _$PostModelToJson(this);
+}
+
+@JsonSerializable()
+class PostCMModel extends PostCM {
+  const PostCMModel({
+    String? text,
+    String? commentId,
+    DateTime? timestamp,
+    String? uid,
+    String? name,
+  }) : super(
+            text: text,
+            commentId: commentId,
+            timestamp: timestamp,
+            uid: uid,
+            name: name);
+  factory PostCMModel.fromJson(Map<String, dynamic> json) =>
+      _$PostCMModelFromJson(json);
+  Map<String, dynamic> toJson() => _$PostCMModelToJson(this);
 }
