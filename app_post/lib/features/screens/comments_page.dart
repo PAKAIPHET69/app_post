@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:app_post/core/util/colors.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
@@ -8,10 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CommentPage extends StatelessWidget {
-  const CommentPage({super.key});
-
+  final String getPostData;
+  CommentPage({super.key, required this.getPostData});
   @override
   Widget build(BuildContext context) {
+    PostCubit postCubit = context.read<PostCubit>();
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
         final getUser = state.currentUser!;
@@ -34,15 +35,15 @@ class CommentPage extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                    // backgroundImage: ,
-                    backgroundColor: Colors.amber,
+                    backgroundImage: AssetImage('assets/images/logo.png'),
+                    backgroundColor: Colors.grey,
                     radius: 18,
                   ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 16, right: 8),
                       child: TextField(
-                        // controller: commentEditingController,
+                        controller: postCubit.textController,
                         decoration: InputDecoration(
                           hintText: 'Comment as ${getUser.displayName ?? ''}',
                           focusColor: Colors.white,
@@ -62,7 +63,11 @@ class CommentPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 8),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          postCubit.postComment(
+                              postId: getPostData,
+                              text: postCubit.textController.text);
+                        },
                         child: Text(
                           'Post',
                           style: TextStyle(color: Colors.blue),

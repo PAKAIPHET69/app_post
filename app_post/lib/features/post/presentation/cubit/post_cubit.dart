@@ -8,6 +8,7 @@ import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/domain/usecases/comments_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
+import 'package:app_post/features/post/domain/usecases/get_post_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
@@ -26,6 +27,7 @@ class PostCubit extends Cubit<PostState> {
   final PostUsecase postUsecase;
   final GetCurrentUser getCurrentUserUsecase;
   final UploadImageUsecese uploadImageUsecese;
+  final GetPostCommentsUsecase getPostCommentsUsecase;
   final GetPostsUsecase getPostsUsecase;
   final DeletePostUsecase deletePostUsecase;
   final UpdatePostUsecase updatePostUsecase;
@@ -38,10 +40,12 @@ class PostCubit extends Cubit<PostState> {
     this.deletePostUsecase,
     this.updatePostUsecase,
     this.commentUsecase,
+    this.getPostCommentsUsecase,
   ) : super(const PostState());
 
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
+  final TextEditingController textController = TextEditingController();
 
   ///  Delete ///
   Future<void> deletePost(String pid) {
@@ -132,11 +136,6 @@ class PostCubit extends Cubit<PostState> {
     result.listen((post) {
       emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
     });
-    // result.fold((error) {
-    //   emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
-    // }, (post) {
-    //   emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
-    // });
   }
 
   ////Get CurrenUser ///
@@ -152,13 +151,23 @@ class PostCubit extends Cubit<PostState> {
   }
 
   Future<String> postComment(
-      {required String postId,
-      required String text,
-      required String uid,
-      required String name}) async {
+      {required String postId, required String text}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result =
-        await commentUsecase(postId: postId, text: text, uid: uid, name: name);
+    final result = await commentUsecase(
+        postId: postId,
+        text: textController.text,
+        uid: state.currentUser?.uid ?? '',
+        name: state.currentUser?.displayName ?? '');
     return result;
+  }
+
+  Future<void> getPostComments(String pId) async {
+    emit(state.copyWith(
+      dataStatus: DataStatus.loading,
+    ));
+    final result = getPostCommentsUsecase(pid: pId);
+    result.listen((post) {
+      emit(state.copyWith(dataStatus: DataStatus.success, listPostCM: post));
+    });
   }
 }

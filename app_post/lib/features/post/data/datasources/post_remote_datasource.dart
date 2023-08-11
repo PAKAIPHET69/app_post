@@ -22,6 +22,7 @@ abstract class PostRemoteDatasource {
       required String name});
   Future<String> uploadImageToStorage(File imageFile);
   Stream<List<PostModel>> getUserPosts();
+  Stream<List<PostModel>> getPostComments({required String pId});
   User getCurrentUser();
 }
 
@@ -160,5 +161,19 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     } catch (e) {
       throw ServerException(e.toString());
     }
+  }
+  
+  @override
+  Stream<List<PostModel>> getPostComments({required String pId}) {
+    final snapshot = fireStore
+        .collection('posts')
+        .doc(pId)
+        .collection('comments')
+        .orderBy('datePublished', descending: true)
+        .snapshots();
+    Stream<List<PostModel>> userposts = snapshot.map((event) {
+      return event.docs.map((e) => PostModel.fromJson(e.data())).toList();
+    });
+    return userposts;
   }
 }

@@ -233,7 +233,9 @@ class PostCard extends StatelessWidget {
                                                   Icons.mode_comment_outlined),
                                               onPressed: () {
                                                 AppNavigator.navigateTo(
-                                                    AppRoute.commentRoute);
+                                                    AppRoute.commentRoute,
+                                                    params:
+                                                        getPostUser.pid ?? '');
                                               },
                                             ),
                                           ],

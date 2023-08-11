@@ -14,73 +14,70 @@ class CommentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
-        return Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 4,
-                color: Colors.black38,
-                offset: Offset(0, 2),
-              )
-            ],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-          child: Row(
-            children: <Widget>[
-              CircleAvatar(
-                // backgroundImage: NetworkImage(
-                // ),
-                radius: 18,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: 'name',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            TextSpan(
-                                text: 'text_comment',
-                                style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          'time',
-                          // DateFormat.yMMMd().format(
-                          //   'datePublished',
-                          // ),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      )
-                    ],
+        return Scaffold(
+          body: ListView.builder(
+              // itemCount: state.listPostCM!.length,
+              itemBuilder: (context, index) {
+            // final getPostComments = state.listPostCM![index];
+            return Container(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/logo.png'),
+                    backgroundColor: Colors.black,
+                    radius: 18,
                   ),
-                ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                    text: 'Name',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                TextSpan(
+                                    text: 'text_comment',
+                                    style: TextStyle(color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              'time',
+                              // DateFormat.yMMMd().format(
+                              //   'datePublished',
+                              // ),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: IconButton(
+                      icon: const Icon(Icons.more_horiz),
+                      onPressed: () {},
+                    ),
+                  )
+                ],
               ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                child: IconButton(
-                  icon: const Icon(Icons.more_vert),
-                  onPressed: () {},
-                ),
-              )
-            ],
-          ),
+            );
+          }),
         );
       },
     );

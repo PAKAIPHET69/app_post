@@ -88,4 +88,11 @@ class PostRepositoryImpl implements PostRepository {
       throw ServerFailure(e.msg.toString());
     }
   }
+
+  
+  @override
+  Stream<List<Post>> getPostCommentsUsecase({required String pId}) {
+    final res = postRemoteDatasource.getPostComments(pId: pId);
+    return res;
+  }
 }

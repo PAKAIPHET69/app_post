@@ -21,7 +21,7 @@ class UpdetePostPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
               backgroundColor: Colors.black,
-              title: Text('Update'),
+              title: Text('Update page'),
               actions: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(8.0),

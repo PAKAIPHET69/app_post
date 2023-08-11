@@ -101,11 +101,18 @@ class AppRoute {
           const ProfilePage(),
         );
       case commentRoute:
-        return _materialRoute(const CommentPage(), providers: [
-          BlocProvider<PostCubit>(
-            create: ((context) => getIt<PostCubit>()..getCurrentUser()),
-          ),
-        ]);
+        final String args = settings.arguments as String;
+        return _materialRoute(
+            CommentPage(
+              getPostData: args,
+            ),
+            providers: [
+              BlocProvider<PostCubit>(
+                create: ((context) => getIt<PostCubit>()
+                  ..getCurrentUser()
+                  ..getPostComments(args)),
+              ),
+            ]);
       case profileUserRoute:
         final User args = settings.arguments as User;
         return _materialRoute(
