@@ -53,7 +53,7 @@ class _NavigationPageState extends State<NavigationPage> {
         ],
       ),
       body: <Widget>[
-        const HomeScreen(),
+        const PostPage(),
         const SearchPage(),
         const AddPostPage(),
         const ProfilePage(),

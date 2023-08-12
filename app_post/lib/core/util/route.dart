@@ -31,6 +31,7 @@ class AppRoute {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      /// SignIn Page
       case signinRoute:
         return _materialRoute(
           const SignInPage(),
@@ -39,6 +40,8 @@ class AppRoute {
                 create: ((context) => getIt<SignInCubit>()))
           ],
         );
+
+      /// Navigation Page
       case nvbRoute:
         return _materialRoute(
           const NavigationPage(),
@@ -53,9 +56,11 @@ class AppRoute {
             ),
           ],
         );
+
+      /// Home Page
       case homeRoute:
         return _materialRoute(
-          const HomeScreen(),
+          const PostPage(),
           providers: [
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
@@ -64,6 +69,8 @@ class AppRoute {
             ),
           ],
         );
+
+      /// Update Post Page
       case updatePostRoute:
         final Post args = settings.arguments as Post;
         return _materialRoute(
@@ -78,6 +85,8 @@ class AppRoute {
             ),
           ],
         );
+
+      /// Search Page
       case searchRoute:
         return _materialRoute(
           const SearchPage(),
@@ -87,6 +96,8 @@ class AppRoute {
             ),
           ],
         );
+
+      /// Add Post Page
       case addPostRoute:
         return _materialRoute(
           const AddPostPage(),
@@ -96,6 +107,8 @@ class AppRoute {
             ),
           ],
         );
+
+      /// Profile Page
       case profileRoute:
         return _materialRoute(
           const ProfilePage(),
@@ -113,6 +126,8 @@ class AppRoute {
                   ..getPostComments(args)),
               ),
             ]);
+
+      /// Profile User page
       case profileUserRoute:
         final User args = settings.arguments as User;
         return _materialRoute(

@@ -63,7 +63,7 @@ class PostCubit extends Cubit<PostState> {
       userId: state.currentUser?.uid, //From current user that logged in
       pid: getData,
       imageUrl: newUrl,
-      datePublished: DateTime.now(),
+      timestemp: DateTime.now(),
       description: descipController, //From textfield
     );
     final result = await updatePostUsecase(postData);
@@ -88,7 +88,7 @@ class PostCubit extends Cubit<PostState> {
       userId: state.currentUser?.uid, //From current user that logged in
       pid: postId,
       imageUrl: url,
-      datePublished: DateTime.now(),
+      timestemp: DateTime.now(),
       description: descipController, //From textfield
     );
 

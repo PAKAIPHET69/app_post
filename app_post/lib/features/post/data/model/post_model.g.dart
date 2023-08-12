@@ -10,9 +10,9 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       description: json['description'] as String?,
       pid: json['pid'] as String?,
       userId: json['userId'] as String?,
-      datePublished: json['datePublished'] == null
+      timestemp: json['timestemp'] == null
           ? null
-          : DateTime.parse(json['datePublished'] as String),
+          : DateTime.parse(json['timestemp'] as String),
       imageUrl: json['imageUrl'] as String?,
       userName: json['userName'] as String?,
     );
@@ -20,7 +20,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'description': instance.description,
       'pid': instance.pid,
-      'datePublished': instance.datePublished?.toIso8601String(),
+      'timestemp': instance.timestemp?.toIso8601String(),
       'userId': instance.userId,
       'imageUrl': instance.imageUrl,
       'userName': instance.userName,

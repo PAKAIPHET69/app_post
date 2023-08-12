@@ -88,7 +88,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   Stream<List<PostModel>> getUserPosts() {
     final snapshot = fireStore
         .collection('posts')
-        .orderBy('datePublished', descending: true)
+        .orderBy('timestemp', descending: true)
         .snapshots();
     Stream<List<PostModel>> userposts = snapshot.map((event) {
       return event.docs.map((e) => PostModel.fromJson(e.data())).toList();
@@ -166,7 +166,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         .collection('posts')
         .doc(pId)
         .collection('comments')
-        .orderBy('datePublished', descending: true)
+        .orderBy('timestemp', descending: true)
         .snapshots();
     Stream<List<PostCMModel>> userposts = snapshot.map((event) {
       return event.docs.map((e) => PostCMModel.fromJson(e.data())).toList();
