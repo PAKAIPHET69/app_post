@@ -5,8 +5,8 @@ import 'package:app_post/features/follow/presentation/page/profileuser_page.dart
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
-import 'package:app_post/features/screens/comments_page.dart';
-import 'package:app_post/features/screens/home_screen.dart';
+import 'package:app_post/features/post/presentation/pages/comments_page.dart';
+import 'package:app_post/features/post/presentation/pages/post_page.dart';
 import 'package:app_post/features/post/presentation/pages/update_post_page.dart';
 import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:app_post/features/signin/presentation/cubit/singin_cubit.dart';
