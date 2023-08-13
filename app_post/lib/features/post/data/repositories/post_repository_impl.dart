@@ -52,6 +52,12 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
+  Stream<List<PostCM>> getPostCommentsUsecase({required String pId}) {
+    final res = postRemoteDatasource.getPostComments(pId: pId);
+    return res;
+  }
+
+  @override
   Future<Either<Failure, void>> deletePostUsecase(String pid) async {
     try {
       final res = await postRemoteDatasource.deletePost(pid);
@@ -88,11 +94,5 @@ class PostRepositoryImpl implements PostRepository {
     } on ServerException catch (e) {
       throw ServerFailure(e.msg.toString());
     }
-  }
-
-  @override
-  Stream<List<PostCM>> getPostCommentsUsecase({required String pId}) {
-    final res = postRemoteDatasource.getPostComments(pId: pId);
-    return res;
   }
 }

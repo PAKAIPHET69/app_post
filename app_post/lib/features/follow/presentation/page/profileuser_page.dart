@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sort_child_properties_last
 
 import 'package:app_post/core/util/colors.dart';
 import 'package:app_post/features/follow/presentation/cubit/follow_cubit.dart';
@@ -36,6 +36,10 @@ class ProfileUserPage extends StatelessWidget {
                         Column(
                           children: [
                             CircleAvatar(
+                              child: Icon(
+                                Icons.person,
+                                size: 35,
+                              ),
                               backgroundColor: Colors.black,
                               // backgroundImage: NetworkImage(),
                               radius: 40,
@@ -57,38 +61,30 @@ class ProfileUserPage extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Follow',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        '0',
+                                  Column(children: [
+                                    Text(
+                                      'Follow',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text('0',
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Following',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        '0',
+                                        ))
+                                  ]),
+                                  Column(children: [
+                                    Text(
+                                      'Following',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text('0',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    ],
-                                  )
+                                        ))
+                                  ])
                                 ],
                               ),
                             ],
@@ -100,59 +96,55 @@ class ProfileUserPage extends StatelessWidget {
                       padding: EdgeInsetsDirectional.fromSTEB(125, 0, 0, 0),
                       child: Column(
                         children: [
-                          // getCurrentUser.uid == getCurrentUser
-                          TextButton(
-                            onPressed: () {
-                              context.read<FollowCubit>().followUser(
-                                  uid: getCurrentUser.uid ?? '',
-                                  followId: getDataUser.uid ?? '');
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.grey,
+                          getCurrentUser.uid == getDataUser.uid
+                              ? TextButton(
+                                  onPressed: () {
+                                    context.read<FollowCubit>().followUser(
+                                        uid: getCurrentUser.uid ?? '',
+                                        followId: getDataUser.uid ?? '');
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    alignment: Alignment.center,
+                                    width: 200,
+                                    height: 30,
+                                    child: Text(
+                                      'Unfollow',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : TextButton(
+                                  onPressed: () {},
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    alignment: Alignment.center,
+                                    width: 200,
+                                    height: 30,
+                                    child: Text(
+                                      'LongOut',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              alignment: Alignment.center,
-                              width: 200,
-                              height: 30,
-                              child: Text(
-                                'Unfollow',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          //  TextButton(
-                          //     onPressed: () {
-                          //       context.read<FollowCubit>().followUser(
-                          //           uid: getCurrentUser.uid ?? '',
-                          //           followId: getDataUser.uid ?? '');
-                          //     },
-                          //     child: Container(
-                          //       decoration: BoxDecoration(
-                          //         color: Colors.black,
-                          //         border: Border.all(
-                          //           color: Colors.grey,
-                          //         ),
-                          //         borderRadius: BorderRadius.circular(5),
-                          //       ),
-                          //       alignment: Alignment.center,
-                          //       width: 200,
-                          //       height: 30,
-                          //       child: Text(
-                          //         'Follow',
-                          //         style: TextStyle(
-                          //           color: Colors.white,
-                          //           fontWeight: FontWeight.bold,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
                         ],
                       ),
                     ),

@@ -38,8 +38,6 @@ class SearchDatasourceImpl implements SearchRemoteDatasource {
       return listUser;
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());
-    } catch (e) {
-      throw ServerException(e.toString());
     }
   }
 }

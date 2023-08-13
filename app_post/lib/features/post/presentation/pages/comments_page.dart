@@ -24,7 +24,7 @@ class CommentPage extends StatelessWidget {
             ),
             centerTitle: false,
           ),
-          body: CommentCard(),
+          body: CommentCard(), //List Post comment
           bottomNavigationBar: SafeArea(
             child: Container(
               color: Colors.white,
@@ -53,12 +53,6 @@ class CommentPage extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
-                    // => postComment(
-                    //   user.uid,
-                    //   user.username,
-                    //   user.photoUrl,
-                    // ),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 8),

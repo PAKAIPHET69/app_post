@@ -21,61 +21,76 @@ class CommentCard extends StatelessWidget {
             // final getPostComments = state.listPostCM![index];
             // final a = state.listPostCM!.length;
             // print(a);
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/logo.png'),
-                    backgroundColor: Colors.black,
-                    radius: 18,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: 'Name',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                                TextSpan(
-                                    text: 'text_comment',
-                                    style: TextStyle(color: Colors.black)),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: Text(
-                              'time',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: IconButton(
-                      icon: const Icon(Icons.more_horiz),
-                      onPressed: () {},
-                    ),
-                  )
-                ],
+            return Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
+              child: ListTile(
+                trailing: PopupMenuButton(
+                  itemBuilder: (context) =>
+                      [PopupMenuItem(child: Text('Delete'))],
+                ),
+                leading: CircleAvatar(child: Icon(Icons.person)),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Name',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Text('data'),
+                  ],
+                ),
               ),
             );
+
+            // return Container(
+            //   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            //   child: Row(
+            //     children: [
+            //       CircleAvatar(
+            //         backgroundImage: AssetImage('assets/images/logo.png'),
+            //         backgroundColor: Colors.black,
+            //         radius: 18,
+            //       ),
+            //       Expanded(
+            //           child: Padding(
+            //               padding: const EdgeInsets.only(left: 16),
+            //               child: Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     RichText(
+            //                       text: TextSpan(
+            //                         children: [
+            //                           TextSpan(
+            //                               text: 'Name',
+            //                               style: const TextStyle(
+            //                                 color: Colors.black,
+            //                                 fontWeight: FontWeight.bold,
+            //                               )),
+            //                           TextSpan(
+            //                               text: 'text_comment',
+            //                               style:
+            //                                   TextStyle(color: Colors.black)),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                     Padding(
+            //                         padding: const EdgeInsets.only(top: 4),
+            //                         child: Text('time',
+            //                             style: const TextStyle(
+            //                                 fontSize: 12,
+            //                                 fontWeight: FontWeight.w400))),
+            //                   ]))),
+            //       Container(
+            //           padding: const EdgeInsets.all(8),
+            //           child: IconButton(
+            //             icon: const Icon(Icons.more_horiz),
+            //             onPressed: () {},
+            //           ))
+            //     ],
+            //   ),
+            // );
           }),
         );
       },

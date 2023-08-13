@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/colors.dart';
@@ -52,6 +52,7 @@ class SearchPage extends StatelessWidget {
                 },
                 child: ListTile(
                   leading: CircleAvatar(
+                    child: Icon(Icons.person),
                     radius: 18,
                   ),
                   title: Text(
