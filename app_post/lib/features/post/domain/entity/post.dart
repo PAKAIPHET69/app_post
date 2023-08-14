@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class Post extends Equatable {
   final String? description;
   final String? pid;
-  final DateTime? timestemp;
+  final DateTime? timestamp;
   final String? userId;
   final String? imageUrl;
   final String? userName;
@@ -14,7 +14,7 @@ class Post extends Equatable {
     this.userId,
     this.description,
     this.pid,
-    this.timestemp,
+    this.timestamp,
     this.imageUrl,
   });
 
@@ -23,7 +23,7 @@ class Post extends Equatable {
         description,
         userName,
         pid,
-        timestemp,
+        timestamp,
         userId,
         imageUrl,
       ];
@@ -33,7 +33,7 @@ class Post extends Equatable {
         description: description,
         pid: pid,
         userId: userId,
-        timestemp: timestemp,
+        timestamp: timestamp,
         imageUrl: imageUrl,
       );
 }

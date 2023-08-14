@@ -88,7 +88,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   Stream<List<PostModel>> getUserPosts() {
     final snapshot = fireStore
         .collection('posts')
-        .orderBy('timestemp', descending: true)
+        .orderBy('timestamp', descending: true)
         .snapshots();
     Stream<List<PostModel>> userposts = snapshot.map((event) {
       return event.docs.map((e) => PostModel.fromJson(e.data())).toList();
@@ -128,33 +128,32 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   /// Comment ///
   @override
-  Future<String> postComment(
-      {required String postId,
-      required String text,
-      required String uid,
-      required String name}) async {
-    String res = "Some error occurred";
-
+  Future<String> postComment({
+    required String postId,
+    required String text,
+    required String uid,
+    required String name,
+  }) async {
     try {
-      if (text.isNotEmpty) {
-        String commentId = const Uuid().v1();
-        fireStore
-            .collection('posts')
-            .doc(postId)
-            .collection('comments')
-            .doc(commentId)
-            .set({
-          'name': name,
-          'uid': uid,
-          'text': text,
-          'commentId': commentId,
-          'timestamp': DateTime.now(),
-        });
-        res = 'success';
+      if (text.isEmpty) {
+        return 'Some error occurred';
       }
-      return res;
-    } on FirebaseException catch (e) {
-      throw ServerException(e.toString());
+      final commentId = const Uuid().v1();
+      final timestamp = DateTime.now();
+      await fireStore
+          .collection('posts')
+          .doc(postId)
+          .collection('comments')
+          .doc(commentId)
+          .set({
+        'name': name,
+        'uid': uid,
+        'text': text,
+        'commentId': commentId,
+        'timestamp': timestamp.toIso8601String(),
+      });
+
+      return 'success';
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -162,15 +161,14 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Stream<List<PostCMModel>> getPostComments({required String pId}) {
-    final snapshot = fireStore
+    return fireStore
         .collection('posts')
         .doc(pId)
         .collection('comments')
-        .orderBy('timestemp', descending: true)
-        .snapshots();
-    Stream<List<PostCMModel>> userposts = snapshot.map((event) {
-      return event.docs.map((e) => PostCMModel.fromJson(e.data())).toList();
-    });
-    return userposts;
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => PostCMModel.fromJson(doc.data()))
+            .toList());
   }
 }

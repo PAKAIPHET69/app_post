@@ -31,7 +31,7 @@ class SearchPage extends StatelessWidget {
                 },
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
-                  hintText: 'Search...',
+                  hintText: 'Search for a user...',
                   hintStyle: TextStyle(color: Colors.white54),
                   border: InputBorder.none,
                 ),
@@ -46,7 +46,9 @@ class SearchPage extends StatelessWidget {
                 onTap: () {
                   User sendParams = User(
                       uid: listUser?.uid ?? '',
-                      displayName: listUser?.displayName ?? '');
+                      displayName: listUser?.displayName ?? '',
+                      followers: listUser?.followers,
+                      following: listUser?.following);
                   AppNavigator.navigateTo(AppRoute.profileUserRoute,
                       params: sendParams);
                 },

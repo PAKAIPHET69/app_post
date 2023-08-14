@@ -1,4 +1,5 @@
 import 'package:app_post/core/error/exceptions.dart';
+import 'package:app_post/features/signin/data/model/user_model.dart';
 import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
@@ -6,6 +7,7 @@ import 'package:injectable/injectable.dart';
 
 abstract class FollowRemoteDatasoource {
   Future<void> followUser({required String uid, required String followId});
+  Stream<List<UserModel>> geDataFollow({required String uid});
   User getCurrentUser();
 }
 
@@ -64,18 +66,27 @@ class FollowDatasourceImpl implements FollowRemoteDatasoource {
     }
   }
 
+  // @override
+  // getCountFollower({required String uid}) async {
+  //   try {
+  //     final count = await fireStore
+  //         .collection('users')
+  //         .doc(uid)
+  //         .collection('followers')
+  //         .count()
+  //         .get();
+  //     return count;
+  //   } catch (e) {
+  //     ServerException(e.toString());
+  //   }
+  // }
+
   @override
-  getCountFollower({required String uid}) async {
-    try {
-      final count = await fireStore
-          .collection('users')
-          .doc(uid)
-          .collection('followers')
-          .count()
-          .get();
-      return count;
-    } catch (e) {
-      ServerException(e.toString());
-    }
+  Stream<List<UserModel>> geDataFollow({required String uid}) {
+    final snapshot = fireStore.collection('users').snapshots();
+    Stream<List<UserModel>> follow = snapshot.map((event) {
+      return event.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    });
+    return follow;
   }
 }

@@ -63,7 +63,7 @@ class PostCubit extends Cubit<PostState> {
       userId: state.currentUser?.uid, //From current user that logged in
       pid: getData,
       imageUrl: newUrl,
-      timestemp: DateTime.now(),
+      timestamp: DateTime.now(),
       description: descipController, //From textfield
     );
     final result = await updatePostUsecase(postData);
@@ -88,7 +88,7 @@ class PostCubit extends Cubit<PostState> {
       userId: state.currentUser?.uid, //From current user that logged in
       pid: postId,
       imageUrl: url,
-      timestemp: DateTime.now(),
+      timestamp: DateTime.now(),
       description: descipController, //From textfield
     );
 
@@ -161,13 +161,14 @@ class PostCubit extends Cubit<PostState> {
     return result;
   }
 
-  Future<void> getPostComments(String pId) async {
+  /// Get post comment
+  void getPostComments(String pId) {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
     final result = getPostCommentsUsecase(pid: pId);
-    result.listen((post) {
-      emit(state.copyWith(dataStatus: DataStatus.success, listPostCM: post));
+    result.listen((postCM) {
+      emit(state.copyWith(dataStatus: DataStatus.success, listPostCM: postCM));
     });
   }
 }

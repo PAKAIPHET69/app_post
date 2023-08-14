@@ -109,7 +109,7 @@ class PostCard extends StatelessWidget {
                                                                 userName:
                                                                     getPostUser
                                                                         .userName,
-                                                                timestemp:
+                                                                timestamp:
                                                                     DateTime
                                                                         .now(),
                                                                 imageUrl:

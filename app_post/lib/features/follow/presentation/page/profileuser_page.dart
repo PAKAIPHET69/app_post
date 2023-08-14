@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileUserPage extends StatelessWidget {
   final User getDataUser;
+  final bool isFollowing = false;
   ProfileUserPage({
     super.key,
     required this.getDataUser,
@@ -18,6 +19,7 @@ class ProfileUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FollowCubit, FollowState>(
       builder: (context, state) {
+        final isFollowing = getDataUser.uid;
         final getCurrentUser = state.currentUser!;
         return Scaffold(
           appBar: AppBar(
@@ -44,10 +46,6 @@ class ProfileUserPage extends StatelessWidget {
                               // backgroundImage: NetworkImage(),
                               radius: 40,
                             ),
-                            Text(
-                              '',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
                           ],
                         ),
                         SizedBox(
@@ -63,11 +61,13 @@ class ProfileUserPage extends StatelessWidget {
                                 children: [
                                   Column(children: [
                                     Text(
-                                      'Follow',
+                                      'Followers',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text('0',
+                                    Text(
+                                        getDataUser.followers!.length
+                                            .toString(),
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -79,7 +79,9 @@ class ProfileUserPage extends StatelessWidget {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text('0',
+                                    Text(
+                                        getDataUser.following!.length
+                                            .toString(),
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -97,60 +99,69 @@ class ProfileUserPage extends StatelessWidget {
                       child: Column(
                         children: [
                           getCurrentUser.uid == getDataUser.uid
-                              ? TextButton(
-                                  onPressed: () {
-                                    context.read<FollowCubit>().followUser(
-                                        uid: getCurrentUser.uid ?? '',
-                                        followId: getDataUser.uid ?? '');
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors.grey,
+                              ? Container()
+                              : isFollowing != getCurrentUser.uid
+                                  ? TextButton(
+                                      onPressed: () {
+                                        context.read<FollowCubit>().followUser(
+                                            uid: getCurrentUser.uid ?? '',
+                                            followId: getDataUser.uid ?? '');
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        alignment: Alignment.center,
+                                        width: 200,
+                                        height: 30,
+                                        child: Text(
+                                          'Follow',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    alignment: Alignment.center,
-                                    width: 200,
-                                    height: 30,
-                                    child: Text(
-                                      'Unfollow',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
+                                    )
+                                  : TextButton(
+                                      onPressed: () {
+                                        context.read<FollowCubit>().followUser(
+                                            uid: getCurrentUser.uid ?? '',
+                                            followId: getDataUser.uid ?? '');
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        alignment: Alignment.center,
+                                        width: 200,
+                                        height: 30,
+                                        child: Text(
+                                          'Unfollow',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              : TextButton(
-                                  onPressed: () {},
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors.grey,
-                                      ),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    alignment: Alignment.center,
-                                    width: 200,
-                                    height: 30,
-                                    child: Text(
-                                      'LongOut',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
                         ],
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
+              Divider(),
             ],
           ),
         );
