@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_single_cascade_in_expression_statements, await_only_futures
+
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
@@ -20,6 +22,8 @@ abstract class PostRemoteDatasource {
       required String text,
       required String uid,
       required String name});
+  Future<String> deletePostCM(
+      {required String postId, required String commentId});
   Future<String> uploadImageToStorage(File imageFile);
   Stream<List<PostModel>> getUserPosts();
   Stream<List<PostCMModel>> getPostComments({required String pId});
@@ -161,7 +165,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Stream<List<PostCMModel>> getPostComments({required String pId}) {
-    return fireStore
+    final res = fireStore
         .collection('posts')
         .doc(pId)
         .collection('comments')
@@ -170,5 +174,22 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         .map((snapshot) => snapshot.docs
             .map((doc) => PostCMModel.fromJson(doc.data()))
             .toList());
+    return res;
+  }
+
+  @override
+  Future<String> deletePostCM(
+      {required String postId, required String commentId}) async {
+    try {
+      await fireStore
+        ..collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .delete();
+      return 'success';
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:app_post/features/follow/presentation/page/profileuser_page.dart
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
+import 'package:app_post/features/post/presentation/pages/comment_card.dart';
 import 'package:app_post/features/post/presentation/pages/comments_page.dart';
 import 'package:app_post/features/post/presentation/pages/post_page.dart';
 import 'package:app_post/features/post/presentation/pages/update_post_page.dart';
@@ -25,6 +26,7 @@ class AppRoute {
   static const String searchRoute = "search";
   static const String addPostRoute = "addpost";
   static const String commentRoute = "/comment";
+  static const String commentCardRoute = "/commentCard";
   static const String updatePostRoute = "/updatepost";
   static const String profileUserRoute = "/profileUser";
   static const String profileRoute = "profile";
@@ -128,6 +130,7 @@ class AppRoute {
                   ..getPostComments(args)),
               ),
             ]);
+      
 
       /// Profile User page
       case profileUserRoute:

@@ -53,14 +53,8 @@ class PostCard extends StatelessWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
-                                    Container(
-                                      width: 40,
-                                      height: 50,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black26,
-                                        shape: BoxShape.circle,
-                                      ),
+                                    CircleAvatar(
+                                      child: Icon(Icons.person),
                                     ),
                                     Expanded(
                                       child: Padding(

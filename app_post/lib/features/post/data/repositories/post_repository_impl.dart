@@ -95,4 +95,16 @@ class PostRepositoryImpl implements PostRepository {
       throw ServerFailure(e.msg.toString());
     }
   }
+
+  @override
+  Future<String> deleteCommentUsecase(
+      {required String postId, required String commentId}) async {
+    try {
+      final res = await postRemoteDatasource.deletePostCM(
+          postId: postId, commentId: commentId);
+      return res;
+    } on ServerException catch (e) {
+      throw ServerFailure(e.msg.toString());
+    }
+  }
 }

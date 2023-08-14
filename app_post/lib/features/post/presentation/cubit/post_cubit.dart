@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
 import 'dart:io';
 import 'package:app_post/core/usecases/no_params.dart';
 import 'package:app_post/core/util/app_navigator.dart';
@@ -7,6 +8,7 @@ import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/domain/usecases/comments_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/delete_comment.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/get_post_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
@@ -30,6 +32,7 @@ class PostCubit extends Cubit<PostState> {
   final GetPostCommentsUsecase getPostCommentsUsecase;
   final GetPostsUsecase getPostsUsecase;
   final DeletePostUsecase deletePostUsecase;
+  final DeleteCommentUsecase deleteCommentUsecase;
   final UpdatePostUsecase updatePostUsecase;
   final CommentUsecase commentUsecase;
   PostCubit(
@@ -41,11 +44,19 @@ class PostCubit extends Cubit<PostState> {
     this.updatePostUsecase,
     this.commentUsecase,
     this.getPostCommentsUsecase,
+    this.deleteCommentUsecase,
   ) : super(const PostState());
+  StreamSubscription<dynamic>? sub;
 
   final ImagePicker picker = ImagePicker();
   final TextEditingController descipController = TextEditingController();
   final TextEditingController textController = TextEditingController();
+// close stream
+  @override
+  Future<void> close() async {
+    await sub?.cancel();
+    return super.close();
+  }
 
   ///  Delete ///
   Future<void> deletePost(String pid) {
@@ -134,7 +145,9 @@ class PostCubit extends Cubit<PostState> {
     ));
     final result = getPostsUsecase(NoParams());
     result.listen((post) {
-      emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+      if (post.isNotEmpty) {
+        emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+      }
     });
   }
 
@@ -150,8 +163,11 @@ class PostCubit extends Cubit<PostState> {
     ));
   }
 
-  Future<String> postComment(
-      {required String postId, required String text}) async {
+  ///Post Comment
+  Future<String> postComment({
+    required String postId,
+    required String text,
+  }) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await commentUsecase(
         postId: postId,
@@ -162,13 +178,30 @@ class PostCubit extends Cubit<PostState> {
   }
 
   /// Get post comment
-  void getPostComments(String pId) {
+  Future<void> getPostComments(String pId) async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
     final result = getPostCommentsUsecase(pid: pId);
-    result.listen((postCM) {
-      emit(state.copyWith(dataStatus: DataStatus.success, listPostCM: postCM));
+
+    sub = result.listen((postCM) {
+      if (postCM.isNotEmpty) {
+        emit(
+            state.copyWith(dataStatus: DataStatus.success, listPostCM: postCM));
+      }
     });
+  }
+
+  //Delete Comment
+  Future<String> deletePostCM({
+    required String postId,
+    required String commentId,
+  }) async {
+    emit(state.copyWith(dataStatus: DataStatus.loading));
+    final result = deleteCommentUsecase(
+      postId: postId,
+      commentId: commentId,
+    );
+    return result;
   }
 }

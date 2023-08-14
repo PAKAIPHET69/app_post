@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:app_post/core/util/colors.dart';
+import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:app_post/features/post/presentation/pages/comment_card.dart';
@@ -24,7 +25,11 @@ class CommentPage extends StatelessWidget {
             ),
             centerTitle: false,
           ),
-          body: CommentCard(), //List Post comment
+          body: state.dataStatus == DataStatus.loading
+              ? Container()
+              : CommentCard(
+                  getPid: getPostData,
+                ), //List Post comment
           bottomNavigationBar: SafeArea(
             child: Container(
               color: Colors.white,

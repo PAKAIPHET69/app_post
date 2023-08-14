@@ -7,6 +7,7 @@ class GetPostCommentsUsecase {
   final PostRepository postRepository;
   GetPostCommentsUsecase(this.postRepository);
   Stream<List<PostCM>> call({required String pid}) {
-    return postRepository.getPostCommentsUsecase(pId: pid);
+    final res = postRepository.getPostCommentsUsecase(pId: pid);
+    return res;
   }
 }
