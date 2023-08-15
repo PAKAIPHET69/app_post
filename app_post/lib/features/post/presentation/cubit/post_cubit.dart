@@ -14,6 +14,7 @@ import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/get_post_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_view_comment.dart';
+import 'package:app_post/features/post/domain/usecases/likes_post.dart';
 import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class PostCubit extends Cubit<PostState> {
   final UpdatePostUsecase updatePostUsecase;
   final CommentUsecase commentUsecase;
   final GetViewCommentsUsecase getViewCommentsUsecase;
+  final LikesPostUsecase likesPostUsecase;
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
@@ -49,6 +51,7 @@ class PostCubit extends Cubit<PostState> {
     this.getPostCommentsUsecase,
     this.deleteCommentUsecase,
     this.getViewCommentsUsecase,
+    this.likesPostUsecase,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
 
@@ -77,6 +80,8 @@ class PostCubit extends Cubit<PostState> {
       userName: state.currentUser?.displayName,
       userId: state.currentUser?.uid, //From current user that logged in
       pid: getData,
+      linke: [],
+      // countCM: ,
       imageUrl: newUrl,
       timestamp: DateTime.now(),
       description: descipController, //From textfield
@@ -149,7 +154,7 @@ class PostCubit extends Cubit<PostState> {
     result.listen((post) async {
       for (var a in post) {
         final res = await getViewCm(pid: a.pid ?? '');
-        print(res.length);
+        print(res.length.toString());
       }
       if (post.isNotEmpty) {
         emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
@@ -217,4 +222,14 @@ class PostCubit extends Cubit<PostState> {
     );
     return result;
   }
+
+  // Likes
+  // Future<String> likesPost(
+  //     {required String postId,
+  //     required String uid,
+  //     required List<String> likes}) async {
+  //   emit(state.copyWith(dataStatus: DataStatus.loading));
+  //   final resulf = likesPostUsecase(likes: state.currentUser?.uid ?? '', uid:state.currentUser?.uid??'', postId: '');
+  //   return resulf;
+  // }
 }

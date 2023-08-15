@@ -19,8 +19,10 @@ class FollowDatasourceImpl implements FollowRemoteDatasoource {
   FollowDatasourceImpl(this.fireStore, this.auth);
 
   @override
-  Future<void> followUser(
-      {required String uid, required String followId}) async {
+  Future<void> followUser({
+    required String uid,
+    required String followId,
+  }) async {
     try {
       DocumentSnapshot snapshot =
           await fireStore.collection('users').doc(uid).get();
@@ -43,8 +45,6 @@ class FollowDatasourceImpl implements FollowRemoteDatasoource {
         });
       }
     } on FirebaseException catch (e) {
-      throw ServerException(e.toString());
-    } catch (e) {
       throw ServerException(e.toString());
     }
   }

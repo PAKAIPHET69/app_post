@@ -19,6 +19,7 @@ class ProfileUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FollowCubit, FollowState>(
       builder: (context, state) {
+        
         final isFollowing = getDataUser.uid;
         final getCurrentUser = state.currentUser!;
         return Scaffold(

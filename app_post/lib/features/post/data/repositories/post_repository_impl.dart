@@ -117,4 +117,18 @@ class PostRepositoryImpl implements PostRepository {
       throw ServerFailure(e.msg.toString());
     }
   }
+
+  @override
+  Future<String> likePost(
+      {required String postId,
+      required String uid,
+      required List likes}) async {
+    try {
+      final resLikes = await postRemoteDatasource.likePost(
+          postId: postId, uid: uid, likes: likes);
+      return resLikes;
+    } on ServerException catch (e) {
+      throw ServerFailure(e.msg.toString());
+    }
+  }
 }
