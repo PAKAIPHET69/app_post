@@ -17,13 +17,16 @@ abstract class PostRemoteDatasource {
   Future<void> savePost(PostModel postModel);
   Future<void> deletePost(String idPost);
   Future<void> updatePost(PostModel postModel);
+  Future<List<PostCMModel>> getViewCm({required String postId});
   Future<String> postComment(
       {required String postId,
       required String text,
       required String uid,
       required String name});
-  Future<String> deletePostCM(
-      {required String postId, required String commentId});
+  Future<String> deletePostCM({
+    required String postId,
+    required String commentId,
+  });
   Future<String> uploadImageToStorage(File imageFile);
   Stream<List<PostModel>> getUserPosts();
   Stream<List<PostCMModel>> getPostComments({required String pId});
@@ -100,7 +103,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     return userposts;
   }
 
-  /// Delete ///
+  /// Delete Post ///
   @override
   Future<void> deletePost(String idPost) async {
     try {
@@ -121,6 +124,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
           await fireStore.collection('posts').doc(postModel.pid).update({
         'description': postModel.description,
         'imageUrl': postModel.imageUrl,
+        'timestamp': DateTime.now().toIso8601String(),
       });
       return res;
     } on FirebaseException catch (e) {
@@ -130,7 +134,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  /// Comment ///
+  /// Save Comment to firebase ///
   @override
   Future<String> postComment({
     required String postId,
@@ -163,6 +167,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
+  /// Post Comment
   @override
   Stream<List<PostCMModel>> getPostComments({required String pId}) {
     final res = fireStore
@@ -177,19 +182,63 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     return res;
   }
 
+  /// Delete Comment
   @override
   Future<String> deletePostCM(
       {required String postId, required String commentId}) async {
     try {
       await fireStore
-        ..collection('posts')
-            .doc(postId)
-            .collection('comments')
-            .doc(commentId)
-            .delete();
+          .collection('posts')
+          .doc(postId)
+          .collection('comments')
+          .doc(commentId)
+          .delete();
       return 'success';
     } catch (e) {
       throw ServerException(e.toString());
     }
+  }
+
+  @override
+  Future<List<PostCMModel>> getViewCm({required String postId}) async {
+    try {
+      QuerySnapshot snap = await fireStore
+          .collection('posts')
+          .doc(postId)
+          .collection('comments')
+          .get();
+      List<PostCMModel> userposts = snap.docs.map((doc) {
+        return PostCMModel.fromJson(doc.data() as Map<String, dynamic>);
+      }).toList();
+      return userposts;
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  /// Likes
+  Future<String> likePost({
+    required String postId,
+    required String uid,
+    required List likes,
+  }) async {
+    String res = "Some error occurred";
+    try {
+      if (likes.contains(uid)) {
+        // if the likes list contains the user uid, we need to remove it
+        fireStore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayRemove([uid])
+        });
+      } else {
+        // else we need to add uid to the likes array
+        fireStore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayUnion([uid])
+        });
+      }
+      res = 'success';
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+    return res;
   }
 }

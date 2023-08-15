@@ -12,6 +12,7 @@ class PostModel extends Post {
     DateTime? timestamp,
     String? imageUrl,
     String? userName,
+    
   }) : super(
           userName: userName,
           timestamp: timestamp,
@@ -19,6 +20,7 @@ class PostModel extends Post {
           userId: userId,
           description: description,
           imageUrl: imageUrl,
+          
         );
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);

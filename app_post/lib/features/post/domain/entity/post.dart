@@ -1,4 +1,5 @@
 import 'package:app_post/features/post/data/model/post_model.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:equatable/equatable.dart';
 
 class Post extends Equatable {
@@ -9,7 +10,9 @@ class Post extends Equatable {
   final String? imageUrl;
   final String? userName;
 
+
   const Post({
+  
     this.userName,
     this.userId,
     this.description,
@@ -26,6 +29,7 @@ class Post extends Equatable {
         timestamp,
         userId,
         imageUrl,
+    
       ];
 
   PostModel toModel() => PostModel(
@@ -35,5 +39,6 @@ class Post extends Equatable {
         userId: userId,
         timestamp: timestamp,
         imageUrl: imageUrl,
+       
       );
 }

@@ -15,21 +15,32 @@ class PostState extends Equatable {
   final File? imageFile;
   final List<Post>? listPosts;
   final List<PostCM>? listPostCM;
+  final List<String>? countCM;
   final String? delePid;
 
-  const PostState(
-      {this.listPostCM,
-      this.imageFile,
-      this.dataStatus,
-      this.error,
-      this.post,
-      this.currentUser,
-      this.delePid,
-      this.listPosts});
+  const PostState({
+    this.listPostCM,
+    this.imageFile,
+    this.dataStatus,
+    this.error,
+    this.post,
+    this.currentUser,
+    this.delePid,
+    this.listPosts,
+    this.countCM,
+  });
 
   @override
-  List<Object?> get props =>
-      [dataStatus, error, post, imageFile, listPosts, delePid, listPostCM];
+  List<Object?> get props => [
+        dataStatus,
+        error,
+        post,
+        imageFile,
+        listPosts,
+        delePid,
+        listPostCM,
+        countCM
+      ];
 
   PostState copyWith({
     DataStatus? dataStatus,
@@ -39,6 +50,7 @@ class PostState extends Equatable {
     File? imageFile,
     List<Post>? listPosts,
     List<PostCM>? listPostCM,
+    List<String>? countCM,
     String? delePid,
   }) {
     return PostState(
@@ -49,6 +61,7 @@ class PostState extends Equatable {
         imageFile: imageFile ?? this.imageFile,
         delePid: delePid ?? this.delePid,
         listPostCM: listPostCM ?? this.listPostCM,
-        listPosts: listPosts ?? this.listPosts);
+        listPosts: listPosts ?? this.listPosts,
+        countCM: countCM ?? this.countCM);
   }
 }

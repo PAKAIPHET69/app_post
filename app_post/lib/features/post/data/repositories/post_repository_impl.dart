@@ -107,4 +107,14 @@ class PostRepositoryImpl implements PostRepository {
       throw ServerFailure(e.msg.toString());
     }
   }
+
+  @override
+  Future<List<PostCM>> getViweCm({required String postId}) async {
+    try {
+      final res = await postRemoteDatasource.getViewCm(postId: postId);
+      return res;
+    } on ServerException catch (e) {
+      throw ServerFailure(e.msg.toString());
+    }
+  }
 }

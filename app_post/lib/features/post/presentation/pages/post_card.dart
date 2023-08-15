@@ -20,6 +20,7 @@ class PostCard extends StatelessWidget {
         backgroundColor: Colors.black87,
         body: BlocBuilder<PostCubit, PostState>(
           builder: (context, state) {
+            final viewCM = state.listPosts?.length;
             return ListView.builder(
               itemCount: state.listPosts!.length,
               itemBuilder: (context, index) {
@@ -213,29 +214,32 @@ class PostCard extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
-                                      mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(Icons.favorite_border),
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                  Icons.mode_comment_outlined),
-                                              onPressed: () {
-                                                AppNavigator.navigateTo(
-                                                    AppRoute.commentRoute,
-                                                    params:
-                                                        getPostUser.pid ?? '');
-                                              },
-                                            ),
-                                          ],
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.favorite_border),
+                                        ),
+                                        IconButton(
+                                          icon:
+                                              Icon(Icons.mode_comment_outlined),
+                                          onPressed: () {
+                                            AppNavigator.navigateTo(
+                                                AppRoute.commentRoute,
+                                                params: getPostUser.pid ?? '');
+                                          },
                                         ),
                                       ],
                                     ),
+                                    // viewCM == null
+                                    //     ? Text('')
+                                    //     :
+                                    Text(
+                                      'View all $viewCM comments',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),

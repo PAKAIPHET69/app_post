@@ -15,6 +15,7 @@ class CommentCard extends StatelessWidget {
 
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
+        // final viweCM = state.listPostCM?.length;
         final getUser = state.currentUser!;
         return Scaffold(
             body: state.listPostCM!.isEmpty
@@ -32,8 +33,9 @@ class CommentCard extends StatelessWidget {
                                     PopupMenuItem(
                                         onTap: () {
                                           postCubit.deletePostCM(
-                                            postId:  getPid,
-                                            commentId: postComment.commentId??'',
+                                            postId: getPid,
+                                            commentId:
+                                                postComment.commentId ?? '',
                                           );
                                         },
                                         child: Text(

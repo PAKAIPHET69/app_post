@@ -7,11 +7,13 @@ import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/domain/usecases/comments_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/delete_comment.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/get_post_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/get_view_comment.dart';
 import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,7 @@ class PostCubit extends Cubit<PostState> {
   final DeleteCommentUsecase deleteCommentUsecase;
   final UpdatePostUsecase updatePostUsecase;
   final CommentUsecase commentUsecase;
+  final GetViewCommentsUsecase getViewCommentsUsecase;
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
@@ -45,6 +48,7 @@ class PostCubit extends Cubit<PostState> {
     this.commentUsecase,
     this.getPostCommentsUsecase,
     this.deleteCommentUsecase,
+    this.getViewCommentsUsecase,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
 
@@ -140,15 +144,24 @@ class PostCubit extends Cubit<PostState> {
 
   /// Get Post from  clouad_firestore ///
   Future<void> getUserPosts() async {
-    emit(state.copyWith(
-      dataStatus: DataStatus.loading,
-    ));
+    emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = getPostsUsecase(NoParams());
-    result.listen((post) {
+    result.listen((post) async {
+      for (var a in post) {
+        final res = await getViewCm(pid: a.pid ?? '');
+        print(res.length);
+      }
       if (post.isNotEmpty) {
         emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
       }
     });
+  }
+
+  // Count Comment
+  Future<List<PostCM>> getViewCm({required String pid}) async {
+    emit(state.copyWith(dataStatus: DataStatus.loading));
+    final result = await getViewCommentsUsecase(pid: pid);
+    return result;
   }
 
   ////Get CurrenUser ///
@@ -183,11 +196,11 @@ class PostCubit extends Cubit<PostState> {
       dataStatus: DataStatus.loading,
     ));
     final result = getPostCommentsUsecase(pid: pId);
-
     sub = result.listen((postCM) {
       if (postCM.isNotEmpty) {
-        emit(
-            state.copyWith(dataStatus: DataStatus.success, listPostCM: postCM));
+        final updateList = List<PostCM>.from(postCM);
+        emit(state.copyWith(
+            dataStatus: DataStatus.success, listPostCM: updateList));
       }
     });
   }
