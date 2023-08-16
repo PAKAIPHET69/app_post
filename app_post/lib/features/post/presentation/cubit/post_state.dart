@@ -15,6 +15,7 @@ class PostState extends Equatable {
   final File? imageFile;
   final List<Post>? listPosts;
   final List<PostCM>? listPostCM;
+  final List<String>? countCM;
   final String? delePid;
 
   const PostState({
@@ -26,6 +27,7 @@ class PostState extends Equatable {
     this.currentUser,
     this.delePid,
     this.listPosts,
+    this.countCM,
   });
 
   @override
@@ -37,6 +39,7 @@ class PostState extends Equatable {
         listPosts,
         delePid,
         listPostCM,
+        countCM
       ];
 
   PostState copyWith({
@@ -47,17 +50,18 @@ class PostState extends Equatable {
     File? imageFile,
     List<Post>? listPosts,
     List<PostCM>? listPostCM,
+    List<String>? countCM,
     String? delePid,
   }) {
     return PostState(
-      dataStatus: dataStatus ?? this.dataStatus,
-      error: error ?? this.error,
-      post: post ?? this.post,
-      currentUser: currentUser ?? this.currentUser,
-      imageFile: imageFile ?? this.imageFile,
-      delePid: delePid ?? this.delePid,
-      listPostCM: listPostCM ?? this.listPostCM,
-      listPosts: listPosts ?? this.listPosts,
-    );
+        dataStatus: dataStatus ?? this.dataStatus,
+        error: error ?? this.error,
+        post: post ?? this.post,
+        currentUser: currentUser ?? this.currentUser,
+        imageFile: imageFile ?? this.imageFile,
+        delePid: delePid ?? this.delePid,
+        listPostCM: listPostCM ?? this.listPostCM,
+        listPosts: listPosts ?? this.listPosts,
+        countCM: countCM ?? this.countCM);
   }
 }

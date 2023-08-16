@@ -25,9 +25,4 @@ abstract class PostRepository {
       required String text,
       required String uid,
       required String name});
-  Future<String> likePost({
-    required String postId,
-    required String uid,
-    required List likes,
-  });
 }

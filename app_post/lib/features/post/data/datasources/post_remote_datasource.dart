@@ -28,11 +28,6 @@ abstract class PostRemoteDatasource {
     required String commentId,
   });
   Future<String> uploadImageToStorage(File imageFile);
-  Future<String> likePost({
-    required String postId,
-    required String uid,
-    required List likes,
-  });
   Stream<List<PostModel>> getUserPosts();
   Stream<List<PostCMModel>> getPostComments({required String pId});
   User getCurrentUser();
@@ -225,7 +220,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   /// Likes
-  @override
   Future<String> likePost({
     required String postId,
     required String uid,

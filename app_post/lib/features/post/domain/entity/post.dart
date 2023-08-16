@@ -1,4 +1,5 @@
 import 'package:app_post/features/post/data/model/post_model.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:equatable/equatable.dart';
 
 class Post extends Equatable {
@@ -8,12 +9,10 @@ class Post extends Equatable {
   final String? userId;
   final String? imageUrl;
   final String? userName;
-  final List? linke;
-  final String? countCM;
+
 
   const Post({
-    this.linke,
-    this.countCM,
+  
     this.userName,
     this.userId,
     this.description,
@@ -22,8 +21,15 @@ class Post extends Equatable {
     this.imageUrl,
   });
   @override
-  List<Object?> get props =>
-      [description, userName, pid, timestamp, userId, imageUrl, countCM, linke];
+  List<Object?> get props => [
+        description,
+        userName,
+        pid,
+        timestamp,
+        userId,
+        imageUrl,
+    
+      ];
 
   Post copyWith(
       {String? description,
@@ -52,7 +58,11 @@ class Post extends Equatable {
         userId: userId,
         timestamp: timestamp,
         imageUrl: imageUrl,
+<<<<<<< HEAD
         countCM: countCM,
         linke: linke,
+=======
+       
+>>>>>>> parent of f16be8b (future likes)
       );
 }
