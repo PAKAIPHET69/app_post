@@ -20,7 +20,6 @@ class PostCard extends StatelessWidget {
         backgroundColor: Colors.black87,
         body: BlocBuilder<PostCubit, PostState>(
           builder: (context, state) {
-            final viewCM = state.listPosts?.length;
             return ListView.builder(
               itemCount: state.listPosts!.length,
               itemBuilder: (context, index) {
@@ -230,11 +229,11 @@ class PostCard extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    // viewCM == null
+                                    // getPostUser.countCM == 0
                                     //     ? Text('')
                                     //     :
                                     Text(
-                                      'View all $viewCM comments',
+                                      'View all ${getPostUser.countCM} comments',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,

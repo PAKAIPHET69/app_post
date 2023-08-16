@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 class GetViewCommentsUsecase {
   final PostRepository postRepository;
   GetViewCommentsUsecase(this.postRepository);
-  Future<List<PostCM>> call({required String pid}) {
+  Future<String?> call({required String pid}) {
     final res = postRepository.getViweCm(postId: pid);
     return res;
   }

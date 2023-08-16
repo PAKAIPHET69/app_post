@@ -11,7 +11,7 @@ abstract class PostRepository {
   Future<Either<Failure, void>> postUsecase(Post post);
   Future<Either<Failure, void>> deletePostUsecase(String pid);
   Future<Either<Failure, void>> updatePostUsecase(Post post);
-  Future<List<PostCM>> getViweCm({required String postId});
+  Future<String?> getViweCm({required String postId});
   Future<String> deleteCommentUsecase({
     required String postId,
     required String commentId,

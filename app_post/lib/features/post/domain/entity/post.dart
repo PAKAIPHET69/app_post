@@ -21,10 +21,29 @@ class Post extends Equatable {
     this.timestamp,
     this.imageUrl,
   });
-
   @override
   List<Object?> get props =>
       [description, userName, pid, timestamp, userId, imageUrl, countCM, linke];
+
+  Post copyWith(
+      {String? description,
+      String? pid,
+      DateTime? timestamp,
+      String? userId,
+      String? imageUrl,
+      String? userName,
+      List? linke,
+      String? countCM}) {
+    return Post(
+        description: description ?? this.description,
+        pid: pid ?? this.pid,
+        timestamp: timestamp ?? this.timestamp,
+        userId: userId ?? this.userId,
+        userName: userName ?? this.userName,
+        countCM: countCM ?? this.countCM,
+        imageUrl: imageUrl ?? this.imageUrl,
+        linke: linke ?? this.linke);
+  }
 
   PostModel toModel() => PostModel(
         userName: userName,
@@ -34,6 +53,6 @@ class Post extends Equatable {
         timestamp: timestamp,
         imageUrl: imageUrl,
         countCM: countCM,
-        linke:linke,
+        linke: linke,
       );
 }

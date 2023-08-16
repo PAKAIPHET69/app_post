@@ -9,7 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:app_post/core/util/register_modules.dart' as _i43;
+import 'package:app_post/core/util/register_modules.dart' as _i44;
 import 'package:app_post/features/follow/data/datasources/follow_remonte_datasources.dart'
     as _i8;
 import 'package:app_post/features/follow/data/repository/follow_repository_impl.dart'
@@ -42,6 +42,7 @@ import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart'
     as _i36;
 import 'package:app_post/features/post/domain/usecases/get_view_comment.dart'
     as _i37;
+import 'package:app_post/features/post/domain/usecases/likes_post.dart' as _i38;
 import 'package:app_post/features/post/domain/usecases/post_usecase.dart'
     as _i19;
 import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart'
@@ -49,7 +50,7 @@ import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart'
 import 'package:app_post/features/post/domain/usecases/upload_image_usecese.dart'
     as _i29;
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart'
-    as _i38;
+    as _i39;
 import 'package:app_post/features/search/data/datasource/search_remote_datasource.dart'
     as _i20;
 import 'package:app_post/features/search/data/repository/searce_repository_impl.dart'
@@ -59,7 +60,7 @@ import 'package:app_post/features/search/domain/repository/search_repository.dar
 import 'package:app_post/features/search/domain/usecase/search_usecase.dart'
     as _i23;
 import 'package:app_post/features/search/persentitioon/cubit/search_cubit.dart'
-    as _i39;
+    as _i40;
 import 'package:app_post/features/signin/data/datasources/signin_remote_datasource.dart'
     as _i25;
 import 'package:app_post/features/signin/data/repository/sigin_repository_impl.dart'
@@ -67,11 +68,11 @@ import 'package:app_post/features/signin/data/repository/sigin_repository_impl.d
 import 'package:app_post/features/signin/domain/repository/signin_repository.dart'
     as _i26;
 import 'package:app_post/features/signin/domain/usecases/sigin_facebook_usecase.dart'
-    as _i41;
-import 'package:app_post/features/signin/domain/usecases/sigin_google_usecase.dart'
-    as _i40;
-import 'package:app_post/features/signin/presentation/cubit/singin_cubit.dart'
     as _i42;
+import 'package:app_post/features/signin/domain/usecases/sigin_google_usecase.dart'
+    as _i41;
+import 'package:app_post/features/signin/presentation/cubit/singin_cubit.dart'
+    as _i43;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i6;
 import 'package:dio/dio.dart' as _i3;
 import 'package:firebase_auth/firebase_auth.dart' as _i5;
@@ -171,7 +172,9 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i36.GetPostsUsecase(gh<_i17.PostRepository>()));
     gh.lazySingleton<_i37.GetViewCommentsUsecase>(
         () => _i37.GetViewCommentsUsecase(gh<_i17.PostRepository>()));
-    gh.factory<_i38.PostCubit>(() => _i38.PostCubit(
+    gh.lazySingleton<_i38.LikesPostUsecase>(
+        () => _i38.LikesPostUsecase(gh<_i17.PostRepository>()));
+    gh.factory<_i39.PostCubit>(() => _i39.PostCubit(
           gh<_i19.PostUsecase>(),
           gh<_i34.GetCurrentUser>(),
           gh<_i29.UploadImageUsecese>(),
@@ -182,19 +185,20 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i35.GetPostCommentsUsecase>(),
           gh<_i31.DeleteCommentUsecase>(),
           gh<_i37.GetViewCommentsUsecase>(),
+          gh<_i38.LikesPostUsecase>(),
         ));
-    gh.factory<_i39.SearchCubit>(
-        () => _i39.SearchCubit(gh<_i23.SearchUsecse>()));
-    gh.lazySingleton<_i40.SigInGoogleUsecase>(
-        () => _i40.SigInGoogleUsecase(gh<_i26.SignInRepository>()));
-    gh.lazySingleton<_i41.SigInfacebookUsecase>(
-        () => _i41.SigInfacebookUsecase(gh<_i26.SignInRepository>()));
-    gh.factory<_i42.SignInCubit>(() => _i42.SignInCubit(
-          gh<_i40.SigInGoogleUsecase>(),
-          gh<_i41.SigInfacebookUsecase>(),
+    gh.factory<_i40.SearchCubit>(
+        () => _i40.SearchCubit(gh<_i23.SearchUsecse>()));
+    gh.lazySingleton<_i41.SigInGoogleUsecase>(
+        () => _i41.SigInGoogleUsecase(gh<_i26.SignInRepository>()));
+    gh.lazySingleton<_i42.SigInfacebookUsecase>(
+        () => _i42.SigInfacebookUsecase(gh<_i26.SignInRepository>()));
+    gh.factory<_i43.SignInCubit>(() => _i43.SignInCubit(
+          gh<_i41.SigInGoogleUsecase>(),
+          gh<_i42.SigInfacebookUsecase>(),
         ));
     return this;
   }
 }
 
-class _$InjectionModule extends _i43.InjectionModule {}
+class _$InjectionModule extends _i44.InjectionModule {}

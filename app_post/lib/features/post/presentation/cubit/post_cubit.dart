@@ -152,18 +152,30 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = getPostsUsecase(NoParams());
     result.listen((post) async {
-      for (var a in post) {
-        final res = await getViewCm(pid: a.pid ?? '');
-        print(res.length.toString());
-      }
-      if (post.isNotEmpty) {
-        emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+      // for (var uid in post) {
+      //   final res = await getViewCm(pid: uid.pid ?? '');
+      //   print(res);
+
+      //   final update = post.map((e) => ))
+      // }
+      List<Post> getList = [];
+      for (var index = 0; index < post.length; index++) {
+        final i = post[index];
+        final countComment = await getViewCm(pid: i.pid ?? '');
+        
+        final updateList = List<Post>.from(post);
+        updateList[index] = i.copyWith(countCM: countComment);
+        getList.add(updateList[index]);
+        if (post.isNotEmpty) {
+          emit(state.copyWith(
+              dataStatus: DataStatus.success, listPosts: getList));
+        }
       }
     });
   }
 
   // Count Comment
-  Future<List<PostCM>> getViewCm({required String pid}) async {
+  Future<String?> getViewCm({required String pid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await getViewCommentsUsecase(pid: pid);
     return result;

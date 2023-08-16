@@ -109,7 +109,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<List<PostCM>> getViweCm({required String postId}) async {
+  Future<String?> getViweCm({required String postId}) async {
     try {
       final res = await postRemoteDatasource.getViewCm(postId: postId);
       return res;

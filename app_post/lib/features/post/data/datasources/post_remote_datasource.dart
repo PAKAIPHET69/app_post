@@ -17,7 +17,7 @@ abstract class PostRemoteDatasource {
   Future<void> savePost(PostModel postModel);
   Future<void> deletePost(String idPost);
   Future<void> updatePost(PostModel postModel);
-  Future<List<PostCMModel>> getViewCm({required String postId});
+  Future<String?> getViewCm({required String postId});
   Future<String> postComment(
       {required String postId,
       required String text,
@@ -205,17 +205,20 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   @override
-  Future<List<PostCMModel>> getViewCm({required String postId}) async {
+  Future<String> getViewCm({required String postId}) async {
     try {
-      QuerySnapshot snap = await fireStore
+      final snap = await fireStore
           .collection('posts')
           .doc(postId)
           .collection('comments')
           .get();
-      List<PostCMModel> userposts = snap.docs.map((doc) {
-        return PostCMModel.fromJson(doc.data() as Map<String, dynamic>);
-      }).toList();
-      return userposts;
+      final res = snap.docs.map((e) => PostCMModel.fromJson(e.data())).toList();
+      final countCM = res.length.toString();
+      if (countCM == null) {
+        return '0';
+      } else {
+        return countCM;
+      }
     } catch (e) {
       throw ServerException(e.toString());
     }
