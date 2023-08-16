@@ -15,6 +15,8 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
           : DateTime.parse(json['timestamp'] as String),
       imageUrl: json['imageUrl'] as String?,
       userName: json['userName'] as String?,
+      likes:
+          (json['likes'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
@@ -24,6 +26,7 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'userId': instance.userId,
       'imageUrl': instance.imageUrl,
       'userName': instance.userName,
+      'likes': instance.likes,
     };
 
 PostCMModel _$PostCMModelFromJson(Map<String, dynamic> json) => PostCMModel(

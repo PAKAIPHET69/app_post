@@ -215,7 +215,10 @@ class PostCard extends StatelessWidget {
                                     Row(
                                       children: [
                                         IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            btnCubit.likesPost(
+                                                postId: getPostUser.pid ?? '');
+                                          },
                                           icon: Icon(Icons.favorite_border),
                                         ),
                                         IconButton(
@@ -233,7 +236,7 @@ class PostCard extends StatelessWidget {
                                     //     ? Text('')
                                     //     :
                                     Text(
-                                      'View all ${getPostUser.countCM} comments',
+                                      'View all  comments',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,

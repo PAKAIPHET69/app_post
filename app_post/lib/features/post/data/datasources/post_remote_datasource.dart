@@ -17,20 +17,29 @@ abstract class PostRemoteDatasource {
   Future<void> savePost(PostModel postModel);
   Future<void> deletePost(String idPost);
   Future<void> updatePost(PostModel postModel);
-  Future<String?> getViewCm({required String postId});
-  Future<String> postComment(
-      {required String postId,
-      required String text,
-      required String uid,
-      required String name});
-  Future<String> deletePostCM({
-    required String postId,
-    required String commentId,
-  });
+  Future<String> getViewCm({required String postId});
   Future<String> uploadImageToStorage(File imageFile);
   Stream<List<PostModel>> getUserPosts();
   Stream<List<PostCMModel>> getPostComments({required String pId});
   User getCurrentUser();
+
+  Future<String> likesPost({
+    required String postId,
+    required String uid,
+    required String likes,
+  });
+
+  Future<String> postComment({
+    required String postId,
+    required String text,
+    required String uid,
+    required String name,
+  });
+
+  Future<String> deletePostCM({
+    required String postId,
+    required String commentId,
+  });
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -209,7 +218,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
           .get();
       final res = snap.docs.map((e) => PostCMModel.fromJson(e.data())).toList();
       final countCM = res.length.toString();
-      if (countCM == null) {
+      if (countCM.isEmpty) {
         return '0';
       } else {
         return countCM;
@@ -220,10 +229,11 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }
 
   /// Likes
-  Future<String> likePost({
+  @override
+  Future<String> likesPost({
     required String postId,
     required String uid,
-    required List likes,
+    required String likes,
   }) async {
     String res = "Some error occurred";
     try {

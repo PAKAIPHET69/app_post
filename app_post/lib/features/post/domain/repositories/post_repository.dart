@@ -12,17 +12,26 @@ abstract class PostRepository {
   Future<Either<Failure, void>> deletePostUsecase(String pid);
   Future<Either<Failure, void>> updatePostUsecase(Post post);
   Future<String?> getViweCm({required String postId});
-  Future<String> deleteCommentUsecase({
-    required String postId,
-    required String commentId,
-  });
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile);
   Stream<List<Post>> getPostUsecase();
   Stream<List<PostCM>> getPostCommentsUsecase({required String pId});
   User getCurrentUser();
-  Future<String> commentUsecase(
-      {required String postId,
-      required String text,
-      required String uid,
-      required String name});
+
+  Future<String> deleteCommentUsecase({
+    required String postId,
+    required String commentId,
+  });
+
+  Future<String> likePost({
+    required String postId,
+    required String uid,
+    required String likes,
+  });
+
+  Future<String> commentUsecase({
+    required String postId,
+    required String text,
+    required String uid,
+    required String name,
+  });
 }

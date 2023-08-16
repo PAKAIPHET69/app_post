@@ -1,4 +1,3 @@
-import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/domain/repositories/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
