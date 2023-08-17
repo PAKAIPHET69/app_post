@@ -2,6 +2,7 @@
 
 import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/colors.dart';
+import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/search/persentitioon/cubit/search_cubit.dart';
 import 'package:app_post/features/search/persentitioon/cubit/search_state.dart';
@@ -38,33 +39,35 @@ class SearchPage extends StatelessWidget {
               ),
             ),
           ),
-          body: ListView.builder(
-            itemCount: searchResults?.length,
-            itemBuilder: (context, index) {
-              final listUser = searchResults?[index];
-              return InkWell(
-                onTap: () {
-                  User sendParams = User(
-                      uid: listUser?.uid ?? '',
-                      displayName: listUser?.displayName ?? '',
-                      followers: listUser?.followers,
-                      following: listUser?.following);
-                  AppNavigator.navigateTo(AppRoute.profileUserRoute,
-                      params: sendParams);
-                },
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: Icon(Icons.person),
-                    radius: 18,
-                  ),
-                  title: Text(
-                    listUser?.displayName ?? '',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+          body: state.dataStatus == DataStatus.loading
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: searchResults?.length,
+                  itemBuilder: (context, index) {
+                    final listUser = searchResults?[index];
+                    return InkWell(
+                      onTap: () {
+                        User sendParams = User(
+                            uid: listUser?.uid ?? '',
+                            displayName: listUser?.displayName ?? '',
+                            followers: listUser?.followers,
+                            following: listUser?.following);
+                        AppNavigator.navigateTo(AppRoute.profileUserRoute,
+                            params: sendParams);
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Icon(Icons.person),
+                          radius: 18,
+                        ),
+                        title: Text(
+                          listUser?.displayName ?? '',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
         );
       },
     );

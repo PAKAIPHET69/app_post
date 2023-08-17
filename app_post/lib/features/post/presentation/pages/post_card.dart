@@ -214,7 +214,7 @@ class PostCard extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 4),
+                                          0, 0, 10, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -243,16 +243,15 @@ class PostCard extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          // getPostUser.countCM == 0
-                                          //     ? Text('')
-                                          //     :
-                                          Text(
-                                            'View all ${getPostUser.countCM} comments',
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey,
-                                            ),
-                                          )
+                                          getPostUser.countCM == "0"
+                                              ? Text('')
+                                              : Text(
+                                                  'View all ${getPostUser.countCM} comments',
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey,
+                                                  ),
+                                                )
                                         ],
                                       ),
                                     ),

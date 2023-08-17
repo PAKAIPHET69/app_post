@@ -237,6 +237,9 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   }) async {
     String res = "Some error occurred";
     try {
+      DocumentSnapshot snapshot =
+          await fireStore.collection('posts').doc(postId).get();
+      List likes = (snapshot.data()! as dynamic)['likes'];
       if (likes.contains(uid)) {
         // if the likes list contains the user uid, we need to remove it
         fireStore.collection('posts').doc(postId).update({

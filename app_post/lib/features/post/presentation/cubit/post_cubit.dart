@@ -151,14 +151,17 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = getPostsUsecase(NoParams());
     result.listen((post) async {
+      // List<Post> getList = [];
       // for (var index = 0; index < post.length; index++) {
       //   final i = post[index];
       //   final countComment = await getViewCm(pid: i.pid ?? '');
       //   final updateList = List<Post>.from(post);
       //   updateList[index] = i.copyWith(countCM: countComment);
-      //   print(countComment);
+
+      //   getList.add(updateList[index]);
       //   if (post.isNotEmpty) {
-      //     emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+      //     emit(state.copyWith(
+      //         dataStatus: DataStatus.success, listPosts: getList));
       //   }
       // }
       if (post.isNotEmpty) {
