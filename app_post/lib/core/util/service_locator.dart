@@ -11,10 +11,9 @@ final getIt = GetIt.instance;
 @injectableInit
 Future<void> configureDependencies() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //initialize navigator
   AppNavigator();
   //initialize dependencies
   await getIt.init();
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }

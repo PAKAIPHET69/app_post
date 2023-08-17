@@ -1,6 +1,7 @@
 import 'package:app_post/features/signin/data/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -12,6 +13,7 @@ abstract class SignInDatasource {
   Future<UserModel> signInWithFacebook();
   Future<void> logOutAuth();
   Future<void> saveUser(UserModel userModel);
+  Future<void> initNotification();
 }
 
 @LazySingleton(as: SignInDatasource)
@@ -20,9 +22,10 @@ class SignInRemoteDatasource implements SignInDatasource {
   final FacebookAuth _facebookAuth;
   final FirebaseAuth _auth;
   final FirebaseFirestore _fireStore;
+  final FirebaseMessaging _fcmToken;
 
-  SignInRemoteDatasource(
-      this._googleSignIn, this._facebookAuth, this._auth, this._fireStore);
+  SignInRemoteDatasource(this._googleSignIn, this._facebookAuth, this._auth,
+      this._fireStore, this._fcmToken);
 
   @override
   Future<UserModel> signInWithGoogle() async {
@@ -98,5 +101,12 @@ class SignInRemoteDatasource implements SignInDatasource {
     } catch (e) {
       throw ServerException(e.toString());
     }
+  }
+
+  @override
+  Future<void> initNotification() async {
+    await _fcmToken.requestPermission();
+    final fcmToken = await _fcmToken.getToken();
+    print('token : $fcmToken');
   }
 }
