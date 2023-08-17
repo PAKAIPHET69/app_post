@@ -12,7 +12,7 @@ class PostModel extends Post {
     DateTime? timestamp,
     String? imageUrl,
     String? userName,
-    List<String>? likes,
+    List? likes,
   }) : super(
           likes: likes,
           userName: userName,

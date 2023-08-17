@@ -80,7 +80,6 @@ class PostCubit extends Cubit<PostState> {
       userName: state.currentUser?.displayName,
       userId: state.currentUser?.uid, //From current user that logged in
       pid: getData,
-      likes: [],
       imageUrl: newUrl,
       timestamp: DateTime.now(),
       description: descipController, //From textfield
@@ -106,6 +105,7 @@ class PostCubit extends Cubit<PostState> {
       userName: state.currentUser?.displayName,
       userId: state.currentUser?.uid, //From current user that logged in
       pid: postId,
+      likes: [],
       imageUrl: url,
       timestamp: DateTime.now(),
       description: descipController, //From textfield
@@ -151,21 +151,24 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = getPostsUsecase(NoParams());
     result.listen((post) async {
-      emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
-      // for (var uid in post) {
-      //   final res = await getViewCm(pid: uid.pid ?? '');
-      //   print(res);
-
-      //   final update = post.map((e) => ))
+      // for (var index = 0; index < post.length; index++) {
+      //   final i = post[index];
+      //   final countComment = await getViewCm(pid: i.pid ?? '');
+      //   final updateList = List<Post>.from(post);
+      //   updateList[index] = i.copyWith(countCM: countComment);
+      //   print(countComment);
+      //   if (post.isNotEmpty) {
+      //     emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+      //   }
       // }
-      // if (post.isNotEmpty) {
-      //   emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
-      // }
+      if (post.isNotEmpty) {
+        emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+      }
     });
   }
 
   // Count Comment
-  Future<String?> getViewCm({required String pid}) async {
+  Future<String> getViewCm({required String pid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await getViewCommentsUsecase(pid: pid);
     return result;

@@ -8,7 +8,8 @@ class Post extends Equatable {
   final String? userId;
   final String? imageUrl;
   final String? userName;
-  final List<String>? likes;
+  final List? likes;
+  final String? countCM;
 
   const Post({
     this.likes,
@@ -18,6 +19,7 @@ class Post extends Equatable {
     this.pid,
     this.timestamp,
     this.imageUrl,
+    this.countCM,
   });
   @override
   List<Object?> get props => [
@@ -37,17 +39,17 @@ class Post extends Equatable {
       String? userId,
       String? imageUrl,
       String? userName,
-      List<String>? likes,
+      List? likes,
       String? countCM}) {
     return Post(
-      description: description ?? this.description,
-      pid: pid ?? this.pid,
-      timestamp: timestamp ?? this.timestamp,
-      userId: userId ?? this.userId,
-      userName: userName ?? this.userName,
-      imageUrl: imageUrl ?? this.imageUrl,
-      likes: likes?? this.likes,
-    );
+        description: description ?? this.description,
+        pid: pid ?? this.pid,
+        timestamp: timestamp ?? this.timestamp,
+        userId: userId ?? this.userId,
+        userName: userName ?? this.userName,
+        imageUrl: imageUrl ?? this.imageUrl,
+        likes: likes ?? this.likes,
+        countCM: countCM ?? this.countCM);
   }
 
   PostModel toModel() => PostModel(
@@ -57,6 +59,6 @@ class Post extends Equatable {
         userId: userId,
         timestamp: timestamp,
         imageUrl: imageUrl,
-        likes:likes,
+        likes: likes,
       );
 }

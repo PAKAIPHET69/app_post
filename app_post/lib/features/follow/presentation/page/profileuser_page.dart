@@ -65,9 +65,7 @@ class ProfileUserPage extends StatelessWidget {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                        getDataUser.followers!.length
-                                            .toString(),
+                                    Text('0',
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -79,9 +77,7 @@ class ProfileUserPage extends StatelessWidget {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                        getDataUser.following!.length
-                                            .toString(),
+                                    Text('0',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,

@@ -14,11 +14,11 @@ class AddPostPage extends StatelessWidget {
     PostCubit postUpCubit = context.read<PostCubit>();
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
-        if (state.dataStatus == DataStatus.loading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+        // if (state.dataStatus == DataStatus.loading) {
+        //   return Center(
+        //     child: CircularProgressIndicator(),
+        //   );
+        // }
         return Scaffold(
           appBar: AppBar(
               backgroundColor: Colors.black,
@@ -40,39 +40,41 @@ class AddPostPage extends StatelessWidget {
                   ),
                 ),
               ]),
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: postUpCubit.descipController,
-                    decoration: InputDecoration(
-                        hintText: "Write a caption...",
-                        border: OutlineInputBorder()),
-                    maxLines: 3,
+          body: state.dataStatus == DataStatus.loading
+              ? Center(child: CircularProgressIndicator())
+              : SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: postUpCubit.descipController,
+                          decoration: InputDecoration(
+                              hintText: "Write a caption...",
+                              border: OutlineInputBorder()),
+                          maxLines: 3,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            _dialogBuilder(context);
+                          },
+                          child: Text('Add Image'),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        state.imageFile != null
+                            ? Image.file(
+                                (state.imageFile!),
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                                height: 300,
+                              )
+                            : Container()
+                      ],
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _dialogBuilder(context);
-                    },
-                    child: Text('Add Image'),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  state.imageFile != null
-                      ? Image.file(
-                          (state.imageFile!),
-                          fit: BoxFit.cover,
-                          width: MediaQuery.of(context).size.width,
-                          height: 300,
-                        )
-                      : Container()
-                ],
-              ),
-            ),
-          ),
+                ),
         );
       },
     );

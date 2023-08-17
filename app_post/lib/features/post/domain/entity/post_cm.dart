@@ -7,7 +7,7 @@ class PostCM extends Equatable {
   final DateTime? timestamp;
   final String? uid;
   final String? name;
-  final List<String>? viewCM;
+  final List? viewCM;
 
   const PostCM({
     this.viewCM,
@@ -27,7 +27,7 @@ class PostCM extends Equatable {
         name,
       ];
   PostCM copyWith({
-    List<String>? viewCM,
+    List? viewCM,
     String? text,
     String? commentId,
     DateTime? timestamp,
