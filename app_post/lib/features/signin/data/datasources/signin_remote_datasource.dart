@@ -13,7 +13,7 @@ abstract class SignInDatasource {
   Future<UserModel> signInWithFacebook();
   Future<void> logOutAuth();
   Future<void> saveUser(UserModel userModel);
-  Future<void> initNotification();
+  Future<String?> getToken();
 }
 
 @LazySingleton(as: SignInDatasource)
@@ -22,10 +22,10 @@ class SignInRemoteDatasource implements SignInDatasource {
   final FacebookAuth _facebookAuth;
   final FirebaseAuth _auth;
   final FirebaseFirestore _fireStore;
-  final FirebaseMessaging _fcmToken;
+  final FirebaseMessaging messaging;
 
   SignInRemoteDatasource(this._googleSignIn, this._facebookAuth, this._auth,
-      this._fireStore, this._fcmToken);
+      this._fireStore, this.messaging);
 
   @override
   Future<UserModel> signInWithGoogle() async {
@@ -104,9 +104,15 @@ class SignInRemoteDatasource implements SignInDatasource {
   }
 
   @override
-  Future<void> initNotification() async {
-    await _fcmToken.requestPermission();
-    final fcmToken = await _fcmToken.getToken();
-    print('token : $fcmToken');
+  Future<String?> getToken() async {
+    try {
+      final res = await messaging.getToken();
+      print(res);
+      return res;
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message.toString());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 }

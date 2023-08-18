@@ -29,17 +29,18 @@ import '../../domain/usecases/upload_image_usecese.dart';
 
 @injectable
 class PostCubit extends Cubit<PostState> {
-  final PostUsecase postUsecase;
-  final GetCurrentUser getCurrentUserUsecase;
+  final PostUsecase postUsecase; 
   final UploadImageUsecese uploadImageUsecese;
+  final GetCurrentUser getCurrentUserUsecase;
   final GetPostCommentsUsecase getPostCommentsUsecase;
   final GetPostsUsecase getPostsUsecase;
+  final GetViewCommentsUsecase getViewCommentsUsecase;
   final DeletePostUsecase deletePostUsecase;
   final DeleteCommentUsecase deleteCommentUsecase;
   final UpdatePostUsecase updatePostUsecase;
   final CommentUsecase commentUsecase;
   final LikesPostUsecase likesPostUsecase;
-  final GetViewCommentsUsecase getViewCommentsUsecase;
+  
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,

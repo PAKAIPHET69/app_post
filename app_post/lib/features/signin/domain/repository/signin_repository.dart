@@ -5,4 +5,5 @@ import 'package:dartz/dartz.dart';
 abstract class SignInRepository {
   Future<Either<Failure, User>> signedInGoogle();
   Future<Either<Failure, User>> signedInFacebook();
+  Future<Either<Failure, String?>> getToken();
 }

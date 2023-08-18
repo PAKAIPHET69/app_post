@@ -32,5 +32,6 @@ abstract class InjectionModule {
   FacebookAuth get facebookAuth => FacebookAuth.instance;
   FirebaseFirestore get fireStore => FirebaseFirestore.instance;
   FirebaseStorage get storage => FirebaseStorage.instance;
-  FirebaseMessaging get fcmToken => FirebaseMessaging.instance;
+  FirebaseMessaging get messaging => FirebaseMessaging.instance;
+  
 }

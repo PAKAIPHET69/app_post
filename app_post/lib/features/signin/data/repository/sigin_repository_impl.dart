@@ -38,4 +38,16 @@ class SignInRepositoryImpl implements SignInRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+  
+  @override
+  Future<Either<Failure, String?>> getToken() async{
+    try {
+      final res = await signInRemoteDatasource.getToken();
+      return Right(res);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.toString()));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }
