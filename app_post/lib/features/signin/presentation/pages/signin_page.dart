@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 import 'package:app_post/features/signin/presentation/cubit/singin_state.dart';
 import 'package:awesome_icons/awesome_icons.dart';
@@ -25,12 +25,17 @@ class SignInPage extends StatelessWidget {
               );
             }
             return Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 32),
                   child: Container(
                     width: double.infinity,
-                    height: 250,
+                    height: 180,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Image.asset('assets/images/logo.png'),
                   ),
                 ),
@@ -39,11 +44,11 @@ class SignInPage extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white60,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Colors.grey,
-                        width: 0,
+                        color: Colors.black26,
+                        width: 2,
                       ),
                     ),
                     child: Align(
@@ -54,7 +59,7 @@ class SignInPage extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Sign In',
                               style: TextStyle(
                                 color: Colors.black,
@@ -62,73 +67,112 @@ class SignInPage extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            Text(
-                              'Sign in with your Google or Facebook account.',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Color(0xFF636F81),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                            const Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 12, 0, 24),
+                              child: Text(
+                                'Sign in with your Google or Facebook account.',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: Color(0xFF636F81),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.red,
-                                  minimumSize: const Size(double.infinity, 50)),
-                              onPressed: () {
-                                context.read<SignInCubit>().signInWithGoogle();
-                              },
-                              child: Row(
-                                children: [
-                                  const Icon(FontAwesomeIcons.google),
-                                  const SizedBox(width: 15),
-                                  const Text(
-                                    'Continue with Google',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
+                            Align(
+                              alignment: const AlignmentDirectional(0, 0),
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 0, 16),
+                                child: Column(
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: Colors.red,
+                                          minimumSize:
+                                              const Size(double.infinity, 50)),
+                                      onPressed: () {
+                                        context
+                                            .read<SignInCubit>()
+                                            .signInWithGoogle();
+                                      },
+                                      child: const Center(
+                                        child: Row(
+                                          children: [
+                                            Icon(FontAwesomeIcons.google),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Text(
+                                              'Sign in with Google',
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            SizedBox(height: 15),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.blue,
-                                  minimumSize: const Size(double.infinity, 50)),
-                              onPressed: () {
-                                context
-                                    .read<SignInCubit>()
-                                    .signInWithFacebook();
-                              },
-                              child: Row(
-                                children: [
-                                  const Icon(FontAwesomeIcons.facebook),
-                                  const SizedBox(width: 15),
-                                  const Text(
-                                    'Continue with Facebook',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
+                            Align(
+                              alignment: const AlignmentDirectional(0, 0),
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 0, 16),
+                                child: Column(
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                          minimumSize:
+                                              const Size(double.infinity, 50)),
+                                      onPressed: () {
+                                        context
+                                            .read<SignInCubit>()
+                                            .signInWithFacebook();
+                                      },
+                                      child: const Center(
+                                        child: Row(
+                                          children: [
+                                            Icon(FontAwesomeIcons.facebook),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Text(
+                                              'Continue with Facebook',
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Don\'t have an account?',
-                                  style: TextStyle(
-                                    color: Color(0xFF161C24),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 4, 0, 4),
+                                  child: Text(
+                                    'Don\'t have an account?',
+                                    style: TextStyle(
+                                      color: Color(0xFF161C24),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () {},
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 4, 0, 4),
                                   child: Text(
                                     'Sign Up',
                                     style: TextStyle(
