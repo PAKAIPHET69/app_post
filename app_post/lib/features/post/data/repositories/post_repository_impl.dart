@@ -34,6 +34,12 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
+  Stream<List<User>> getFollow() {
+    final result = postRemoteDatasource.getFollow();
+    return result;
+  }
+
+  @override
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile) async {
     try {
       final ref = await postRemoteDatasource.uploadImageToStorage(imageFile);

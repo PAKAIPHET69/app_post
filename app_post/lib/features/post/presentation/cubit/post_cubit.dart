@@ -11,6 +11,7 @@ import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/domain/usecases/comments_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/delete_comment.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
+import 'package:app_post/features/post/domain/usecases/get_follow.dart';
 import 'package:app_post/features/post/domain/usecases/get_post_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_view_comment.dart';
@@ -29,7 +30,7 @@ import '../../domain/usecases/upload_image_usecese.dart';
 
 @injectable
 class PostCubit extends Cubit<PostState> {
-  final PostUsecase postUsecase; 
+  final PostUsecase postUsecase;
   final UploadImageUsecese uploadImageUsecese;
   final GetCurrentUser getCurrentUserUsecase;
   final GetPostCommentsUsecase getPostCommentsUsecase;
@@ -40,7 +41,8 @@ class PostCubit extends Cubit<PostState> {
   final UpdatePostUsecase updatePostUsecase;
   final CommentUsecase commentUsecase;
   final LikesPostUsecase likesPostUsecase;
-  
+  final GetFollowUsecase getFollowUsecase;
+
   PostCubit(
     this.postUsecase,
     this.getCurrentUserUsecase,
@@ -53,6 +55,7 @@ class PostCubit extends Cubit<PostState> {
     this.deleteCommentUsecase,
     this.getViewCommentsUsecase,
     this.likesPostUsecase,
+    this.getFollowUsecase,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
 
@@ -145,6 +148,14 @@ class PostCubit extends Cubit<PostState> {
       });
     }
     return url;
+  }
+
+  Future<void> getFollow() async {
+    emit(state.copyWith(dataStatus: DataStatus.loading));
+    final result = getFollowUsecase(NoParams());
+    result.listen((follow) {
+      emit(state.copyWith(dataStatus: DataStatus.success, listUser: follow));
+    });
   }
 
   /// Get Post from  clouad_firestore ///

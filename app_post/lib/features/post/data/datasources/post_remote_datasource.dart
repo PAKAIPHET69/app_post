@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements, await_only_futures
 
 import 'dart:io';
+import 'package:app_post/features/signin/data/model/user_model.dart';
 import 'package:path/path.dart' as path;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +22,7 @@ abstract class PostRemoteDatasource {
   Future<String> uploadImageToStorage(File imageFile);
   Stream<List<PostModel>> getUserPosts();
   Stream<List<PostCMModel>> getPostComments({required String pId});
+  Stream<List<UserModel>> getFollow();
   User getCurrentUser();
 
   Future<String> likesPost({
@@ -92,15 +94,23 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     try {
       final userData = auth.currentUser;
       return User(
-        uid: userData?.uid,
-        displayName: userData?.displayName,
-        email: userData?.email,
-      );
+          uid: userData?.uid,
+          displayName: userData?.displayName,
+          email: userData?.email);
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {
       throw ServerException(e.toString());
     }
+  }
+
+  @override
+  Stream<List<UserModel>> getFollow() {
+    final snapshot = fireStore.collection('users').snapshots();
+    Stream<List<UserModel>> userfollow = snapshot.map((event) {
+      return event.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    });
+    return userfollow;
   }
 
   /// Get UserPosts ///

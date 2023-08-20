@@ -1,6 +1,7 @@
 import 'package:app_post/features/signin/data/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -12,10 +13,7 @@ abstract class SignInDatasource {
   Future<UserModel> signInWithFacebook();
   Future<void> logOutAuth();
   Future<void> saveUser(UserModel userModel);
-<<<<<<< HEAD
   Future<String?> getToken();
-=======
->>>>>>> parent of 8cc90f7 (save)
 }
 
 @LazySingleton(as: SignInDatasource)
@@ -24,16 +22,10 @@ class SignInRemoteDatasource implements SignInDatasource {
   final FacebookAuth _facebookAuth;
   final FirebaseAuth _auth;
   final FirebaseFirestore _fireStore;
-<<<<<<< HEAD
   final FirebaseMessaging messaging;
 
   SignInRemoteDatasource(this._googleSignIn, this._facebookAuth, this._auth,
       this._fireStore, this.messaging);
-=======
-
-  SignInRemoteDatasource(
-      this._googleSignIn, this._facebookAuth, this._auth, this._fireStore);
->>>>>>> parent of 8cc90f7 (save)
 
   @override
   Future<UserModel> signInWithGoogle() async {
@@ -110,7 +102,6 @@ class SignInRemoteDatasource implements SignInDatasource {
       throw ServerException(e.toString());
     }
   }
-<<<<<<< HEAD
 
   @override
   Future<String?> getToken() async {
@@ -124,6 +115,4 @@ class SignInRemoteDatasource implements SignInDatasource {
       throw ServerException(e.toString());
     }
   }
-=======
->>>>>>> parent of 8cc90f7 (save)
 }

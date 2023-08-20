@@ -14,11 +14,13 @@ class PostState extends Equatable {
   final User? currentUser;
   final File? imageFile;
   final List<Post>? listPosts;
+  final List<User>? listUser;
   final List<PostCM>? listPostCM;
   final List? countCM;
   final String? delePid;
 
   const PostState({
+    this.listUser,
     this.listPostCM,
     this.imageFile,
     this.dataStatus,
@@ -49,6 +51,7 @@ class PostState extends Equatable {
     User? currentUser,
     File? imageFile,
     List<Post>? listPosts,
+    List<User>? listUser,
     List<PostCM>? listPostCM,
     List? countCM,
     String? delePid,
@@ -62,6 +65,7 @@ class PostState extends Equatable {
         delePid: delePid ?? this.delePid,
         listPostCM: listPostCM ?? this.listPostCM,
         listPosts: listPosts ?? this.listPosts,
-        countCM: countCM ?? this.countCM);
+        countCM: countCM ?? this.countCM,
+        listUser: listUser ?? this.listUser);
   }
 }

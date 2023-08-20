@@ -20,7 +20,7 @@ class CommentPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: appbarColor,
-            title: const Text(
+            title: Text(
               'Comments',
             ),
             centerTitle: false,
@@ -40,9 +40,7 @@ class CommentPage extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/logo.png'),
-                    backgroundColor: Colors.grey,
-                    radius: 18,
+                    child: Icon(Icons.person),
                   ),
                   Expanded(
                     child: Padding(

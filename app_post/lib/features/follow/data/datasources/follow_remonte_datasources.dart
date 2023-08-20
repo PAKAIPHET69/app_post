@@ -56,30 +56,13 @@ class FollowDatasourceImpl implements FollowRemoteDatasoource {
       return User(
           uid: userData?.uid,
           displayName: userData?.displayName,
-          email: userData?.email,
-          followers: [],
-          following: []);
+          email: userData?.email);
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {
       throw ServerException(e.toString());
     }
   }
-
-  // @override
-  // getCountFollower({required String uid}) async {
-  //   try {
-  //     final count = await fireStore
-  //         .collection('users')
-  //         .doc(uid)
-  //         .collection('followers')
-  //         .count()
-  //         .get();
-  //     return count;
-  //   } catch (e) {
-  //     ServerException(e.toString());
-  //   }
-  // }
 
   @override
   Stream<List<UserModel>> geDataFollow({required String uid}) {

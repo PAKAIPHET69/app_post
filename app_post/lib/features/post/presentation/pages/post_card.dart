@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:app_post/core/util/app_navigator.dart';
+import 'package:app_post/core/util/colors.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
@@ -17,7 +18,7 @@ class PostCard extends StatelessWidget {
     PostCubit btnCubit = context.read<PostCubit>();
 
     return Scaffold(
-        backgroundColor: Colors.black87,
+        backgroundColor: primaryColor,
         body: BlocBuilder<PostCubit, PostState>(
           builder: (context, state) {
             return state.listPosts == null
@@ -33,26 +34,26 @@ class PostCard extends StatelessWidget {
                           children: [
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
+                                  EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 0.96,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
                                     BoxShadow(
-                                      blurRadius: 4,
-                                      color: Colors.black38,
+                                      blurRadius: 10,
+                                      color: Colors.grey,
                                       offset: Offset(0, 2),
                                     )
                                   ],
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(0),
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Container(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          10, 8, 0, 0),
+                                          10, 10, 0, 0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
@@ -171,20 +172,16 @@ class PostCard extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          12, 4, 12, 0),
+                                          10, 5, 10, 5),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 8),
-                                              child: Text(
-                                                getPostUser.description ?? '',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16),
-                                              ),
+                                            child: Text(
+                                              getPostUser.description ?? '',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16),
                                             ),
                                           ),
                                         ],
@@ -202,16 +199,17 @@ class PostCard extends StatelessWidget {
                                               getPostUser.imageUrl ?? '',
                                               width: MediaQuery.sizeOf(context)
                                                   .width,
-                                              height: 200,
+                                              height: 450,
                                               fit: BoxFit.cover,
                                             )
                                           : Container(),
                                     ),
                                     Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      color: Color.fromARGB(255, 191, 190, 190),
-                                    ),
+                                        height: 0,
+                                        thickness: 1,
+                                        indent: 5,
+                                        endIndent: 5,
+                                        color: Colors.grey),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 10, 0),
@@ -223,17 +221,24 @@ class PostCard extends StatelessWidget {
                                           Row(
                                             children: [
                                               IconButton(
+                                                icon: getPostUser.likes!
+                                                        .contains(
+                                                            getCurrenteUser.uid)
+                                                    ? const Icon(
+                                                        Icons.favorite,
+                                                        color: Colors.red,
+                                                      )
+                                                    : const Icon(
+                                                        Icons.favorite,
+                                                      ),
                                                 onPressed: () {
                                                   btnCubit.likesPost(
                                                       postId: getPostUser.pid ??
                                                           '');
                                                 },
-                                                icon:
-                                                    Icon(Icons.favorite_border),
                                               ),
                                               IconButton(
-                                                icon: Icon(Icons
-                                                    .mode_comment_outlined),
+                                                icon: Icon(Icons.chat),
                                                 onPressed: () {
                                                   AppNavigator.navigateTo(
                                                       AppRoute.commentRoute,
