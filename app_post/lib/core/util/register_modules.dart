@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -32,6 +31,9 @@ abstract class InjectionModule {
   FacebookAuth get facebookAuth => FacebookAuth.instance;
   FirebaseFirestore get fireStore => FirebaseFirestore.instance;
   FirebaseStorage get storage => FirebaseStorage.instance;
+<<<<<<< HEAD
   FirebaseMessaging get messaging => FirebaseMessaging.instance;
   
+=======
+>>>>>>> parent of 8cc90f7 (save)
 }

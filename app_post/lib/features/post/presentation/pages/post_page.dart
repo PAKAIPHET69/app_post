@@ -17,7 +17,6 @@ class PostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
-        // state.dataStatus == DataStatus.loading;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: appbarColor,
@@ -30,9 +29,8 @@ class PostPage extends StatelessWidget {
           ),
           body: state.dataStatus == DataStatus.loading
               ? const PostCard()
-              :
               // ? Center(child: CircularProgressIndicator())
-              const PostCard(),
+              : const PostCard(),
         );
       },
     );

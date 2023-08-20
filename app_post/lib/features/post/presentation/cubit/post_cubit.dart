@@ -165,9 +165,6 @@ class PostCubit extends Cubit<PostState> {
       //         dataStatus: DataStatus.success, listPosts: getList));
       //   }
       // }
-      for (var postid in post) {
-        await getViewCm(pid: postid.pid ?? '');
-      }
       if (post.isNotEmpty) {
         emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
       }
@@ -175,11 +172,10 @@ class PostCubit extends Cubit<PostState> {
   }
 
   // Count Comment
-  Future<void> getViewCm({required String pid}) async {
+  Future<String> getViewCm({required String pid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await getViewCommentsUsecase(pid: pid);
-    emit(state.copyWith(dataStatus: DataStatus.success, countCM: result));
-    result;
+    return result;
   }
 
   ////Get CurrenUser ///
@@ -188,7 +184,10 @@ class PostCubit extends Cubit<PostState> {
       dataStatus: DataStatus.loading,
     ));
     final res = getCurrentUserUsecase(NoParams());
-    emit(state.copyWith(dataStatus: DataStatus.success, currentUser: res));
+    emit(state.copyWith(
+      dataStatus: DataStatus.success,
+      currentUser: res,
+    ));
   }
 
   ///Post Comment

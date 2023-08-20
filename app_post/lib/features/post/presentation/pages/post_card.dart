@@ -229,13 +229,6 @@ class PostCard extends StatelessWidget {
                                                           '');
                                                 },
                                                 icon:
-                                                    // getPostUser.likes ==
-                                                    //         getCurrenteUser.uid
-                                                    //     ? Icon(
-                                                    //         Icons.favorite,
-                                                    //         color: Colors.red,
-                                                    //       )
-                                                    //     :
                                                     Icon(Icons.favorite_border),
                                               ),
                                               IconButton(
@@ -250,16 +243,15 @@ class PostCard extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          // getPostUser.countCM == "0"
-                                          //     ? Text('')
-                                          //     :
-                                          Text(
-                                            'View all ${getPostUser.countCM} comments',
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey,
-                                            ),
-                                          )
+                                          getPostUser.countCM == "0"
+                                              ? Text('')
+                                              : Text(
+                                                  'View all ${getPostUser.countCM} comments',
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey,
+                                                  ),
+                                                )
                                         ],
                                       ),
                                     ),

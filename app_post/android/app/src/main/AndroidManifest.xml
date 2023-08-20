@@ -38,6 +38,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+<<<<<<< HEAD
         <meta-data android:name="firebase_messaging_auto_init_enabled"
          android:value="false" />
         <meta-data android:name="firebase_analytics_collection_enabled"
@@ -50,6 +51,8 @@
                 </intent-filter>
         </service>
 
+=======
+>>>>>>> parent of 8cc90f7 (save)
         
     </application>
 </manifest>
