@@ -23,7 +23,6 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> signInWithGoogle() async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await sigInGoogleUsecase(NoParams());
-    await getTokenUsecase(NoParams());
     result.fold((error) {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
     }, (user) {
