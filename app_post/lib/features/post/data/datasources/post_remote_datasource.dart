@@ -22,7 +22,7 @@ abstract class PostRemoteDatasource {
   Future<String> uploadImageToStorage(File imageFile);
   Stream<List<PostModel>> getUserPosts();
   Stream<List<PostCMModel>> getPostComments({required String pId});
-  Stream<List<UserModel>> getFollow();
+  Future<List<UserModel>> getFollow({required String uid});
   User getCurrentUser();
 
   Future<String> likesPost({
@@ -122,12 +122,20 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
   // }
 
   @override
-  Stream<List<UserModel>> getFollow() {
-    final snapshot = fireStore.collection('users').snapshots();
-    Stream<List<UserModel>> userfollow = snapshot.map((event) {
-      return event.docs.map((e) => UserModel.fromJson(e.data())).toList();
-    });
-    return userfollow;
+  Future<List<UserModel>> getFollow({required String uid}) async {
+    try {
+      final snaps = await fireStore
+          .collection('users')
+          .where('uid', isEqualTo: uid)
+          .get();
+      final res =
+          snaps.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
+      return res;
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? '');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 
   /// Get UserPosts ///

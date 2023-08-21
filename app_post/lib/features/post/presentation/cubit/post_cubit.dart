@@ -154,12 +154,10 @@ class PostCubit extends Cubit<PostState> {
     return url;
   }
 
-  Future<void> getFollow() async {
+  Future<void> getFollow({required String uid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = getFollowUsecase(NoParams());
-    result.listen((follow) {
-      emit(state.copyWith(dataStatus: DataStatus.success, listUser: follow));
-    });
+    final result = await getFollowUsecase(uid: uid);
+    emit(state.copyWith(dataStatus: DataStatus.success, listUser: result));
   }
 
   /// Get Post from  clouad_firestore ///

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sort_child_properties_last
 
 import 'package:app_post/core/util/colors.dart';
+import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:app_post/features/signin/domain/entity/user.dart';
@@ -18,18 +19,26 @@ class ProfileUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
-        final isFollowing = getDataUser.uid;
-        // final userFollow = state.listUser?[2];
-        // print(userFollow?.followers);
+        if (state.dataStatus == DataStatus.loading) {
+          return Container();
+        }
+
         final getCurrentUser = state.currentUser!;
+        final isFollowing = getDataUser.uid;
+        // final userFollow = state.listUser?[0];
+        // final countFollower = userFollow?.followers?.length.toString();
+        // final countFollowing = userFollow?.following?.length.toString();
+
         return Scaffold(
           appBar: AppBar(
             backgroundColor: appbarColor,
             title: Text(getDataUser.displayName ?? ''),
           ),
-          body: ListView(
-            children: [
-              Padding(
+          body: ListView.builder(
+            itemCount: state.listUser!.length,
+            itemBuilder: (BuildContext context, index) {
+              final res = state.listUser![index];
+              return Padding(
                 padding: EdgeInsetsDirectional.only(top: 10),
                 child: Column(
                   children: [
@@ -53,7 +62,7 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)),
-                                    Text('0',
+                                    Text(res.followers!.length.toString(),
                                         style: const TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold)),
@@ -63,7 +72,7 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)),
-                                    Text('0',
+                                    Text(res.following!.length.toString(),
                                         style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold)),
@@ -77,7 +86,7 @@ class ProfileUserPage extends StatelessWidget {
                     ),
                     getCurrentUser.uid == getDataUser.uid
                         ? Container()
-                        : isFollowing != getCurrentUser.uid
+                        : res.followers!.contains(getCurrentUser.uid)
                             ? TextButton(
                                 onPressed: () {
                                   context.read<PostCubit>().followUser(
@@ -96,7 +105,7 @@ class ProfileUserPage extends StatelessWidget {
                                   width: 200,
                                   height: 40,
                                   child: Text(
-                                    'Follow',
+                                    'Unfollow',
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.white,
@@ -123,7 +132,7 @@ class ProfileUserPage extends StatelessWidget {
                                   width: 200,
                                   height: 40,
                                   child: Text(
-                                    'Unfollow',
+                                    'Follow',
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.black,
@@ -134,9 +143,8 @@ class ProfileUserPage extends StatelessWidget {
                               ),
                   ],
                 ),
-              ),
-              Divider(thickness: 1, indent: 10, endIndent: 10),
-            ],
+              );
+            },
           ),
         );
       },

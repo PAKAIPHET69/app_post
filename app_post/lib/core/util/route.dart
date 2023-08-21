@@ -118,30 +118,24 @@ class AppRoute {
       /// Post Comment
       case commentRoute:
         final String args = settings.arguments as String;
-        return _materialRoute(
-            CommentPage(
-              getPostData: args,
-            ),
-            providers: [
-              BlocProvider<PostCubit>(
-                create: ((context) => getIt<PostCubit>()
-                  ..getCurrentUser()
-                  ..getPostComments(args)),
-              ),
-            ]);
+        return _materialRoute(CommentPage(getPostData: args), providers: [
+          BlocProvider<PostCubit>(
+            create: ((context) => getIt<PostCubit>()
+              ..getCurrentUser()
+              ..getPostComments(args)),
+          ),
+        ]);
 
       /// Profile User page
       case profileUserRoute:
         final User args = settings.arguments as User;
         return _materialRoute(
-          ProfileUserPage(
-            getDataUser: args,
-          ),
+          ProfileUserPage(getDataUser: args),
           providers: [
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
                 ..getCurrentUser()
-                ..getFollow()),
+                ..getFollow(uid: args.uid ?? '')),
             ),
           ],
         );

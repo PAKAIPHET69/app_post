@@ -34,8 +34,8 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Stream<List<User>> getFollow() {
-    final result = postRemoteDatasource.getFollow();
+  Future<List<User>> getFollow({required String uid}) {
+    final result = postRemoteDatasource.getFollow(uid: uid);
     return result;
   }
 
