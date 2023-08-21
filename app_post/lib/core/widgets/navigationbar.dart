@@ -1,7 +1,7 @@
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
 import 'package:app_post/features/search/persentitioon/pages/search_page.dart';
 import 'package:app_post/features/post/presentation/pages/post_page.dart';
-import 'package:app_post/features/follow/presentation/page/profile_page.dart';
+import 'package:app_post/features/post/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class NavigationPage extends StatefulWidget {

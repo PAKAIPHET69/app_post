@@ -42,6 +42,11 @@ abstract class PostRemoteDatasource {
     required String postId,
     required String commentId,
   });
+
+  Future<void> followUser({
+    required String uid,
+    required String followId,
+  });
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -94,9 +99,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     try {
       final userData = auth.currentUser;
       return User(
-          uid: userData?.uid,
-          displayName: userData?.displayName,
-          email: userData?.email);
+        uid: userData?.uid,
+        displayName: userData?.displayName,
+        email: userData?.email,
+      );
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {
@@ -266,5 +272,37 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       throw ServerException(e.toString());
     }
     return res;
+  }
+
+  // Follow
+  @override
+  Future<void> followUser(
+      {required String uid, required String followId}) async {
+    try {
+      DocumentSnapshot snapshot =
+          await fireStore.collection('users').doc(uid).get();
+      List following = (snapshot.data()! as dynamic)['following'];
+      if (following.contains(followId)) {
+        await fireStore.collection('users').doc(followId).update({
+          'followers': FieldValue.arrayRemove([uid])
+        });
+
+        await fireStore.collection('users').doc(uid).update({
+          'following': FieldValue.arrayRemove([followId]),
+        });
+      } else {
+        await fireStore.collection('users').doc(followId).update({
+          'followers': FieldValue.arrayUnion([uid])
+        });
+
+        await fireStore.collection('users').doc(uid).update({
+          'following': FieldValue.arrayUnion([followId])
+        });
+      }
+    } on FirebaseException catch (e) {
+      throw ServerException(e.toString());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 }

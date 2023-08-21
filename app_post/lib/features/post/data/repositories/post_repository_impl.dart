@@ -138,4 +138,18 @@ class PostRepositoryImpl implements PostRepository {
       throw ServerFailure(e.msg.toString());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> followUsecase(
+      {required String followId, required String uid}) async {
+    try {
+      final res =
+          await postRemoteDatasource.followUser(uid: uid, followId: followId);
+      return Right(res);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.msg));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

@@ -17,6 +17,10 @@ abstract class PostRepository {
   Stream<List<PostCM>> getPostCommentsUsecase({required String pId});
   User getCurrentUser();
   Stream<List<User>> getFollow();
+
+  Future<Either<Failure, void>> followUsecase(
+      {required String followId, required String uid});
+
   Future<String> deleteCommentUsecase({
     required String postId,
     required String commentId,

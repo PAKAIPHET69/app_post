@@ -1,7 +1,6 @@
 import 'package:app_post/core/util/service_locator.dart';
 import 'package:app_post/core/widgets/navigationbar.dart';
-import 'package:app_post/features/follow/presentation/cubit/follow_cubit.dart';
-import 'package:app_post/features/follow/presentation/page/profileuser_page.dart';
+import 'package:app_post/features/post/presentation/pages/profileuser_page.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/pages/add_post_page.dart';
@@ -14,7 +13,7 @@ import 'package:app_post/features/signin/presentation/pages/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/follow/presentation/page/profile_page.dart';
+import '../../features/post/presentation/pages/profile_page.dart';
 import '../../features/search/persentitioon/cubit/search_cubit.dart';
 import '../../features/search/persentitioon/pages/search_page.dart';
 
@@ -139,8 +138,10 @@ class AppRoute {
             getDataUser: args,
           ),
           providers: [
-            BlocProvider<FollowCubit>(
-              create: ((context) => getIt<FollowCubit>()..getCurrentUser()),
+            BlocProvider<PostCubit>(
+              create: ((context) => getIt<PostCubit>()
+                ..getCurrentUser()
+                ..getFollow()),
             ),
           ],
         );

@@ -11,6 +11,7 @@ import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/domain/usecases/comments_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/delete_comment.dart';
 import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
+import 'package:app_post/features/post/domain/usecases/follow_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/get_follow.dart';
 import 'package:app_post/features/post/domain/usecases/get_post_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
@@ -18,6 +19,7 @@ import 'package:app_post/features/post/domain/usecases/get_view_comment.dart';
 import 'package:app_post/features/post/domain/usecases/likes_post.dart';
 import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
+import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,6 +44,7 @@ class PostCubit extends Cubit<PostState> {
   final CommentUsecase commentUsecase;
   final LikesPostUsecase likesPostUsecase;
   final GetFollowUsecase getFollowUsecase;
+  final FollowUsecase followUsecase;
 
   PostCubit(
     this.postUsecase,
@@ -56,6 +59,7 @@ class PostCubit extends Cubit<PostState> {
     this.getViewCommentsUsecase,
     this.likesPostUsecase,
     this.getFollowUsecase,
+    this.followUsecase,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
 
@@ -179,6 +183,16 @@ class PostCubit extends Cubit<PostState> {
       if (post.isNotEmpty) {
         emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
       }
+    });
+  }
+
+  Future<void> followUser(
+      {required String uid, required String followId}) async {
+    final res = await followUsecase(User(uid: uid, followId: followId));
+    res.fold((error) {
+      emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
+    }, (follow) {
+      emit(state.copyWith(dataStatus: DataStatus.success));
     });
   }
 

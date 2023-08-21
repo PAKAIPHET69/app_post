@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sort_child_properties_last
 
 import 'package:app_post/core/util/colors.dart';
-import 'package:app_post/features/follow/presentation/cubit/follow_cubit.dart';
-import 'package:app_post/features/follow/presentation/cubit/follow_state.dart';
+import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
+import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,9 +16,10 @@ class ProfileUserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FollowCubit, FollowState>(
+    return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
         final isFollowing = getDataUser.uid;
+        // final userFollow = state.listUser?.length;
         final getCurrentUser = state.currentUser!;
         return Scaffold(
           appBar: AppBar(
@@ -34,7 +35,6 @@ class ProfileUserPage extends StatelessWidget {
                     CircleAvatar(
                       child: Icon(Icons.person, size: 35),
                       backgroundColor: Colors.black,
-                      // backgroundImage: NetworkImage(),
                       radius: 40,
                     ),
                     SizedBox(height: 15),
@@ -79,7 +79,7 @@ class ProfileUserPage extends StatelessWidget {
                         : isFollowing != getCurrentUser.uid
                             ? TextButton(
                                 onPressed: () {
-                                  context.read<FollowCubit>().followUser(
+                                  context.read<PostCubit>().followUser(
                                       uid: getCurrentUser.uid ?? '',
                                       followId: getDataUser.uid ?? '');
                                 },
@@ -106,7 +106,7 @@ class ProfileUserPage extends StatelessWidget {
                               )
                             : TextButton(
                                 onPressed: () {
-                                  context.read<FollowCubit>().followUser(
+                                  context.read<PostCubit>().followUser(
                                       uid: getCurrentUser.uid ?? '',
                                       followId: getDataUser.uid ?? '');
                                 },
