@@ -9,8 +9,10 @@ class User extends Equatable {
   final String? followId;
   final List? followers;
   final List? following;
+  final List? tokenID;
 
   const User({
+    this.tokenID,
     this.followId,
     this.photoUrl,
     this.followers,
@@ -22,5 +24,5 @@ class User extends Equatable {
 
   @override
   List<Object?> get props =>
-      [followers, following, uid, displayName, email, photoUrl];
+      [followers, following, uid, displayName, email, photoUrl,tokenID];
 }

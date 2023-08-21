@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements, await_only_futures
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:app_post/features/signin/data/model/user_model.dart';
 import 'package:path/path.dart' as path;
+import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
@@ -94,6 +96,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
+  // get Current user
   @override
   User getCurrentUser() {
     try {
@@ -110,17 +113,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  // Future<List<UserModel>> getFollowId() async {
-  //   try {
-  //     final snapshot =
-  //         fireStore.collection('users').doc(auth.currentUser?.uid).get();
-  //   } on FirebaseException catch (e) {
-  //     throw ServerException(e.message ?? '');
-  //   } catch (e) {
-  //     throw ServerException(e.toString());
-  //   }
-  // }
-
+  // get user follow
   @override
   Future<List<UserModel>> getFollow({required String uid}) async {
     try {
@@ -174,39 +167,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       });
       return res;
     } on FirebaseException catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  /// Save Comment to firebase ///
-  @override
-  Future<String> postComment({
-    required String postId,
-    required String text,
-    required String uid,
-    required String name,
-  }) async {
-    try {
-      if (text.isEmpty) {
-        return 'Some error occurred';
-      }
-      final commentId = const Uuid().v1();
-      final timestamp = DateTime.now();
-      await fireStore
-          .collection('posts')
-          .doc(postId)
-          .collection('comments')
-          .doc(commentId)
-          .set({
-        'name': name,
-        'uid': uid,
-        'text': text,
-        'commentId': commentId,
-        'timestamp': timestamp.toIso8601String(),
-      });
-
-      return 'success';
-    } catch (e) {
       throw ServerException(e.toString());
     }
   }
@@ -320,6 +280,70 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       }
     } on FirebaseException catch (e) {
       throw ServerException(e.toString());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  /// Save Comment to firebase ///
+  @override
+  Future<String> postComment({
+    required String postId,
+    required String text,
+    required String uid,
+    required String name,
+  }) async {
+    try {
+      if (text.isEmpty) {
+        return 'Some error occurred';
+      }
+      final commentId = const Uuid().v1();
+      final timestamp = DateTime.now();
+      await fireStore
+          .collection('posts')
+          .doc(postId)
+          .collection('comments')
+          .doc(commentId)
+          .set({
+        'name': name,
+        'uid': uid,
+        'text': text,
+        'commentId': commentId,
+        'timestamp': timestamp.toIso8601String(),
+      });
+
+      var headers = {
+        'Authorization':
+            'key=AAAAQyDf7is:AAAAfO8o6Ns:APA91bEvfRQPJJEsffaVFYCuZNkcBPzO59TDJaCm_MJAPtpQ7unXtD-0E1RgzPYjIaBN1z6jMQ88FIOoD_3fNVFryPlXwscau1TvHj63M6Ks45VGi9hXMmrVJxzJ_dwu4UscLxngxnri--Zq5cHgCTojGqiSJJ2gz',
+        'Content-Type': 'application/json',
+      };
+
+      var request = http.Request(
+          'POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
+
+      request.body = json.encode({
+        "registration_ids":
+            'c8rHIO40TSKPDmUT4ZTv8z:APA91bFXsFJqb_kPTsXssPWnaPU099O2uv5RqFcni62vBGRG-qWboULeyEOSrX2METnWHTwtPLR8Rreq8jPxAtKesOryQqbnHO4JtkVJQfbr0q13zqrHtF4PHhP86iTloV-w9SZjBdls',
+        "notification": {
+          "body": "$text",
+          "content_available": true,
+          "priority": "high",
+          "title": "$name",
+        },
+        // "data": {"payload": ""}
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      } else {
+        print(response.reasonPhrase);
+      }
+
+      return 'success';
     } catch (e) {
       throw ServerException(e.toString());
     }

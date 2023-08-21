@@ -4,13 +4,15 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel extends User {
-  const UserModel({
-    String? uid,
-    String? displayName,
-    String? email,
-    List? followers,
-    List? following,
-  }) : super(
+  const UserModel(
+      {String? uid,
+      String? displayName,
+      String? email,
+      List? followers,
+      List? following,
+      List? tokenID})
+      : super(
+          tokenID: tokenID,
           displayName: displayName,
           uid: uid,
           email: email,

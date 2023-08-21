@@ -95,7 +95,14 @@ class SignInRemoteDatasource implements SignInDatasource {
   @override
   Future<void> logOutAuth() async {
     try {
+      final tokenID = await messaging.getToken();
       FirebaseAuth.instance.signOut;
+      await _fireStore
+          .collection('users')
+          .doc(_auth.currentUser?.uid ?? '')
+          .update({
+        'tokenID': FieldValue.arrayRemove([tokenID])
+      });
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {
@@ -106,9 +113,15 @@ class SignInRemoteDatasource implements SignInDatasource {
   @override
   Future<String?> getToken() async {
     try {
-      final res = await messaging.getToken();
-      print(res);
-      return res;
+      final tokenID = await messaging.getToken();
+      await _fireStore
+          .collection('users')
+          .doc(_auth.currentUser?.uid ?? '')
+          .update({
+        'tokenID': FieldValue.arrayUnion([tokenID])
+      });
+      print(tokenID);
+      return tokenID;
     } on FirebaseException catch (e) {
       throw ServerException(e.message.toString());
     } catch (e) {
