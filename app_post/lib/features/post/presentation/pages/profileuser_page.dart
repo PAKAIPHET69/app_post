@@ -24,10 +24,6 @@ class ProfileUserPage extends StatelessWidget {
         }
 
         final getCurrentUser = state.currentUser!;
-        final isFollowing = getDataUser.uid;
-        // final userFollow = state.listUser?[0];
-        // final countFollower = userFollow?.followers?.length.toString();
-        // final countFollowing = userFollow?.following?.length.toString();
 
         return Scaffold(
           appBar: AppBar(

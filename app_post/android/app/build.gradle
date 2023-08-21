@@ -33,8 +33,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-        // Flag to enable support for the new language APIs
-        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -46,8 +44,6 @@ android {
     }
 
     defaultConfig {
-        multiDexEnabled true
-
         applicationId "com.example.app_post"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
@@ -55,6 +51,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -70,7 +67,6 @@ flutter {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
 

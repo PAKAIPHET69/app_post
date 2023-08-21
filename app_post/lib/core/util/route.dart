@@ -10,6 +10,7 @@ import 'package:app_post/features/post/presentation/pages/update_post_page.dart'
 import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:app_post/features/signin/presentation/cubit/singin_cubit.dart';
 import 'package:app_post/features/signin/presentation/pages/signin_page.dart';
+import 'package:app_post/features/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +29,8 @@ class AppRoute {
   static const String updatePostRoute = "/updatepost";
   static const String profileUserRoute = "/profileUser";
   static const String profileRoute = "profile";
+
+  static const String testRoute = "testRoute";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -139,6 +142,9 @@ class AppRoute {
             ),
           ],
         );
+
+      case testRoute:
+        return _materialRoute(TestSearch());
       default:
         return _mainRoute(const SignInPage());
     }
