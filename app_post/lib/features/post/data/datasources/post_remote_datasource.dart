@@ -110,6 +110,17 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
+  // Future<List<UserModel>> getFollowId() async {
+  //   try {
+  //     final snapshot =
+  //         fireStore.collection('users').doc(auth.currentUser?.uid).get();
+  //   } on FirebaseException catch (e) {
+  //     throw ServerException(e.message ?? '');
+  //   } catch (e) {
+  //     throw ServerException(e.toString());
+  //   }
+  // }
+
   @override
   Stream<List<UserModel>> getFollow() {
     final snapshot = fireStore.collection('users').snapshots();

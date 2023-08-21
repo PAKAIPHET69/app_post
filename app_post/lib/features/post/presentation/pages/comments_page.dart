@@ -60,15 +60,16 @@ class CommentPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 8),
                       child: TextButton(
-                        onPressed: () {
-                          postCubit.postComment(
-                              postId: getPostData,
-                              text: postCubit.textController.text);
-                        },
                         child: Text(
                           'Post',
                           style: TextStyle(color: Colors.blue),
                         ),
+                        onPressed: () {
+                          postCubit.postComment(
+                              postId: getPostData,
+                              text: postCubit.textController.text);
+                          postCubit.textController.clear();
+                        },
                       ),
                     ),
                   )
