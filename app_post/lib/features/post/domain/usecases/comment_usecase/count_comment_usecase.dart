@@ -6,7 +6,7 @@ class CountCommentUsecase {
   final Repository postRepository;
   CountCommentUsecase(this.postRepository);
   Future<String> call({required String pid}) {
-    final res = postRepository.getViweCm(postId: pid);
+    final res = postRepository.countComment(postId: pid);
     return res;
   }
 }

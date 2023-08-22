@@ -52,7 +52,7 @@ class AppRoute {
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
                 ..getCurrentUser()
-                ..getUserPosts()),
+                ..showPostsUsers()),
             ),
             BlocProvider<SearchCubit>(
               create: ((context) => getIt<SearchCubit>()..getUser('')),
@@ -68,7 +68,7 @@ class AppRoute {
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
                 ..getCurrentUser()
-                ..getUserPosts()
+                ..showPostsUsers()
                 ..getViewCm),
             ),
           ],
@@ -85,7 +85,7 @@ class AppRoute {
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
                 ..getCurrentUser()
-                ..getUserPosts()),
+                ..showPostsUsers()),
             ),
           ],
         );
@@ -125,7 +125,7 @@ class AppRoute {
           BlocProvider<PostCubit>(
             create: ((context) => getIt<PostCubit>()
               ..getCurrentUser()
-              ..getPostComments(args)),
+              ..showComments(args)),
           ),
         ]);
 
@@ -138,7 +138,7 @@ class AppRoute {
             BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
                 ..getCurrentUser()
-                ..getFollow(uid: args.uid ?? '')),
+                ..showFollows(uid: args.uid ?? '')),
             ),
           ],
         );

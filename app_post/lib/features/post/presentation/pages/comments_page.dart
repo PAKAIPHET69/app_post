@@ -26,9 +26,7 @@ class CommentPage extends StatelessWidget {
             centerTitle: false,
           ),
           body: state.dataStatus == DataStatus.loading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
+              ? Container()
               // ? CommentCard(getPid: getPostData)
               : CommentCard(
                   getPid: getPostData,
@@ -68,7 +66,7 @@ class CommentPage extends StatelessWidget {
                           style: TextStyle(color: Colors.blue),
                         ),
                         onPressed: () {
-                          postCubit.postComment(
+                          postCubit.saveComment(
                               postId: getPostData,
                               text: postCubit.textController.text);
                           postCubit.textController.clear();

@@ -8,6 +8,6 @@ class ShowPostsUsecase {
   final Repository postRepository;
   ShowPostsUsecase(this.postRepository);
   Stream<List<Post>> call(NoParams params) {
-    return postRepository.getPostUsecase();
+    return postRepository.showPostUsecase();
   }
 }

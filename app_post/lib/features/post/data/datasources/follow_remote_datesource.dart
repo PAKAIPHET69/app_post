@@ -7,6 +7,7 @@ abstract class FollowRemotDataSource {
   Future<void> saveFollowsUsers(
       {required String uid, required String followId});
   Future<List<UserModel>> showFolloeUsers({required String uid});
+  Stream<List<UserModel>> showFollows({required String uid});
 }
 
 @LazySingleton(as: FollowRemotDataSource)
@@ -61,5 +62,15 @@ class FollowRemotDataSourceImpl implements FollowRemotDataSource {
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     }
+  }
+
+  @override
+  Stream<List<UserModel>> showFollows({required String uid}) {
+    final snapshots =
+        fireStore.collection('users').where('uid', isEqualTo: uid).snapshots();
+    final data = snapshots.map((event) {
+      return event.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    });
+    return data;
   }
 }

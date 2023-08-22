@@ -54,7 +54,7 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Stream<List<Post>> getPostUsecase() {
+  Stream<List<Post>> showPostUsecase() {
     final res = postRemoteDatasource.showPosts();
     return res;
   }
@@ -100,7 +100,7 @@ class RepositoryImpl implements Repository {
 
   // CommentRemoteDataSoure
   @override
-  Stream<List<PostCM>> getPostCommentsUsecase({required String pId}) {
+  Stream<List<PostCM>> showCommentsUsecase({required String pId}) {
     final res = commentRemoteDataSoure.showComments(pId: pId);
     return res;
   }
@@ -133,7 +133,7 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<String> getViweCm({required String postId}) async {
+  Future<String> countComment({required String postId}) async {
     try {
       final res = await commentRemoteDataSoure.countComment(postId: postId);
       return res;
@@ -158,8 +158,14 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<List<User>> getFollow({required String uid}) {
+  Future<List<User>> showFollow({required String uid}) {
     final result = followRemotDataSource.showFolloeUsers(uid: uid);
     return result;
+  }
+
+  @override
+  Stream<List<User>> showFollows({required String uid}) {
+    final res = followRemotDataSource.showFollows(uid: uid);
+    return res;
   }
 }

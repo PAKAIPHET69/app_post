@@ -10,6 +10,7 @@ import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/domain/usecases/comment_usecase/comments_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/comment_usecase/delete_comment_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follows_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/posts_usecase/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/follow_usecse/follow_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follow_usecase.dart';
@@ -45,6 +46,7 @@ class PostCubit extends Cubit<PostState> {
   final LikesPostUsecase likesPostUsecase;
   final ShowFollowUsecase showFollowUsecase;
   final FollowUsecase followUsecase;
+  final ShowFollowsUsecase showFollowsUsecase;
 
   PostCubit(
     this.savepostUsecase,
@@ -60,6 +62,7 @@ class PostCubit extends Cubit<PostState> {
     this.likesPostUsecase,
     this.showFollowUsecase,
     this.followUsecase,
+    this.showFollowsUsecase,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
 
@@ -104,9 +107,7 @@ class PostCubit extends Cubit<PostState> {
 
   /// PostUp button to Save ///
   Future<void> postUp(descipController) async {
-    emit(state.copyWith(
-      dataStatus: DataStatus.loading,
-    ));
+    emit(state.copyWith(dataStatus: DataStatus.loading));
     final postId = Uuid().v1();
     final url = await uploadImage(state.imageFile);
     Post postData = Post(
@@ -154,17 +155,25 @@ class PostCubit extends Cubit<PostState> {
     return url;
   }
 
-  Future<void> getFollow({required String uid}) async {
+  // Future<void> getFollow({required String uid}) async {
+  //   emit(state.copyWith(dataStatus: DataStatus.loading));
+  //   final result = await showFollowUsecase(uid: uid);
+  //   emit(state.copyWith(dataStatus: DataStatus.success, listUser: result));
+  // }
+
+  Future<void> showFollows({required String uid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = await showFollowUsecase(uid: uid);
-    emit(state.copyWith(dataStatus: DataStatus.success, listUser: result));
+    final result = showFollowsUsecase(uid: uid);
+    result.listen((follow) {
+      emit(state.copyWith(dataStatus: DataStatus.success, listUser: follow));
+    });
   }
 
-  /// Get Post from  clouad_firestore ///
-  Future<void> getUserPosts() async {
+  /// Show Post from  clouad_firestore ///
+  Future<void> showPostsUsers() async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = showPostsUsecase(NoParams());
-    result.listen((post) async {
+    sub = result.listen((post) async {
       // List<Post> getList = [];
       // for (var index = 0; index < post.length; index++) {
       //   final i = post[index];
@@ -186,6 +195,7 @@ class PostCubit extends Cubit<PostState> {
 
   Future<void> followUser(
       {required String uid, required String followId}) async {
+    emit(state.copyWith(dataStatus: DataStatus.loading));
     final res = await followUsecase(User(uid: uid, followId: followId));
     res.fold((error) {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
@@ -201,7 +211,7 @@ class PostCubit extends Cubit<PostState> {
     return result;
   }
 
-  ////Get CurrenUser ///
+  // Get CurrenUser
   void getCurrentUser() {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
@@ -213,8 +223,8 @@ class PostCubit extends Cubit<PostState> {
     ));
   }
 
-  ///Post Comment
-  Future<String> postComment({
+  // Save Comment
+  Future<String> saveComment({
     required String postId,
     required String text,
   }) async {
@@ -227,8 +237,8 @@ class PostCubit extends Cubit<PostState> {
     return result;
   }
 
-  /// Get post comment
-  Future<void> getPostComments(String pId) async {
+  // Show Comments Users
+  Future<void> showComments(String pId) async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
@@ -257,12 +267,10 @@ class PostCubit extends Cubit<PostState> {
 
   // Likes Posts
   Future<String> likesPost({required String postId}) async {
-    emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await likesPostUsecase(
-      postId: postId,
-      likes: state.currentUser?.uid ?? '',
-      uid: state.currentUser?.uid ?? '',
-    );
+        postId: postId,
+        likes: state.currentUser?.uid ?? '',
+        uid: state.currentUser?.uid ?? '');
     return result;
   }
 }

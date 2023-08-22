@@ -17,23 +17,21 @@ class ProfileUserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PostCubit, PostState>(
-      builder: (context, state) {
-        if (state.dataStatus == DataStatus.loading) {
-          return Container();
-        }
-
-        final getCurrentUser = state.currentUser!;
-
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: appbarColor,
-            title: Text(getDataUser.displayName ?? ''),
-          ),
-          body: ListView.builder(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: appbarColor,
+        title: Text(getDataUser.displayName ?? ''),
+      ),
+      body: BlocBuilder<PostCubit, PostState>(
+        builder: (context, state) {
+          if (state.dataStatus == DataStatus.loading) {
+            return Center(child: CircularProgressIndicator());
+          }
+          final getCurrentUser = state.currentUser!;
+          return ListView.builder(
             itemCount: state.listUser!.length,
             itemBuilder: (BuildContext context, index) {
-              final res = state.listUser![index];
+              final listUsers = state.listUser![index];
               return Padding(
                 padding: EdgeInsetsDirectional.only(top: 10),
                 child: Column(
@@ -58,7 +56,7 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)),
-                                    Text(res.followers!.length.toString(),
+                                    Text(listUsers.followers!.length.toString(),
                                         style: const TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold)),
@@ -68,7 +66,7 @@ class ProfileUserPage extends StatelessWidget {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)),
-                                    Text(res.following!.length.toString(),
+                                    Text(listUsers.following!.length.toString(),
                                         style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold)),
@@ -82,7 +80,7 @@ class ProfileUserPage extends StatelessWidget {
                     ),
                     getCurrentUser.uid == getDataUser.uid
                         ? Container()
-                        : res.followers!.contains(getCurrentUser.uid)
+                        : listUsers.followers!.contains(getCurrentUser.uid)
                             ? TextButton(
                                 onPressed: () {
                                   context.read<PostCubit>().followUser(
@@ -141,9 +139,9 @@ class ProfileUserPage extends StatelessWidget {
                 ),
               );
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

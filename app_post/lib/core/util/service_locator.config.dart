@@ -9,7 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:app_post/core/util/register_modules.dart' as _i44;
+import 'package:app_post/core/util/register_modules.dart' as _i45;
 import 'package:app_post/features/post/data/datasources/comment_remote_dayasource.dart'
     as _i22;
 import 'package:app_post/features/post/data/datasources/follow_remote_datesource.dart'
@@ -21,32 +21,34 @@ import 'package:app_post/features/post/data/repositories/repository_impl.dart'
 import 'package:app_post/features/post/domain/repositories/repository.dart'
     as _i24;
 import 'package:app_post/features/post/domain/usecases/comment_usecase/comments_usecase.dart'
-    as _i36;
-import 'package:app_post/features/post/domain/usecases/comment_usecase/count_comment_usecase.dart'
     as _i37;
-import 'package:app_post/features/post/domain/usecases/comment_usecase/delete_comment_usecase.dart'
+import 'package:app_post/features/post/domain/usecases/comment_usecase/count_comment_usecase.dart'
     as _i38;
+import 'package:app_post/features/post/domain/usecases/comment_usecase/delete_comment_usecase.dart'
+    as _i39;
 import 'package:app_post/features/post/domain/usecases/comment_usecase/show_comment_usecase.dart'
     as _i28;
 import 'package:app_post/features/post/domain/usecases/follow_usecse/follow_usecse.dart'
-    as _i40;
+    as _i41;
 import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follow_usecase.dart'
     as _i29;
+import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follows_usecase.dart'
+    as _i30;
 import 'package:app_post/features/post/domain/usecases/get_currentuser.dart'
-    as _i41;
-import 'package:app_post/features/post/domain/usecases/likes_post.dart' as _i42;
+    as _i42;
+import 'package:app_post/features/post/domain/usecases/likes_post.dart' as _i43;
 import 'package:app_post/features/post/domain/usecases/posts_usecase/delete_post_usecse.dart'
-    as _i39;
+    as _i40;
 import 'package:app_post/features/post/domain/usecases/posts_usecase/save_post_usecase.dart'
     as _i26;
 import 'package:app_post/features/post/domain/usecases/posts_usecase/show_posts_usecase.dart'
-    as _i30;
+    as _i31;
 import 'package:app_post/features/post/domain/usecases/posts_usecase/update_post_usecse.dart'
-    as _i34;
-import 'package:app_post/features/post/domain/usecases/upload_image_usecese.dart'
     as _i35;
+import 'package:app_post/features/post/domain/usecases/upload_image_usecese.dart'
+    as _i36;
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart'
-    as _i43;
+    as _i44;
 import 'package:app_post/features/search/data/datasource/search_remote_datasource.dart'
     as _i14;
 import 'package:app_post/features/search/data/repository/searce_repository_impl.dart'
@@ -66,11 +68,11 @@ import 'package:app_post/features/signin/domain/repository/signin_repository.dar
 import 'package:app_post/features/signin/domain/usecases/get_token_useccase.dart'
     as _i23;
 import 'package:app_post/features/signin/domain/usecases/sigin_facebook_usecase.dart'
-    as _i32;
-import 'package:app_post/features/signin/domain/usecases/sigin_google_usecase.dart'
-    as _i31;
-import 'package:app_post/features/signin/presentation/cubit/singin_cubit.dart'
     as _i33;
+import 'package:app_post/features/signin/domain/usecases/sigin_google_usecase.dart'
+    as _i32;
+import 'package:app_post/features/signin/presentation/cubit/singin_cubit.dart'
+    as _i34;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i6;
 import 'package:dio/dio.dart' as _i3;
 import 'package:firebase_auth/firebase_auth.dart' as _i5;
@@ -155,52 +157,55 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i28.ShowCommentsUsecase(gh<_i24.Repository>()));
     gh.lazySingleton<_i29.ShowFollowUsecase>(
         () => _i29.ShowFollowUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i30.ShowPostsUsecase>(
-        () => _i30.ShowPostsUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i31.SigInGoogleUsecase>(
-        () => _i31.SigInGoogleUsecase(gh<_i20.SignInRepository>()));
-    gh.lazySingleton<_i32.SigInfacebookUsecase>(
-        () => _i32.SigInfacebookUsecase(gh<_i20.SignInRepository>()));
-    gh.factory<_i33.SignInCubit>(() => _i33.SignInCubit(
-          gh<_i31.SigInGoogleUsecase>(),
-          gh<_i32.SigInfacebookUsecase>(),
+    gh.lazySingleton<_i30.ShowFollowsUsecase>(
+        () => _i30.ShowFollowsUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i31.ShowPostsUsecase>(
+        () => _i31.ShowPostsUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i32.SigInGoogleUsecase>(
+        () => _i32.SigInGoogleUsecase(gh<_i20.SignInRepository>()));
+    gh.lazySingleton<_i33.SigInfacebookUsecase>(
+        () => _i33.SigInfacebookUsecase(gh<_i20.SignInRepository>()));
+    gh.factory<_i34.SignInCubit>(() => _i34.SignInCubit(
+          gh<_i32.SigInGoogleUsecase>(),
+          gh<_i33.SigInfacebookUsecase>(),
           gh<_i23.GetTokenUsecase>(),
         ));
-    gh.lazySingleton<_i34.UpdatePostUsecase>(
-        () => _i34.UpdatePostUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i35.UploadImageUsecese>(
-        () => _i35.UploadImageUsecese(gh<_i24.Repository>()));
-    gh.lazySingleton<_i36.CommentUsecase>(
-        () => _i36.CommentUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i37.CountCommentUsecase>(
-        () => _i37.CountCommentUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i38.DeleteCommentUsecase>(
-        () => _i38.DeleteCommentUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i39.DeletePostUsecase>(
-        () => _i39.DeletePostUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i40.FollowUsecase>(
-        () => _i40.FollowUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i41.GetCurrentUser>(
-        () => _i41.GetCurrentUser(gh<_i24.Repository>()));
-    gh.lazySingleton<_i42.LikesPostUsecase>(
-        () => _i42.LikesPostUsecase(gh<_i24.Repository>()));
-    gh.factory<_i43.PostCubit>(() => _i43.PostCubit(
+    gh.lazySingleton<_i35.UpdatePostUsecase>(
+        () => _i35.UpdatePostUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i36.UploadImageUsecese>(
+        () => _i36.UploadImageUsecese(gh<_i24.Repository>()));
+    gh.lazySingleton<_i37.CommentUsecase>(
+        () => _i37.CommentUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i38.CountCommentUsecase>(
+        () => _i38.CountCommentUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i39.DeleteCommentUsecase>(
+        () => _i39.DeleteCommentUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i40.DeletePostUsecase>(
+        () => _i40.DeletePostUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i41.FollowUsecase>(
+        () => _i41.FollowUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i42.GetCurrentUser>(
+        () => _i42.GetCurrentUser(gh<_i24.Repository>()));
+    gh.lazySingleton<_i43.LikesPostUsecase>(
+        () => _i43.LikesPostUsecase(gh<_i24.Repository>()));
+    gh.factory<_i44.PostCubit>(() => _i44.PostCubit(
           gh<_i26.SavePostUsecase>(),
-          gh<_i41.GetCurrentUser>(),
-          gh<_i35.UploadImageUsecese>(),
-          gh<_i30.ShowPostsUsecase>(),
-          gh<_i39.DeletePostUsecase>(),
-          gh<_i34.UpdatePostUsecase>(),
-          gh<_i36.CommentUsecase>(),
+          gh<_i42.GetCurrentUser>(),
+          gh<_i36.UploadImageUsecese>(),
+          gh<_i31.ShowPostsUsecase>(),
+          gh<_i40.DeletePostUsecase>(),
+          gh<_i35.UpdatePostUsecase>(),
+          gh<_i37.CommentUsecase>(),
           gh<_i28.ShowCommentsUsecase>(),
-          gh<_i38.DeleteCommentUsecase>(),
-          gh<_i37.CountCommentUsecase>(),
-          gh<_i42.LikesPostUsecase>(),
+          gh<_i39.DeleteCommentUsecase>(),
+          gh<_i38.CountCommentUsecase>(),
+          gh<_i43.LikesPostUsecase>(),
           gh<_i29.ShowFollowUsecase>(),
-          gh<_i40.FollowUsecase>(),
+          gh<_i41.FollowUsecase>(),
+          gh<_i30.ShowFollowsUsecase>(),
         ));
     return this;
   }
 }
 
-class _$InjectionModule extends _i44.InjectionModule {}
+class _$InjectionModule extends _i45.InjectionModule {}
