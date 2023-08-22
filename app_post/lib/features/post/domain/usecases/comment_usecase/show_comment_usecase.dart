@@ -3,9 +3,9 @@ import 'package:app_post/features/post/domain/repositories/repository.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class GetPostCommentsUsecase {
+class ShowCommentsUsecase {
   final Repository postRepository;
-  GetPostCommentsUsecase(this.postRepository);
+  ShowCommentsUsecase(this.postRepository);
   Stream<List<PostCM>> call({required String pid}) {
     final res = postRepository.getPostCommentsUsecase(pId: pid);
     return res;

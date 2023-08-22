@@ -8,16 +8,16 @@ import 'package:app_post/core/util/constant.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/domain/entity/post_cm.dart';
-import 'package:app_post/features/post/domain/usecases/comments_usecase.dart';
-import 'package:app_post/features/post/domain/usecases/delete_comment.dart';
-import 'package:app_post/features/post/domain/usecases/delete_post_usecse.dart';
-import 'package:app_post/features/post/domain/usecases/follow_usecse.dart';
-import 'package:app_post/features/post/domain/usecases/get_follow.dart';
-import 'package:app_post/features/post/domain/usecases/get_post_comment_usecase.dart';
-import 'package:app_post/features/post/domain/usecases/get_posts_usecase.dart';
-import 'package:app_post/features/post/domain/usecases/get_view_comment.dart';
+import 'package:app_post/features/post/domain/usecases/comment_usecase/comments_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/comment_usecase/delete_comment_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/posts_usecase/delete_post_usecse.dart';
+import 'package:app_post/features/post/domain/usecases/follow_usecse/follow_usecse.dart';
+import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follow_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/comment_usecase/show_comment_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/posts_usecase/show_posts_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/comment_usecase/count_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/likes_post.dart';
-import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart';
+import 'package:app_post/features/post/domain/usecases/posts_usecase/update_post_usecse.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:app_post/features/signin/domain/entity/user.dart';
 import 'package:flutter/material.dart';
@@ -27,38 +27,38 @@ import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../domain/usecases/get_currentuser.dart';
-import '../../domain/usecases/post_usecase.dart';
+import '../../domain/usecases/posts_usecase/save_post_usecase.dart';
 import '../../domain/usecases/upload_image_usecese.dart';
 
 @injectable
 class PostCubit extends Cubit<PostState> {
-  final PostUsecase postUsecase;
+  final SavePostUsecase savepostUsecase;
   final UploadImageUsecese uploadImageUsecese;
   final GetCurrentUser getCurrentUserUsecase;
-  final GetPostCommentsUsecase getPostCommentsUsecase;
-  final GetPostsUsecase getPostsUsecase;
-  final GetViewCommentsUsecase getViewCommentsUsecase;
+  final ShowCommentsUsecase showCommentsUsecase;
+  final ShowPostsUsecase showPostsUsecase;
+  final CountCommentUsecase countCommentsUsecase;
   final DeletePostUsecase deletePostUsecase;
   final DeleteCommentUsecase deleteCommentUsecase;
   final UpdatePostUsecase updatePostUsecase;
   final CommentUsecase commentUsecase;
   final LikesPostUsecase likesPostUsecase;
-  final GetFollowUsecase getFollowUsecase;
+  final ShowFollowUsecase showFollowUsecase;
   final FollowUsecase followUsecase;
 
   PostCubit(
-    this.postUsecase,
+    this.savepostUsecase,
     this.getCurrentUserUsecase,
     this.uploadImageUsecese,
-    this.getPostsUsecase,
+    this.showPostsUsecase,
     this.deletePostUsecase,
     this.updatePostUsecase,
     this.commentUsecase,
-    this.getPostCommentsUsecase,
+    this.showCommentsUsecase,
     this.deleteCommentUsecase,
-    this.getViewCommentsUsecase,
+    this.countCommentsUsecase,
     this.likesPostUsecase,
-    this.getFollowUsecase,
+    this.showFollowUsecase,
     this.followUsecase,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
@@ -119,7 +119,7 @@ class PostCubit extends Cubit<PostState> {
       description: descipController, //From textfield
     );
 
-    final result = await postUsecase(postData);
+    final result = await savepostUsecase(postData);
     result.fold((error) {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
     }, (user) {
@@ -156,14 +156,14 @@ class PostCubit extends Cubit<PostState> {
 
   Future<void> getFollow({required String uid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = await getFollowUsecase(uid: uid);
+    final result = await showFollowUsecase(uid: uid);
     emit(state.copyWith(dataStatus: DataStatus.success, listUser: result));
   }
 
   /// Get Post from  clouad_firestore ///
   Future<void> getUserPosts() async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = getPostsUsecase(NoParams());
+    final result = showPostsUsecase(NoParams());
     result.listen((post) async {
       // List<Post> getList = [];
       // for (var index = 0; index < post.length; index++) {
@@ -197,7 +197,7 @@ class PostCubit extends Cubit<PostState> {
   // Count Comment
   Future<String> getViewCm({required String pid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = await getViewCommentsUsecase(pid: pid);
+    final result = await countCommentsUsecase(pid: pid);
     return result;
   }
 
@@ -232,7 +232,7 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
     ));
-    final result = getPostCommentsUsecase(pid: pId);
+    final result = showCommentsUsecase(pid: pId);
     sub = result.listen((postCM) {
       if (postCM.isNotEmpty) {
         final updateList = List<PostCM>.from(postCM);
