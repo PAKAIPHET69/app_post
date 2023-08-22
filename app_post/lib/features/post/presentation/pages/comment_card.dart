@@ -4,6 +4,7 @@ import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class CommentCard extends StatelessWidget {
   final String getPid;
@@ -16,6 +17,7 @@ class CommentCard extends StatelessWidget {
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
         final getUser = state.currentUser!;
+
         return Scaffold(
             body: state.listPostCM!.isEmpty
                 ? Container()
@@ -23,6 +25,11 @@ class CommentCard extends StatelessWidget {
                     itemCount: state.listPostCM!.length,
                     itemBuilder: (context, index) {
                       final postComment = state.listPostCM![index];
+                      final timeDate = DateFormat('EE dd/MM/yy')
+                          .format(postComment.timestamp!);
+
+                      final timeMM =
+                          DateFormat('hh:mm').format(postComment.timestamp!);
                       return Padding(
                         padding: EdgeInsets.symmetric(vertical: 15),
                         child: ListTile(
@@ -48,7 +55,7 @@ class CommentCard extends StatelessWidget {
                                     PopupMenuItem(
                                         child: Text(
                                       'Repront',
-                                      style: TextStyle(color: Colors.red),
+                                      style: TextStyle(color: Colors.black),
                                     ))
                                   ],
                                 ),
@@ -56,14 +63,21 @@ class CommentCard extends StatelessWidget {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                postComment.name ?? '',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    postComment.name ?? '',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(timeMM)
+                                ],
                               ),
+                              Text(timeDate),
                               Text(
                                 postComment.text ?? '',
                                 style: const TextStyle(

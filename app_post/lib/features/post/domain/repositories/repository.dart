@@ -7,7 +7,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../signin/domain/entity/user.dart';
 
-abstract class PostRepository {
+abstract class Repository {
   Future<Either<Failure, void>> postUsecase(Post post);
   Future<Either<Failure, void>> deletePostUsecase(String pid);
   Future<Either<Failure, void>> updatePostUsecase(Post post);

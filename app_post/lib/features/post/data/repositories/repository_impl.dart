@@ -8,14 +8,14 @@ import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../signin/domain/entity/user.dart';
 import '../../domain/entity/post.dart';
-import '../../domain/repositories/post_repository.dart';
+import '../../domain/repositories/repository.dart';
 import '../datasources/post_remote_datasource.dart';
 
-@LazySingleton(as: PostRepository)
-class PostRepositoryImpl implements PostRepository {
+@LazySingleton(as: Repository)
+class RepositoryImpl implements Repository {
   final PostRemoteDatasource postRemoteDatasource;
 
-  PostRepositoryImpl(this.postRemoteDatasource);
+  RepositoryImpl(this.postRemoteDatasource);
   @override
   Future<Either<Failure, void>> postUsecase(Post post) async {
     try {
@@ -53,13 +53,13 @@ class PostRepositoryImpl implements PostRepository {
 
   @override
   Stream<List<Post>> getPostUsecase() {
-    final res = postRemoteDatasource.getUserPosts();
+    final res = postRemoteDatasource.showPosts();
     return res;
   }
 
   @override
   Stream<List<PostCM>> getPostCommentsUsecase({required String pId}) {
-    final res = postRemoteDatasource.getPostComments(pId: pId);
+    final res = postRemoteDatasource.showComments(pId: pId);
     return res;
   }
 
@@ -94,7 +94,7 @@ class PostRepositoryImpl implements PostRepository {
       required String uid,
       required String name}) async {
     try {
-      final result = await postRemoteDatasource.postComment(
+      final result = await postRemoteDatasource.saveComment(
           postId: postId, text: text, uid: uid, name: name);
       return result;
     } on ServerException catch (e) {
@@ -106,7 +106,7 @@ class PostRepositoryImpl implements PostRepository {
   Future<String> deleteCommentUsecase(
       {required String postId, required String commentId}) async {
     try {
-      final res = await postRemoteDatasource.deletePostCM(
+      final res = await postRemoteDatasource.deleteComment(
           postId: postId, commentId: commentId);
       return res;
     } on ServerException catch (e) {
@@ -117,7 +117,7 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<String> getViweCm({required String postId}) async {
     try {
-      final res = await postRemoteDatasource.getViewCm(postId: postId);
+      final res = await postRemoteDatasource.countComment(postId: postId);
       return res;
     } on ServerException catch (e) {
       throw ServerFailure(e.msg.toString());
@@ -131,7 +131,7 @@ class PostRepositoryImpl implements PostRepository {
     required String likes,
   }) async {
     try {
-      final res = await postRemoteDatasource.likesPost(
+      final res = await postRemoteDatasource.saveLikesPost(
           postId: postId, uid: uid, likes: likes);
       return res;
     } on ServerException catch (e) {
@@ -143,8 +143,8 @@ class PostRepositoryImpl implements PostRepository {
   Future<Either<Failure, void>> followUsecase(
       {required String followId, required String uid}) async {
     try {
-      final res =
-          await postRemoteDatasource.followUser(uid: uid, followId: followId);
+      final res = await postRemoteDatasource.saveFollowsUsers(
+          uid: uid, followId: followId);
       return Right(res);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.msg));

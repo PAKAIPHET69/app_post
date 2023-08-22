@@ -1,9 +1,9 @@
-import 'package:app_post/features/post/domain/repositories/post_repository.dart';
+import 'package:app_post/features/post/domain/repositories/repository.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class DeleteCommentUsecase {
-  final PostRepository postRepository;
+  final Repository postRepository;
 
   DeleteCommentUsecase(this.postRepository);
   Future<String> call(

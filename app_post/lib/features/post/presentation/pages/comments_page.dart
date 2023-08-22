@@ -26,7 +26,10 @@ class CommentPage extends StatelessWidget {
             centerTitle: false,
           ),
           body: state.dataStatus == DataStatus.loading
-              ? Container()
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              // ? CommentCard(getPid: getPostData)
               : CommentCard(
                   getPid: getPostData,
                 ), //List Post comment

@@ -5,11 +5,11 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../repositories/post_repository.dart';
+import '../repositories/repository.dart';
 
 @lazySingleton
 class UploadImageUsecese implements UseCase<String, File> {
-  final PostRepository postRepository;
+  final Repository postRepository;
 
   UploadImageUsecese(this.postRepository);
   @override

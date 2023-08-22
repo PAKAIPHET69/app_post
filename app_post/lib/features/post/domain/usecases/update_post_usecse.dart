@@ -4,11 +4,11 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../repositories/post_repository.dart';
+import '../repositories/repository.dart';
 
 @lazySingleton
 class UpdatePostUsecase implements UseCase<void, Post> {
-  final PostRepository postRepository;
+  final Repository postRepository;
 
   UpdatePostUsecase(this.postRepository);
   @override

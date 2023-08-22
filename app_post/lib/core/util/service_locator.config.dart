@@ -9,12 +9,14 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:app_post/core/util/register_modules.dart' as _i42;
+import 'package:app_post/core/util/register_modules.dart' as _i43;
+import 'package:app_post/features/post/data/datasources/comment_remote_dayasource.dart'
+    as _i25;
 import 'package:app_post/features/post/data/datasources/post_remote_datasource.dart'
     as _i12;
-import 'package:app_post/features/post/data/repositories/post_repository_impl.dart'
+import 'package:app_post/features/post/data/repositories/repository_impl.dart'
     as _i14;
-import 'package:app_post/features/post/domain/repositories/post_repository.dart'
+import 'package:app_post/features/post/domain/repositories/repository.dart'
     as _i13;
 import 'package:app_post/features/post/domain/usecases/comments_usecase.dart'
     as _i26;
@@ -35,29 +37,29 @@ import 'package:app_post/features/post/domain/usecases/get_view_comment.dart'
     as _i35;
 import 'package:app_post/features/post/domain/usecases/likes_post.dart' as _i36;
 import 'package:app_post/features/post/domain/usecases/post_usecase.dart'
-    as _i15;
-import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart'
-    as _i24;
-import 'package:app_post/features/post/domain/usecases/upload_image_usecese.dart'
-    as _i25;
-import 'package:app_post/features/post/presentation/cubit/post_cubit.dart'
     as _i37;
+import 'package:app_post/features/post/domain/usecases/update_post_usecse.dart'
+    as _i23;
+import 'package:app_post/features/post/domain/usecases/upload_image_usecese.dart'
+    as _i24;
+import 'package:app_post/features/post/presentation/cubit/post_cubit.dart'
+    as _i42;
 import 'package:app_post/features/search/data/datasource/search_remote_datasource.dart'
-    as _i16;
+    as _i15;
 import 'package:app_post/features/search/data/repository/searce_repository_impl.dart'
-    as _i18;
-import 'package:app_post/features/search/domain/repository/search_repository.dart'
     as _i17;
+import 'package:app_post/features/search/domain/repository/search_repository.dart'
+    as _i16;
 import 'package:app_post/features/search/domain/usecase/search_usecase.dart'
-    as _i19;
+    as _i18;
 import 'package:app_post/features/search/persentitioon/cubit/search_cubit.dart'
     as _i38;
 import 'package:app_post/features/signin/data/datasources/signin_remote_datasource.dart'
-    as _i21;
+    as _i20;
 import 'package:app_post/features/signin/data/repository/sigin_repository_impl.dart'
-    as _i23;
-import 'package:app_post/features/signin/domain/repository/signin_repository.dart'
     as _i22;
+import 'package:app_post/features/signin/domain/repository/signin_repository.dart'
+    as _i21;
 import 'package:app_post/features/signin/domain/usecases/get_token_useccase.dart'
     as _i34;
 import 'package:app_post/features/signin/domain/usecases/sigin_facebook_usecase.dart'
@@ -78,7 +80,7 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i10;
 import 'package:logger/logger.dart' as _i11;
-import 'package:shared_preferences/shared_preferences.dart' as _i20;
+import 'package:shared_preferences/shared_preferences.dart' as _i19;
 
 extension GetItInjectableX on _i1.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -108,66 +110,79 @@ extension GetItInjectableX on _i1.GetIt {
               gh<_i5.FirebaseAuth>(),
               gh<_i8.FirebaseStorage>(),
             ));
-    gh.lazySingleton<_i13.PostRepository>(
-        () => _i14.PostRepositoryImpl(gh<_i12.PostRemoteDatasource>()));
-    gh.lazySingleton<_i15.PostUsecase>(
-        () => _i15.PostUsecase(gh<_i13.PostRepository>()));
-    gh.lazySingleton<_i16.SearchRemoteDatasource>(
-        () => _i16.SearchDatasourceImpl(
+    gh.lazySingleton<_i13.Repository>(
+        () => _i14.RepositoryImpl(gh<_i12.PostRemoteDatasource>()));
+    gh.lazySingleton<_i15.SearchRemoteDatasource>(
+        () => _i15.SearchDatasourceImpl(
               gh<_i6.FirebaseFirestore>(),
               gh<_i5.FirebaseAuth>(),
               gh<_i8.FirebaseStorage>(),
             ));
-    gh.lazySingleton<_i17.SearchRepository>(
-        () => _i18.SearchRepositoryImpl(gh<_i16.SearchRemoteDatasource>()));
-    gh.lazySingleton<_i19.SearchUsecse>(
-        () => _i19.SearchUsecse(gh<_i17.SearchRepository>()));
-    await gh.factoryAsync<_i20.SharedPreferences>(
+    gh.lazySingleton<_i16.SearchRepository>(
+        () => _i17.SearchRepositoryImpl(gh<_i15.SearchRemoteDatasource>()));
+    gh.lazySingleton<_i18.SearchUsecse>(
+        () => _i18.SearchUsecse(gh<_i16.SearchRepository>()));
+    await gh.factoryAsync<_i19.SharedPreferences>(
       () => injectionModule.prefs,
       preResolve: true,
     );
-    gh.lazySingleton<_i21.SignInDatasource>(() => _i21.SignInRemoteDatasource(
+    gh.lazySingleton<_i20.SignInDatasource>(() => _i20.SignInRemoteDatasource(
           gh<_i9.GoogleSignIn>(),
           gh<_i4.FacebookAuth>(),
           gh<_i5.FirebaseAuth>(),
           gh<_i6.FirebaseFirestore>(),
           gh<_i7.FirebaseMessaging>(),
         ));
-    gh.lazySingleton<_i22.SignInRepository>(
-        () => _i23.SignInRepositoryImpl(gh<_i21.SignInDatasource>()));
-    gh.lazySingleton<_i24.UpdatePostUsecase>(
-        () => _i24.UpdatePostUsecase(gh<_i13.PostRepository>()));
-    gh.lazySingleton<_i25.UploadImageUsecese>(
-        () => _i25.UploadImageUsecese(gh<_i13.PostRepository>()));
+    gh.lazySingleton<_i21.SignInRepository>(
+        () => _i22.SignInRepositoryImpl(gh<_i20.SignInDatasource>()));
+    gh.lazySingleton<_i23.UpdatePostUsecase>(
+        () => _i23.UpdatePostUsecase(gh<_i13.Repository>()));
+    gh.lazySingleton<_i24.UploadImageUsecese>(
+        () => _i24.UploadImageUsecese(gh<_i13.Repository>()));
+    gh.lazySingleton<_i25.CommentRemoteDataSoure>(
+        () => _i25.CommentRemoteDataSoureImpl(gh<_i6.FirebaseFirestore>()));
     gh.lazySingleton<_i26.CommentUsecase>(
-        () => _i26.CommentUsecase(gh<_i13.PostRepository>()));
+        () => _i26.CommentUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i27.DeleteCommentUsecase>(
-        () => _i27.DeleteCommentUsecase(gh<_i13.PostRepository>()));
+        () => _i27.DeleteCommentUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i28.DeletePostUsecase>(
-        () => _i28.DeletePostUsecase(gh<_i13.PostRepository>()));
+        () => _i28.DeletePostUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i29.FollowUsecase>(
-        () => _i29.FollowUsecase(gh<_i13.PostRepository>()));
+        () => _i29.FollowUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i30.GetCurrentUser>(
-        () => _i30.GetCurrentUser(gh<_i13.PostRepository>()));
+        () => _i30.GetCurrentUser(gh<_i13.Repository>()));
     gh.lazySingleton<_i31.GetFollowUsecase>(
-        () => _i31.GetFollowUsecase(gh<_i13.PostRepository>()));
+        () => _i31.GetFollowUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i32.GetPostCommentsUsecase>(
-        () => _i32.GetPostCommentsUsecase(gh<_i13.PostRepository>()));
+        () => _i32.GetPostCommentsUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i33.GetPostsUsecase>(
-        () => _i33.GetPostsUsecase(gh<_i13.PostRepository>()));
+        () => _i33.GetPostsUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i34.GetTokenUsecase>(
-        () => _i34.GetTokenUsecase(gh<_i22.SignInRepository>()));
+        () => _i34.GetTokenUsecase(gh<_i21.SignInRepository>()));
     gh.lazySingleton<_i35.GetViewCommentsUsecase>(
-        () => _i35.GetViewCommentsUsecase(gh<_i13.PostRepository>()));
+        () => _i35.GetViewCommentsUsecase(gh<_i13.Repository>()));
     gh.lazySingleton<_i36.LikesPostUsecase>(
-        () => _i36.LikesPostUsecase(gh<_i13.PostRepository>()));
-    gh.factory<_i37.PostCubit>(() => _i37.PostCubit(
-          gh<_i15.PostUsecase>(),
+        () => _i36.LikesPostUsecase(gh<_i13.Repository>()));
+    gh.lazySingleton<_i37.PostUsecase>(
+        () => _i37.PostUsecase(gh<_i13.Repository>()));
+    gh.factory<_i38.SearchCubit>(
+        () => _i38.SearchCubit(gh<_i18.SearchUsecse>()));
+    gh.lazySingleton<_i39.SigInGoogleUsecase>(
+        () => _i39.SigInGoogleUsecase(gh<_i21.SignInRepository>()));
+    gh.lazySingleton<_i40.SigInfacebookUsecase>(
+        () => _i40.SigInfacebookUsecase(gh<_i21.SignInRepository>()));
+    gh.factory<_i41.SignInCubit>(() => _i41.SignInCubit(
+          gh<_i39.SigInGoogleUsecase>(),
+          gh<_i40.SigInfacebookUsecase>(),
+          gh<_i34.GetTokenUsecase>(),
+        ));
+    gh.factory<_i42.PostCubit>(() => _i42.PostCubit(
+          gh<_i37.PostUsecase>(),
           gh<_i30.GetCurrentUser>(),
-          gh<_i25.UploadImageUsecese>(),
+          gh<_i24.UploadImageUsecese>(),
           gh<_i33.GetPostsUsecase>(),
           gh<_i28.DeletePostUsecase>(),
-          gh<_i24.UpdatePostUsecase>(),
+          gh<_i23.UpdatePostUsecase>(),
           gh<_i26.CommentUsecase>(),
           gh<_i32.GetPostCommentsUsecase>(),
           gh<_i27.DeleteCommentUsecase>(),
@@ -176,19 +191,8 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i31.GetFollowUsecase>(),
           gh<_i29.FollowUsecase>(),
         ));
-    gh.factory<_i38.SearchCubit>(
-        () => _i38.SearchCubit(gh<_i19.SearchUsecse>()));
-    gh.lazySingleton<_i39.SigInGoogleUsecase>(
-        () => _i39.SigInGoogleUsecase(gh<_i22.SignInRepository>()));
-    gh.lazySingleton<_i40.SigInfacebookUsecase>(
-        () => _i40.SigInfacebookUsecase(gh<_i22.SignInRepository>()));
-    gh.factory<_i41.SignInCubit>(() => _i41.SignInCubit(
-          gh<_i39.SigInGoogleUsecase>(),
-          gh<_i40.SigInfacebookUsecase>(),
-          gh<_i34.GetTokenUsecase>(),
-        ));
     return this;
   }
 }
 
-class _$InjectionModule extends _i42.InjectionModule {}
+class _$InjectionModule extends _i43.InjectionModule {}

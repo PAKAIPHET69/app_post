@@ -17,38 +17,30 @@ import '../../../signin/domain/entity/user.dart';
 import '../model/post_model.dart';
 
 abstract class PostRemoteDatasource {
-  Future<void> savePost(PostModel postModel);
-  Future<void> deletePost(String idPost);
-  Future<void> updatePost(PostModel postModel);
-  Future<String> getViewCm({required String postId});
-  Future<String> uploadImageToStorage(File imageFile);
-  Stream<List<PostModel>> getUserPosts();
-  Stream<List<PostCMModel>> getPostComments({required String pId});
-  Future<List<UserModel>> getFollow({required String uid});
   User getCurrentUser();
-
-  Future<String> likesPost({
-    required String postId,
-    required String uid,
-    required String likes,
-  });
-
-  Future<String> postComment({
-    required String postId,
-    required String text,
-    required String uid,
-    required String name,
-  });
-
-  Future<String> deletePostCM({
-    required String postId,
-    required String commentId,
-  });
-
-  Future<void> followUser({
-    required String uid,
-    required String followId,
-  });
+  // save & updata Posts
+  Future<void> savePost(PostModel postModel);
+  Future<void> updatePost(PostModel postModel);
+  Future<String> uploadImageToStorage(File imageFile);
+  // Show & Dalete Posts
+  Stream<List<PostModel>> showPosts();
+  Future<void> deletePost(String idPost);
+  Future<String> saveLikesPost(
+      {required String postId, required String uid, required String likes});
+  // Save, Show, Count & Delete Comments
+  Future<String> saveComment(
+      {required String postId,
+      required String text,
+      required String uid,
+      required String name});
+  Stream<List<PostCMModel>> showComments({required String pId});
+  Future<String> countComment({required String postId});
+  Future<String> deleteComment(
+      {required String postId, required String commentId});
+  // Save FollowsUsers
+  Future<void> saveFollowsUsers(
+      {required String uid, required String followId});
+  Future<List<UserModel>> getFollow({required String uid});
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -62,8 +54,24 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     this.auth,
     this.storage,
   );
+  // Get CurrentUsers
+  @override
+  User getCurrentUser() {
+    try {
+      final userData = auth.currentUser;
+      return User(
+        uid: userData?.uid,
+        displayName: userData?.displayName,
+        email: userData?.email,
+      );
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? '');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
 
-  /// Save Post to fireStore ///
+  // Save Post to FireStore
   @override
   Future<void> savePost(PostModel postModel) async {
     try {
@@ -76,6 +84,22 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');
     } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  // Update Posts
+  @override
+  Future<void> updatePost(PostModel postModel) async {
+    try {
+      final res =
+          await fireStore.collection('posts').doc(postModel.pid).update({
+        'description': postModel.description,
+        'imageUrl': postModel.imageUrl,
+        'timestamp': DateTime.now().toIso8601String(),
+      });
+      return res;
+    } on FirebaseException catch (e) {
       throw ServerException(e.toString());
     }
   }
@@ -96,44 +120,9 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  // get Current user
+  // Show Posts
   @override
-  User getCurrentUser() {
-    try {
-      final userData = auth.currentUser;
-      return User(
-        uid: userData?.uid,
-        displayName: userData?.displayName,
-        email: userData?.email,
-      );
-    } on FirebaseException catch (e) {
-      throw ServerException(e.message ?? '');
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  // get user follow
-  @override
-  Future<List<UserModel>> getFollow({required String uid}) async {
-    try {
-      final snaps = await fireStore
-          .collection('users')
-          .where('uid', isEqualTo: uid)
-          .get();
-      final res =
-          snaps.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
-      return res;
-    } on FirebaseException catch (e) {
-      throw ServerException(e.message ?? '');
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  /// Get UserPosts ///
-  @override
-  Stream<List<PostModel>> getUserPosts() {
+  Stream<List<PostModel>> showPosts() {
     final snapshot = fireStore
         .collection('posts')
         .orderBy('timestamp', descending: true)
@@ -144,7 +133,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     return userposts;
   }
 
-  /// Delete Post ///
+  // Delete Post
   @override
   Future<void> deletePost(String idPost) async {
     try {
@@ -155,77 +144,9 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  /// Update Post ///
+  // Likes 
   @override
-  Future<void> updatePost(PostModel postModel) async {
-    try {
-      final res =
-          await fireStore.collection('posts').doc(postModel.pid).update({
-        'description': postModel.description,
-        'imageUrl': postModel.imageUrl,
-        'timestamp': DateTime.now().toIso8601String(),
-      });
-      return res;
-    } on FirebaseException catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  /// Post Comment
-  @override
-  Stream<List<PostCMModel>> getPostComments({required String pId}) {
-    final res = fireStore
-        .collection('posts')
-        .doc(pId)
-        .collection('comments')
-        .orderBy('timestamp', descending: true)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => PostCMModel.fromJson(doc.data()))
-            .toList());
-    return res;
-  }
-
-  /// Delete Comment
-  @override
-  Future<String> deletePostCM(
-      {required String postId, required String commentId}) async {
-    try {
-      await fireStore
-          .collection('posts')
-          .doc(postId)
-          .collection('comments')
-          .doc(commentId)
-          .delete();
-      return 'success';
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  @override
-  Future<String> getViewCm({required String postId}) async {
-    try {
-      final snap = await fireStore
-          .collection('posts')
-          .doc(postId)
-          .collection('comments')
-          .get();
-      final res = snap.docs.map((e) => PostCMModel.fromJson(e.data())).toList();
-      final countCM = res.length.toString();
-      if (countCM.isEmpty) {
-        return '0';
-      } else {
-        return countCM;
-      }
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
-
-  /// Likes
-  @override
-  Future<String> likesPost({
+  Future<String> saveLikesPost({
     required String postId,
     required String uid,
     required String likes,
@@ -253,9 +174,79 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     return res;
   }
 
+  // get user follow
+  @override
+  Future<List<UserModel>> getFollow({required String uid}) async {
+    try {
+      final snaps = await fireStore
+          .collection('users')
+          .where('uid', isEqualTo: uid)
+          .get();
+      final res =
+          snaps.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
+      return res;
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? '');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  /// Post Comment
+  @override
+  Stream<List<PostCMModel>> showComments({required String pId}) {
+    final res = fireStore
+        .collection('posts')
+        .doc(pId)
+        .collection('comments')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => PostCMModel.fromJson(doc.data()))
+            .toList());
+    return res;
+  }
+
+  /// Delete Comment
+  @override
+  Future<String> deleteComment(
+      {required String postId, required String commentId}) async {
+    try {
+      await fireStore
+          .collection('posts')
+          .doc(postId)
+          .collection('comments')
+          .doc(commentId)
+          .delete();
+      return 'success';
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> countComment({required String postId}) async {
+    try {
+      final snap = await fireStore
+          .collection('posts')
+          .doc(postId)
+          .collection('comments')
+          .get();
+      final res = snap.docs.map((e) => PostCMModel.fromJson(e.data())).toList();
+      final countCM = res.length.toString();
+      if (countCM.isEmpty) {
+        return '0';
+      } else {
+        return countCM;
+      }
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
   // Follow
   @override
-  Future<void> followUser(
+  Future<void> saveFollowsUsers(
       {required String uid, required String followId}) async {
     try {
       DocumentSnapshot snapshot =
@@ -287,7 +278,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   /// Save Comment to firebase ///
   @override
-  Future<String> postComment({
+  Future<String> saveComment({
     required String postId,
     required String text,
     required String uid,
