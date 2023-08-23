@@ -5,15 +5,17 @@ part 'post_model.g.dart';
 
 @JsonSerializable()
 class PostModel extends Post {
-  const PostModel({
-    String? description,
-    String? pid,
-    String? userId,
-    DateTime? timestamp,
-    String? imageUrl,
-    String? userName,
-    List? likes,
-  }) : super(
+  const PostModel(
+      {String? description,
+      String? pid,
+      String? userId,
+      DateTime? timestamp,
+      String? imageUrl,
+      String? userName,
+      List? likes,
+      List<String>? following})
+      : super(
+          following: following,
           likes: likes,
           userName: userName,
           timestamp: timestamp,

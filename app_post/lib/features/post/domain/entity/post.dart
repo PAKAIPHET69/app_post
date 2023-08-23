@@ -10,6 +10,7 @@ class Post extends Equatable {
   final String? userName;
   final List? likes;
   final String? countCM;
+  final List<String>? following;
 
   const Post({
     this.likes,
@@ -20,6 +21,7 @@ class Post extends Equatable {
     this.timestamp,
     this.imageUrl,
     this.countCM,
+    this.following,
   });
   @override
   List<Object?> get props => [
@@ -30,6 +32,7 @@ class Post extends Equatable {
         userId,
         imageUrl,
         likes,
+        following
       ];
 
   Post copyWith(
@@ -40,8 +43,10 @@ class Post extends Equatable {
       String? imageUrl,
       String? userName,
       List? likes,
-      String? countCM}) {
+      String? countCM,
+      List<String>? following}) {
     return Post(
+      following: following ?? this.following,
         description: description ?? this.description,
         pid: pid ?? this.pid,
         timestamp: timestamp ?? this.timestamp,

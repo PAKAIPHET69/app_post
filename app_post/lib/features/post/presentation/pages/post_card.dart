@@ -27,11 +27,15 @@ class PostCard extends StatelessWidget {
                 : ListView.builder(
                     itemCount: state.listPosts!.length,
                     itemBuilder: (context, index) {
+                      final getInfo = state.listUseInfo;
+                      print(getInfo);
                       final getPostUser = state.listPosts![index];
                       final getCurrenteUser = state.currentUser!;
                       final timeDate = DateFormat('EE dd/MM/yy')
                           .format(getPostUser.timestamp!);
-                      return SingleChildScrollView(
+                      return
+                          // getPostUser.following!.contains(getCurrenteUser.uid)?
+                          SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [

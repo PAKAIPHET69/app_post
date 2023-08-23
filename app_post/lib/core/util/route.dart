@@ -77,7 +77,8 @@ class AppRoute {
           BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
                 ..showPostsUsers()
-                ..getCurrentUser()))
+                ..getCurrentUser()
+                ..getInfoUser()))
         ]);
 
       /// Update Post Page

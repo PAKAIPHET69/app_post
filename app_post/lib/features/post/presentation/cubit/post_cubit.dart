@@ -169,25 +169,39 @@ class PostCubit extends Cubit<PostState> {
 
   /// Show Post from  clouad_firestore ///
   Future<void> showPostsUsers() async {
-    // emit(state.copyWith(dataStatus: DataStatus.loading));
+    emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = showPostsUsecase(NoParams());
     sub = result.listen((post) async {
-      // List<Post> getList = [];
-      // for (var index = 0; index < post.length; index++) {
-      //   final i = post[index];
-      //   final countComment = await getViewCm(pid: i.pid ?? '');
-      //   final updateList = List<Post>.from(post);
-      //   updateList[index] = i.copyWith(countCM: countComment);
+      List<Post> getList = [];
+      for (var index = 0; index < post.length; index++) {
+        final i = post[index];
+        final result = await getInfoUsecase(uid: i.userId ?? "");
+        final countComment = await countCommentsUsecase(pid: i.pid ?? '');
 
-      //   getList.add(updateList[index]);
-      //   if (post.isNotEmpty) {
-      //     emit(state.copyWith(
-      //         dataStatus: DataStatus.success, listPosts: getList));
-      //   }
-      // }
-      if (post.isNotEmpty) {
-        emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+        final List<Post> updateList = List<Post>.from(post);
+        updateList[index] = i.copyWith(
+            following: result.following ?? [], countCM: countComment);
+        print(updateList);
+        getList.add(updateList[index]);
+        print(getList);
+        if (getList.length == post.length) {
+          print(getList);
+          emit(state.copyWith(
+              dataStatus: DataStatus.success, listPosts: getList));
+        }
+        // final countComment = await countComments(pid: i.pid ?? '');
+        // final updateList = List<Post>.from(post);
+        // updateList[index] = i.copyWith(countCM: countComment);
+
+        // getList.add(updateList[index]);
+        // if (post.isNotEmpty) {
+        //   emit(state.copyWith(
+        //       dataStatus: DataStatus.success, listPosts: getList));
+        // }
       }
+      // if (post.isNotEmpty) {
+      //   emit(state.copyWith(dataStatus: DataStatus.success, listPosts: post));
+      // }
     });
   }
 
@@ -275,8 +289,9 @@ class PostCubit extends Cubit<PostState> {
   }
 
   /// Get Info User
-  Future<void> getInfoUser({required String uid}) async {
-    final result = await getInfoUsecase(uid: uid);
-    emit(state.copyWith(dataStatus: DataStatus.success, listUseInfo: result));
+  Future<void> getInfoUser() async {
+    // emit(state.copyWith(dataStatus: DataStatus.loading));
+    // final result = await getInfoUsecase(uid: state.currentUser?.uid??'');
+    // emit(state.copyWith(dataStatus: DataStatus.success, listUseInfo: result));
   }
 }
