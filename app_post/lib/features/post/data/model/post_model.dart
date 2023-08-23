@@ -28,8 +28,8 @@ class PostModel extends Post {
 }
 
 @JsonSerializable()
-class PostCMModel extends PostCM {
-  const PostCMModel({
+class CommentModel extends Comment {
+  const CommentModel({
     String? text,
     String? commentId,
     DateTime? timestamp,
@@ -41,7 +41,7 @@ class PostCMModel extends PostCM {
             timestamp: timestamp,
             uid: uid,
             name: name);
-  factory PostCMModel.fromJson(Map<String, dynamic> json) =>
-      _$PostCMModelFromJson(json);
-  Map<String, dynamic> toJson() => _$PostCMModelToJson(this);
+  factory CommentModel.fromJson(Map<String, dynamic> json) =>
+      _$CommentModelFromJson(json);
+  Map<String, dynamic> toJson() => _$CommentModelToJson(this);
 }

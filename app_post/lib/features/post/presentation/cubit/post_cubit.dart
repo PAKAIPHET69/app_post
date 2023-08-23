@@ -171,7 +171,7 @@ class PostCubit extends Cubit<PostState> {
 
   /// Show Post from  clouad_firestore ///
   Future<void> showPostsUsers() async {
-    emit(state.copyWith(dataStatus: DataStatus.loading));
+    // emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = showPostsUsecase(NoParams());
     sub = result.listen((post) async {
       // List<Post> getList = [];
@@ -205,9 +205,11 @@ class PostCubit extends Cubit<PostState> {
   }
 
   // Count Comment
-  Future<String> getViewCm({required String pid}) async {
+  Future<String> countComments({required String pid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await countCommentsUsecase(pid: pid);
+
+    // emit(state.copyWith(dataStatus: DataStatus.success,));
     return result;
   }
 
@@ -245,7 +247,7 @@ class PostCubit extends Cubit<PostState> {
     final result = showCommentsUsecase(pid: pId);
     sub = result.listen((postCM) {
       if (postCM.isNotEmpty) {
-        final updateList = List<PostCM>.from(postCM);
+        final updateList = List<Comment>.from(postCM);
         emit(state.copyWith(
             dataStatus: DataStatus.success, listPostCM: updateList));
       }

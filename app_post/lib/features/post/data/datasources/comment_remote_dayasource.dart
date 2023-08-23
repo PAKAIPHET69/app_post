@@ -14,7 +14,7 @@ abstract class CommentRemoteDataSoure {
       required String text,
       required String uid,
       required String name});
-  Stream<List<PostCMModel>> showComments({required String pId});
+  Stream<List<CommentModel>> showComments({required String pId});
   Future<String> countComment({required String postId});
   Future<String> deleteComment(
       {required String postId, required String commentId});
@@ -93,7 +93,7 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
   }
 
   @override
-  Stream<List<PostCMModel>> showComments({required String pId}) {
+  Stream<List<CommentModel>> showComments({required String pId}) {
     final res = fireStore
         .collection('posts')
         .doc(pId)
@@ -101,7 +101,7 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
         .orderBy('timestamp', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => PostCMModel.fromJson(doc.data()))
+            .map((doc) => CommentModel.fromJson(doc.data()))
             .toList());
     return res;
   }
@@ -114,7 +114,8 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
           .doc(postId)
           .collection('comments')
           .get();
-      final res = snap.docs.map((e) => PostCMModel.fromJson(e.data())).toList();
+      final res =
+          snap.docs.map((e) => CommentModel.fromJson(e.data())).toList();
       final countCM = res.length.toString();
       if (countCM.isEmpty) {
         return '0';

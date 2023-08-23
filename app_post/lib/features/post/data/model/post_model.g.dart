@@ -28,7 +28,7 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'likes': instance.likes,
     };
 
-PostCMModel _$PostCMModelFromJson(Map<String, dynamic> json) => PostCMModel(
+CommentModel _$CommentModelFromJson(Map<String, dynamic> json) => CommentModel(
       text: json['text'] as String?,
       commentId: json['commentId'] as String?,
       timestamp: json['timestamp'] == null
@@ -38,7 +38,7 @@ PostCMModel _$PostCMModelFromJson(Map<String, dynamic> json) => PostCMModel(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$PostCMModelToJson(PostCMModel instance) =>
+Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
     <String, dynamic>{
       'text': instance.text,
       'commentId': instance.commentId,

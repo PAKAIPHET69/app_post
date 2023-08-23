@@ -69,7 +69,7 @@ class AppRoute {
               create: ((context) => getIt<PostCubit>()
                 ..getCurrentUser()
                 ..showPostsUsers()
-                ..getViewCm),
+                ..countComments),
             ),
           ],
         );

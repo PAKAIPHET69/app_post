@@ -16,7 +16,7 @@ abstract class Repository {
 
   Future<Either<Failure, String>> uploadImageUsecase(File imageFile);
   Stream<List<Post>> showPostUsecase();
-  Stream<List<PostCM>> showCommentsUsecase({required String pId});
+  Stream<List<Comment>> showCommentsUsecase({required String pId});
 
   Future<List<User>> showFollow({required String uid});
   Stream<List<User>> showFollows({required String uid});

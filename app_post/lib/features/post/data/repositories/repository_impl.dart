@@ -100,7 +100,7 @@ class RepositoryImpl implements Repository {
 
   // CommentRemoteDataSoure
   @override
-  Stream<List<PostCM>> showCommentsUsecase({required String pId}) {
+  Stream<List<Comment>> showCommentsUsecase({required String pId}) {
     final res = commentRemoteDataSoure.showComments(pId: pId);
     return res;
   }

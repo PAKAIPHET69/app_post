@@ -1,7 +1,7 @@
 import 'package:app_post/features/post/data/model/post_model.dart';
 import 'package:equatable/equatable.dart';
 
-class PostCM extends Equatable {
+class Comment extends Equatable {
   final String? text;
   final String? commentId;
   final DateTime? timestamp;
@@ -9,7 +9,7 @@ class PostCM extends Equatable {
   final String? name;
   final List? viewCM;
 
-  const PostCM({
+  const Comment({
     this.viewCM,
     this.text,
     this.commentId,
@@ -26,7 +26,7 @@ class PostCM extends Equatable {
         uid,
         name,
       ];
-  PostCM copyWith({
+  Comment copyWith({
     List? viewCM,
     String? text,
     String? commentId,
@@ -34,7 +34,7 @@ class PostCM extends Equatable {
     String? uid,
     String? name,
   }) {
-    return PostCM(
+    return Comment(
         viewCM: viewCM ?? this.viewCM,
         text: text ?? this.text,
         commentId: commentId ?? this.commentId,
@@ -43,7 +43,7 @@ class PostCM extends Equatable {
         name: name ?? this.name);
   }
 
-  PostCMModel toModel() => PostCMModel(
+  CommentModel toModel() => CommentModel(
         commentId: commentId,
         text: text,
         timestamp: timestamp,
