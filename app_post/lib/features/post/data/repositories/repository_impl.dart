@@ -158,14 +158,14 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<List<User>> showFollow({required String uid}) {
-    final result = followRemotDataSource.showFolloeUsers(uid: uid);
-    return result;
+  Stream<List<User>> showFollows({required String uid}) {
+    final res = followRemotDataSource.showFollows(uid: uid);
+    return res;
   }
 
   @override
-  Stream<List<User>> showFollows({required String uid}) {
-    final res = followRemotDataSource.showFollows(uid: uid);
+  Future<User> getInfo({required String uid}) async {
+    final res = await postRemoteDatasource.getInfo(uid: uid);
     return res;
   }
 }

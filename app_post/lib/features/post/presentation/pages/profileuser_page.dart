@@ -25,9 +25,10 @@ class ProfileUserPage extends StatelessWidget {
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
           if (state.dataStatus == DataStatus.loading) {
-            return Center(child: CircularProgressIndicator());
+            return Container();
+            // Center(child: CircularProgressIndicator());
           }
-          final getCurrentUser = state.currentUser!;
+          final getCurrentUser = state.currentUser;
           return ListView.builder(
             itemCount: state.listUser!.length,
             itemBuilder: (BuildContext context, index) {
@@ -78,13 +79,13 @@ class ProfileUserPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    getCurrentUser.uid == getDataUser.uid
+                    getCurrentUser?.uid == getDataUser.uid
                         ? Container()
-                        : listUsers.followers!.contains(getCurrentUser.uid)
+                        : listUsers.followers!.contains(getCurrentUser?.uid)
                             ? TextButton(
                                 onPressed: () {
-                                  context.read<PostCubit>().followUser(
-                                      uid: getCurrentUser.uid ?? '',
+                                  context.read<PostCubit>().saveFollowUser(
+                                      uid: getCurrentUser?.uid ?? '',
                                       followId: getDataUser.uid ?? '');
                                 },
                                 child: Container(
@@ -110,8 +111,8 @@ class ProfileUserPage extends StatelessWidget {
                               )
                             : TextButton(
                                 onPressed: () {
-                                  context.read<PostCubit>().followUser(
-                                      uid: getCurrentUser.uid ?? '',
+                                  context.read<PostCubit>().saveFollowUser(
+                                      uid: getCurrentUser?.uid ?? '',
                                       followId: getDataUser.uid ?? '');
                                 },
                                 child: Container(
@@ -135,6 +136,7 @@ class ProfileUserPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                    Divider(thickness: 1, endIndent: 10, indent: 10),
                   ],
                 ),
               );

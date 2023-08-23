@@ -49,6 +49,7 @@ class PostState extends Equatable {
     String? error,
     Post? post,
     User? currentUser,
+    User? listUseInfo,
     File? imageFile,
     List<Post>? listPosts,
     List<User>? listUser,

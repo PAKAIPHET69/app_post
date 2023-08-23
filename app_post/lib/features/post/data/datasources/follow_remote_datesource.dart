@@ -6,7 +6,6 @@ import 'package:injectable/injectable.dart';
 abstract class FollowRemotDataSource {
   Future<void> saveFollowsUsers(
       {required String uid, required String followId});
-  Future<List<UserModel>> showFolloeUsers({required String uid});
   Stream<List<UserModel>> showFollows({required String uid});
 }
 
@@ -17,23 +16,6 @@ class FollowRemotDataSourceImpl implements FollowRemotDataSource {
   FollowRemotDataSourceImpl(
     this.fireStore,
   );
-
-  @override
-  Future<List<UserModel>> showFolloeUsers({required String uid}) async {
-    try {
-      final snaps = await fireStore
-          .collection('users')
-          .where('uid', isEqualTo: uid)
-          .get();
-      final res =
-          snaps.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
-      return res;
-    } on FirebaseException catch (e) {
-      throw ServerException(e.message ?? '');
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
 
   @override
   Future<void> saveFollowsUsers(

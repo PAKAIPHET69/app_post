@@ -1,5 +1,6 @@
 import 'package:app_post/core/util/service_locator.dart';
 import 'package:app_post/core/widgets/navigationbar.dart';
+import 'package:app_post/features/post/presentation/pages/post_card.dart';
 import 'package:app_post/features/post/presentation/pages/profileuser_page.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
@@ -22,6 +23,7 @@ class AppRoute {
   static const String signinRoute = "signin";
   static const String nvbRoute = "navigationbar";
   static const String homeRoute = "home";
+  static const String postcardRoute = "postcard";
   static const String searchRoute = "search";
   static const String addPostRoute = "addpost";
   static const String commentRoute = "/comment";
@@ -66,13 +68,17 @@ class AppRoute {
           const PostPage(),
           providers: [
             BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()
-                ..getCurrentUser()
-                ..showPostsUsers()
-                ..countComments),
+              create: ((context) => getIt<PostCubit>()),
             ),
           ],
         );
+      case postcardRoute:
+        return _materialRoute(PostCard(), providers: [
+          BlocProvider<PostCubit>(
+              create: ((context) => getIt<PostCubit>()
+                ..showPostsUsers()
+                ..getCurrentUser()))
+        ]);
 
       /// Update Post Page
       case updatePostRoute:

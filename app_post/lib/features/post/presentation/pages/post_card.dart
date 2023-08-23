@@ -9,9 +9,10 @@ import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+  PostCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,8 @@ class PostCard extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final getPostUser = state.listPosts![index];
                       final getCurrenteUser = state.currentUser!;
+                      final timeDate = DateFormat('EE dd/MM/yy')
+                          .format(getPostUser.timestamp!);
                       return SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -64,11 +67,18 @@ class PostCard extends StatelessWidget {
                                             child: Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(12, 0, 0, 0),
-                                              child: Text(
-                                                getPostUser.userName ?? '',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    getPostUser.userName ?? '',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                  SizedBox(width: 5),
+                                                  Text(timeDate)
+                                                ],
                                               ),
                                             ),
                                           ),

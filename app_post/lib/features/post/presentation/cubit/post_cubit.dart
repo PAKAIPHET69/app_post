@@ -11,9 +11,9 @@ import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/domain/usecases/comment_usecase/comments_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/comment_usecase/delete_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follows_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/getInfo_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/posts_usecase/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/follow_usecse/follow_usecse.dart';
-import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follow_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/comment_usecase/show_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/posts_usecase/show_posts_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/comment_usecase/count_comment_usecase.dart';
@@ -34,19 +34,23 @@ import '../../domain/usecases/upload_image_usecese.dart';
 @injectable
 class PostCubit extends Cubit<PostState> {
   final SavePostUsecase savepostUsecase;
+  final ShowPostsUsecase showPostsUsecase;
+  final DeletePostUsecase deletePostUsecase;
+  final UpdatePostUsecase updatePostUsecase;
+  final LikesPostUsecase likesPostUsecase;
+
   final UploadImageUsecese uploadImageUsecese;
   final GetCurrentUser getCurrentUserUsecase;
-  final ShowCommentsUsecase showCommentsUsecase;
-  final ShowPostsUsecase showPostsUsecase;
-  final CountCommentUsecase countCommentsUsecase;
-  final DeletePostUsecase deletePostUsecase;
-  final DeleteCommentUsecase deleteCommentUsecase;
-  final UpdatePostUsecase updatePostUsecase;
+
   final CommentUsecase commentUsecase;
-  final LikesPostUsecase likesPostUsecase;
-  final ShowFollowUsecase showFollowUsecase;
+  final ShowCommentsUsecase showCommentsUsecase;
+  final CountCommentUsecase countCommentsUsecase;
+  final DeleteCommentUsecase deleteCommentUsecase;
+
   final FollowUsecase followUsecase;
   final ShowFollowsUsecase showFollowsUsecase;
+
+  final GetInfoUsecase getInfoUsecase;
 
   PostCubit(
     this.savepostUsecase,
@@ -60,9 +64,9 @@ class PostCubit extends Cubit<PostState> {
     this.deleteCommentUsecase,
     this.countCommentsUsecase,
     this.likesPostUsecase,
-    this.showFollowUsecase,
     this.followUsecase,
     this.showFollowsUsecase,
+    this.getInfoUsecase,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
 
@@ -155,12 +159,6 @@ class PostCubit extends Cubit<PostState> {
     return url;
   }
 
-  // Future<void> getFollow({required String uid}) async {
-  //   emit(state.copyWith(dataStatus: DataStatus.loading));
-  //   final result = await showFollowUsecase(uid: uid);
-  //   emit(state.copyWith(dataStatus: DataStatus.success, listUser: result));
-  // }
-
   Future<void> showFollows({required String uid}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = showFollowsUsecase(uid: uid);
@@ -193,7 +191,7 @@ class PostCubit extends Cubit<PostState> {
     });
   }
 
-  Future<void> followUser(
+  Future<void> saveFollowUser(
       {required String uid, required String followId}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final res = await followUsecase(User(uid: uid, followId: followId));
@@ -213,7 +211,7 @@ class PostCubit extends Cubit<PostState> {
     return result;
   }
 
-  // Get CurrenUser
+  /// Get CurrenUser
   void getCurrentUser() {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
@@ -225,7 +223,7 @@ class PostCubit extends Cubit<PostState> {
     ));
   }
 
-  // Save Comment
+  /// Save Comment
   Future<String> saveComment({
     required String postId,
     required String text,
@@ -239,7 +237,7 @@ class PostCubit extends Cubit<PostState> {
     return result;
   }
 
-  // Show Comments Users
+  /// Show Comments Users
   Future<void> showComments(String pId) async {
     emit(state.copyWith(
       dataStatus: DataStatus.loading,
@@ -260,7 +258,7 @@ class PostCubit extends Cubit<PostState> {
     required String commentId,
   }) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = deleteCommentUsecase(
+    final result = await deleteCommentUsecase(
       postId: postId,
       commentId: commentId,
     );
@@ -274,5 +272,11 @@ class PostCubit extends Cubit<PostState> {
         likes: state.currentUser?.uid ?? '',
         uid: state.currentUser?.uid ?? '');
     return result;
+  }
+
+  /// Get Info User
+  Future<void> getInfoUser({required String uid}) async {
+    final result = await getInfoUsecase(uid: uid);
+    emit(state.copyWith(dataStatus: DataStatus.success, listUseInfo: result));
   }
 }

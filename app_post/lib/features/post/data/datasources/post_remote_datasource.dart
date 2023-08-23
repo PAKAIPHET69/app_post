@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements, await_only_futures, depend_on_referenced_packages
 
 import 'dart:io';
+import 'package:app_post/features/signin/data/model/user_model.dart';
 import 'package:path/path.dart' as path;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +24,7 @@ abstract class PostRemoteDatasource {
   Future<void> deletePost(String idPost);
   Future<String> saveLikesPost(
       {required String postId, required String uid, required String likes});
+  Future<UserModel> getInfo({required String uid});
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -154,5 +156,13 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       throw ServerException(e.toString());
     }
     return res;
+  }
+
+  @override
+  Future<UserModel> getInfo({required String uid}) async {
+    final res =
+        await fireStore.collection('users').where('uid', isEqualTo: uid).get();
+    final resulf = res.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    return resulf.first;
   }
 }

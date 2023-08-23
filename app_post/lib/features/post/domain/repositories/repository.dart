@@ -9,6 +9,7 @@ import '../../../signin/domain/entity/user.dart';
 
 abstract class Repository {
   User getCurrentUser();
+  Future<User> getInfo({required String uid});
 
   Future<Either<Failure, void>> postUsecase(Post post);
   Future<Either<Failure, void>> deletePostUsecase(String pid);
@@ -18,16 +19,12 @@ abstract class Repository {
   Stream<List<Post>> showPostUsecase();
   Stream<List<Comment>> showCommentsUsecase({required String pId});
 
-  Future<List<User>> showFollow({required String uid});
   Stream<List<User>> showFollows({required String uid});
   Future<Either<Failure, void>> followUsecase(
       {required String followId, required String uid});
 
-  Future<String> likePost({
-    required String postId,
-    required String uid,
-    required String likes,
-  });
+  Future<String> likePost(
+      {required String postId, required String uid, required String likes});
 
   Future<String> deleteCommentUsecase(
       {required String postId, required String commentId});
