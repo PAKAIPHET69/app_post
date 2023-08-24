@@ -26,6 +26,8 @@ abstract class PostRemoteDatasource {
       {required String postId, required String uid, required String likes});
   Future<UserModel> getInfo({required String uid});
   Future<UserModel> getFollowerTokens();
+
+  Future<void> logOut();
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -173,5 +175,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     final res = await fireStore.collection('users').where(uid).get();
     final result = res.docs.map((e) => UserModel.fromJson(e.data())).toList();
     return result.first;
+  }
+
+  @override
+  Future<void> logOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

@@ -65,8 +65,7 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
           'POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
 
       request.body = json.encode({
-        "registration_ids":
-            'c8rHIO40TSKPDmUT4ZTv8z:APA91bFXsFJqb_kPTsXssPWnaPU099O2uv5RqFcni62vBGRG-qWboULeyEOSrX2METnWHTwtPLR8Rreq8jPxAtKesOryQqbnHO4JtkVJQfbr0q13zqrHtF4PHhP86iTloV-w9SZjBdls',
+        "registration_ids":'',
         "notification": {
           "body": "$text",
           "content_available": true,
