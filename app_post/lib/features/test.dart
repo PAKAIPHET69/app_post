@@ -68,7 +68,7 @@ class _TestSearchState extends State<TestSearch> {
                   onPressed: () async {
                     final localNotificationService = LocalNotificationService();
                     localNotificationService.sendLocalNotification(
-                        'Message', 'Helloworld');
+                        'Message', 'Hello world');
                   },
                   child: Text('Click Me'))
             ],

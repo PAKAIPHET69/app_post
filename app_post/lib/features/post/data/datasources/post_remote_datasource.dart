@@ -173,10 +173,11 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     try {
       // if (postModel.imageUrl!.isNotEmpty && postModel.description!.isEmpty) {
       //   return 'Some error occurred';}
-final postId = const Uuid().v1();
+      final postId = const Uuid().v1();
       CollectionReference posts = await fireStore.collection('posts');
-      await posts.doc(postModel.pid).set(postModel.toString());
-      final tokenId = postModel.listTokens ?? [];
+      await posts.doc(postModel.pid).set(postModel.toJson());
+      final tokenId =
+          'evfGFu8gSl6oLSmjy1KQCA:APA91bFXsFJqb_kPTsXssPWnaPU099O2uv5RqFcni62vBGRG-qWboULeyEOSrX2METnWHTwtPLR8Rreq8jPxAtKesOryQqbnHO4JtkVJQfbr0q13zqrHtF4PHhP86iTloV-w9SZjBdls';
       final nameUser = postModel.userName ?? '';
       var headers = {
         'Authorization':
