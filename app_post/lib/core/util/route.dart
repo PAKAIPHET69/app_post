@@ -78,7 +78,7 @@ class AppRoute {
               create: ((context) => getIt<PostCubit>()
                 ..showPostsUsers()
                 ..getCurrentUser()
-                ..getInfoUser()))
+                ))
         ]);
 
       /// Update Post Page

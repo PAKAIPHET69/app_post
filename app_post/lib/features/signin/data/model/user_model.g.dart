@@ -10,11 +10,14 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       uid: json['uid'] as String?,
       displayName: json['displayName'] as String?,
       email: json['email'] as String?,
-      followers: json['followers'] as List<dynamic>?,
+      followers: (json['followers'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       following: (json['following'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      tokenID: json['tokenID'] as List<dynamic>?,
+      tokenID:
+          (json['tokenID'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{

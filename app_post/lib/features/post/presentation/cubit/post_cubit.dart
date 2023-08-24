@@ -12,6 +12,7 @@ import 'package:app_post/features/post/domain/usecases/comment_usecase/comments_
 import 'package:app_post/features/post/domain/usecases/comment_usecase/delete_comment_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follows_usecase.dart';
 import 'package:app_post/features/post/domain/usecases/getInfo_usecase.dart';
+import 'package:app_post/features/post/domain/usecases/get_tokenid.dart';
 import 'package:app_post/features/post/domain/usecases/posts_usecase/delete_post_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/follow_usecse/follow_usecse.dart';
 import 'package:app_post/features/post/domain/usecases/comment_usecase/show_comment_usecase.dart';
@@ -51,6 +52,7 @@ class PostCubit extends Cubit<PostState> {
   final ShowFollowsUsecase showFollowsUsecase;
 
   final GetInfoUsecase getInfoUsecase;
+  final GetFollowerTokenId getFollowerTokenId;
 
   PostCubit(
     this.savepostUsecase,
@@ -67,6 +69,7 @@ class PostCubit extends Cubit<PostState> {
     this.followUsecase,
     this.showFollowsUsecase,
     this.getInfoUsecase,
+    this.getFollowerTokenId,
   ) : super(const PostState());
   StreamSubscription<dynamic>? sub;
 
@@ -180,7 +183,7 @@ class PostCubit extends Cubit<PostState> {
 
         final List<Post> updateList = List<Post>.from(post);
         updateList[index] = i.copyWith(
-            following: result.following ?? [], countCM: countComment);
+            followers: result.followers ?? [], countCM: countComment);
         print(updateList);
         getList.add(updateList[index]);
         print(getList);
@@ -214,15 +217,6 @@ class PostCubit extends Cubit<PostState> {
     }, (follow) {
       emit(state.copyWith(dataStatus: DataStatus.success));
     });
-  }
-
-  // Count Comment
-  Future<String> countComments({required String pid}) async {
-    emit(state.copyWith(dataStatus: DataStatus.loading));
-    final result = await countCommentsUsecase(pid: pid);
-
-    // emit(state.copyWith(dataStatus: DataStatus.success,));
-    return result;
   }
 
   /// Get CurrenUser
@@ -288,10 +282,14 @@ class PostCubit extends Cubit<PostState> {
     return result;
   }
 
-  /// Get Info User
-  Future<void> getInfoUser() async {
-    // emit(state.copyWith(dataStatus: DataStatus.loading));
-    // final result = await getInfoUsecase(uid: state.currentUser?.uid??'');
-    // emit(state.copyWith(dataStatus: DataStatus.success, listUseInfo: result));
+  Future<User> getToken() async {
+    List<String> gettokenId = [];
+    final result = await getFollowerTokenId(NoParams());
+    final a = result.followers;
+    for (var index = 0; index < a!.length; index++) {
+      final i = a[index];
+      final result = await getInfoUsecase(uid: i);
+    }
+    return result;
   }
 }

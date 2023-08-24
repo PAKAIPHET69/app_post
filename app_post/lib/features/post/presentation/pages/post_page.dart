@@ -27,6 +27,7 @@ class PostPage extends StatelessWidget {
               ),
             ),
           ),
+          
           body: state.dataStatus == DataStatus.loading
               // ? const PostCard()
               ? Center(child: CircularProgressIndicator())

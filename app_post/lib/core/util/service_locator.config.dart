@@ -9,7 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:app_post/core/util/register_modules.dart' as _i45;
+import 'package:app_post/core/util/register_modules.dart' as _i46;
 import 'package:app_post/features/post/data/datasources/comment_remote_dayasource.dart'
     as _i22;
 import 'package:app_post/features/post/data/datasources/follow_remote_datesource.dart'
@@ -34,9 +34,11 @@ import 'package:app_post/features/post/domain/usecases/follow_usecse/show_follow
     as _i29;
 import 'package:app_post/features/post/domain/usecases/get_currentuser.dart'
     as _i41;
-import 'package:app_post/features/post/domain/usecases/getInfo_usecase.dart'
+import 'package:app_post/features/post/domain/usecases/get_tokenid.dart'
     as _i42;
-import 'package:app_post/features/post/domain/usecases/likes_post.dart' as _i43;
+import 'package:app_post/features/post/domain/usecases/getInfo_usecase.dart'
+    as _i43;
+import 'package:app_post/features/post/domain/usecases/likes_post.dart' as _i44;
 import 'package:app_post/features/post/domain/usecases/posts_usecase/delete_post_usecse.dart'
     as _i39;
 import 'package:app_post/features/post/domain/usecases/posts_usecase/save_post_usecase.dart'
@@ -48,7 +50,7 @@ import 'package:app_post/features/post/domain/usecases/posts_usecase/update_post
 import 'package:app_post/features/post/domain/usecases/upload_image_usecese.dart'
     as _i35;
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart'
-    as _i44;
+    as _i45;
 import 'package:app_post/features/search/data/datasource/search_remote_datasource.dart'
     as _i14;
 import 'package:app_post/features/search/data/repository/searce_repository_impl.dart'
@@ -184,11 +186,13 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i40.FollowUsecase(gh<_i24.Repository>()));
     gh.lazySingleton<_i41.GetCurrentUser>(
         () => _i41.GetCurrentUser(gh<_i24.Repository>()));
-    gh.lazySingleton<_i42.GetInfoUsecase>(
-        () => _i42.GetInfoUsecase(gh<_i24.Repository>()));
-    gh.lazySingleton<_i43.LikesPostUsecase>(
-        () => _i43.LikesPostUsecase(gh<_i24.Repository>()));
-    gh.factory<_i44.PostCubit>(() => _i44.PostCubit(
+    gh.lazySingleton<_i42.GetFollowerTokenId>(
+        () => _i42.GetFollowerTokenId(gh<_i24.Repository>()));
+    gh.lazySingleton<_i43.GetInfoUsecase>(
+        () => _i43.GetInfoUsecase(gh<_i24.Repository>()));
+    gh.lazySingleton<_i44.LikesPostUsecase>(
+        () => _i44.LikesPostUsecase(gh<_i24.Repository>()));
+    gh.factory<_i45.PostCubit>(() => _i45.PostCubit(
           gh<_i26.SavePostUsecase>(),
           gh<_i41.GetCurrentUser>(),
           gh<_i35.UploadImageUsecese>(),
@@ -199,13 +203,14 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i28.ShowCommentsUsecase>(),
           gh<_i38.DeleteCommentUsecase>(),
           gh<_i37.CountCommentUsecase>(),
-          gh<_i43.LikesPostUsecase>(),
+          gh<_i44.LikesPostUsecase>(),
           gh<_i40.FollowUsecase>(),
           gh<_i29.ShowFollowsUsecase>(),
-          gh<_i42.GetInfoUsecase>(),
+          gh<_i43.GetInfoUsecase>(),
+          gh<_i42.GetFollowerTokenId>(),
         ));
     return this;
   }
 }
 
-class _$InjectionModule extends _i45.InjectionModule {}
+class _$InjectionModule extends _i46.InjectionModule {}

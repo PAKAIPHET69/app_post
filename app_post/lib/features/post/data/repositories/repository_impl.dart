@@ -168,4 +168,10 @@ class RepositoryImpl implements Repository {
     final res = await postRemoteDatasource.getInfo(uid: uid);
     return res;
   }
+
+  @override
+  Future<User> getFollowerTokens() async {
+    final res = postRemoteDatasource.getFollowerTokens();
+    return res;
+  }
 }

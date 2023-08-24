@@ -11,6 +11,8 @@ class Post extends Equatable {
   final List? likes;
   final String? countCM;
   final List<String>? following;
+  final List<String>? followers;
+  final List<String>? listTokens;
 
   const Post({
     this.likes,
@@ -22,6 +24,8 @@ class Post extends Equatable {
     this.imageUrl,
     this.countCM,
     this.following,
+    this.followers,
+    this.listTokens,
   });
   @override
   List<Object?> get props => [
@@ -32,7 +36,9 @@ class Post extends Equatable {
         userId,
         imageUrl,
         likes,
-        following
+        following,
+        followers,
+        listTokens
       ];
 
   Post copyWith(
@@ -44,9 +50,13 @@ class Post extends Equatable {
       String? userName,
       List? likes,
       String? countCM,
-      List<String>? following}) {
+      List<String>? following,
+      List<String>? followers,
+      List<String>? listTokens}) {
     return Post(
-      following: following ?? this.following,
+        listTokens: listTokens ?? this.listTokens,
+        followers: followers ?? this.followers,
+        following: following ?? this.following,
         description: description ?? this.description,
         pid: pid ?? this.pid,
         timestamp: timestamp ?? this.timestamp,

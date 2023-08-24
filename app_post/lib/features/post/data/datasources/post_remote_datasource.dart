@@ -25,6 +25,7 @@ abstract class PostRemoteDatasource {
   Future<String> saveLikesPost(
       {required String postId, required String uid, required String likes});
   Future<UserModel> getInfo({required String uid});
+  Future<UserModel> getFollowerTokens();
 }
 
 @LazySingleton(as: PostRemoteDatasource)
@@ -62,7 +63,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       // if (postModel.imageUrl!.isNotEmpty && postModel.description!.isEmpty) {
       //   return 'Some error occurred';
       // }
-      CollectionReference posts = fireStore.collection('posts');
+      CollectionReference posts = await fireStore.collection('posts');
       await posts.doc(postModel.pid).set(postModel.toJson());
       // return 'success';
     } on FirebaseException catch (e) {
@@ -164,5 +165,13 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
         await fireStore.collection('users').where('uid', isEqualTo: uid).get();
     final resulf = res.docs.map((e) => UserModel.fromJson(e.data())).toList();
     return resulf.first;
+  }
+
+  @override
+  Future<UserModel> getFollowerTokens() async {
+    final String uid = auth.currentUser?.uid ?? '';
+    final res = await fireStore.collection('users').where(uid).get();
+    final result = res.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    return result.first;
   }
 }

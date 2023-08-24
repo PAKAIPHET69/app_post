@@ -34,4 +34,6 @@ abstract class Repository {
       required String uid,
       required String name});
   Future<String> countComment({required String postId});
+
+  Future<User> getFollowerTokens();
 }
