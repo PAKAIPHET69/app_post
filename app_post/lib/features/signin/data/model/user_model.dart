@@ -10,7 +10,7 @@ class UserModel extends User {
       String? email,
       List<String>? followers,
       List<String>? following,
-      List<String>? tokenID})
+      String? tokenID})
       : super(
           tokenID: tokenID,
           displayName: displayName,

@@ -282,14 +282,16 @@ class PostCubit extends Cubit<PostState> {
     return result;
   }
 
-  Future<User> getToken() async {
-    List<String> gettokenId = [];
+  Future<List<String>> getToken() async {
+    List<String> listFollowToken = [];
     final result = await getFollowerTokenId(NoParams());
     final a = result.followers;
     for (var index = 0; index < a!.length; index++) {
       final i = a[index];
       final result = await getInfoUsecase(uid: i);
+      listFollowToken.add(result.tokenID ?? '');
     }
-    return result;
+    print(listFollowToken);
+    return listFollowToken;
   }
 }

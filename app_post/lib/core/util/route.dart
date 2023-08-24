@@ -77,8 +77,7 @@ class AppRoute {
           BlocProvider<PostCubit>(
               create: ((context) => getIt<PostCubit>()
                 ..showPostsUsers()
-                ..getCurrentUser()
-                ))
+                ..getCurrentUser()))
         ]);
 
       /// Update Post Page
@@ -114,7 +113,7 @@ class AppRoute {
           const AddPostPage(),
           providers: [
             BlocProvider<PostCubit>(
-              create: ((context) => getIt<PostCubit>()),
+              create: ((context) => getIt<PostCubit>()..getToken()),
             ),
           ],
         );
@@ -123,6 +122,11 @@ class AppRoute {
       case profileRoute:
         return _materialRoute(
           const ProfilePage(),
+          providers: [
+            BlocProvider<PostCubit>(
+              create: ((context) => getIt<PostCubit>()..getCurrentUser()),
+            ),
+          ],
         );
 
       /// Post Comment

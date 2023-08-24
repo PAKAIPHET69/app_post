@@ -9,7 +9,7 @@ class User extends Equatable {
   final String? followId;
   final List<String>? followers;
   final List<String>? following;
-  final List<String>? tokenID;
+  final String? tokenID;
 
   const User({
     this.tokenID,

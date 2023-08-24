@@ -16,8 +16,6 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       following: (json['following'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      tokenID:
-          (json['tokenID'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
