@@ -1,13 +1,15 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements, await_only_futures, depend_on_referenced_packages
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:app_post/features/signin/data/model/user_model.dart';
 import 'package:path/path.dart' as path;
-
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../signin/domain/entity/user.dart';
@@ -57,8 +59,6 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
       throw ServerException(e.toString());
     }
   }
-
-
 
   // Update Posts
   @override
@@ -167,15 +167,46 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     await auth.signOut();
   }
 
-    // Save Post to FireStore
+  // Save Post to FireStore
   @override
   Future<void> savePost(PostModel postModel) async {
     try {
       // if (postModel.imageUrl!.isNotEmpty && postModel.description!.isEmpty) {
       //   return 'Some error occurred';}
-      
+final postId = const Uuid().v1();
       CollectionReference posts = await fireStore.collection('posts');
-      await posts.doc(postModel.pid).set(postModel.toJson());
+      await posts.doc(postModel.pid).set(postModel.toString());
+      final tokenId = postModel.listTokens ?? [];
+      final nameUser = postModel.userName ?? '';
+      var headers = {
+        'Authorization':
+            'key=AAAAQyDf7is:AAAAfO8o6Ns:APA91bEvfRQPJJEsffaVFYCuZNkcBPzO59TDJaCm_MJAPtpQ7unXtD-0E1RgzPYjIaBN1z6jMQ88FIOoD_3fNVFryPlXwscau1TvHj63M6Ks45VGi9hXMmrVJxzJ_dwu4UscLxngxnri--Zq5cHgCTojGqiSJJ2gz',
+        'Content-Type': 'application/json',
+      };
+
+      var request = http.Request(
+          'POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
+
+      request.body = json.encode({
+        "registration_ids": "$tokenId",
+        "notification": {
+          "body": "New Posts",
+          "content_available": true,
+          "priority": "high",
+          "title": "$nameUser",
+        },
+        // "data": {"payload": ""}
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      } else {
+        print(response.reasonPhrase);
+      }
       // return 'success';
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? '');

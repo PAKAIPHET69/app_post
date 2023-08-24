@@ -40,4 +40,14 @@ abstract class Repository {
   Future<User> getFollowerTokens();
 
   Future<void> logOut();
+
+  // Future<void> savePost(
+  //     {required String decoration,
+  //     required String imageUrl,
+  //     required String pid,
+  //     required String timestamp,
+  //     required String userId,
+  //     required String userName,
+  //     required List<String> likes,
+  //     required List<String> tokenID});
 }

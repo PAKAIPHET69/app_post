@@ -120,6 +120,7 @@ class PostCubit extends Cubit<PostState> {
     final List<String> tokenUser = await getToken();
     print(tokenUser);
     Post postData = Post(
+      listTokens: tokenUser,
       userName: state.currentUser?.displayName,
       userId: state.currentUser?.uid, //From current user that logged in
       pid: postId,
