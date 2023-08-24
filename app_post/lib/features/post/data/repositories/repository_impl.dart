@@ -110,15 +110,31 @@ class RepositoryImpl implements Repository {
       {required String postId,
       required String text,
       required String uid,
-      required String name}) async {
+      required String name,
+      required String tokenID}) async {
     try {
       final result = await commentRemoteDataSoure.saveComment(
-          postId: postId, text: text, uid: uid, name: name);
+        postId: postId,
+        text: text,
+        uid: uid,
+        name: name,
+        tokenID: tokenID,
+      );
       return result;
     } on ServerException catch (e) {
       throw ServerFailure(e.msg.toString());
     }
   }
+  //   @override
+  // Future<String> commentUsecase(
+  //     {required String postId,
+  //     required String text,
+  //     required String uid,
+  //     required String name,
+  //     required List<String> tokenID}) {
+  //   // TODO: implement commentUsecase
+  //   throw UnimplementedError();
+  // }
 
   @override
   Future<String> deleteCommentUsecase(
@@ -174,4 +190,12 @@ class RepositoryImpl implements Repository {
     final res = postRemoteDatasource.getFollowerTokens();
     return res;
   }
+
+  @override
+  Future<void> logOut() async {
+    final res = await postRemoteDatasource.logOut();
+    return res;
+  }
+
+
 }

@@ -28,12 +28,16 @@ abstract class Repository {
 
   Future<String> deleteCommentUsecase(
       {required String postId, required String commentId});
-  Future<String> commentUsecase(
-      {required String postId,
-      required String text,
-      required String uid,
-      required String name});
+  Future<String> commentUsecase({
+    required String postId,
+    required String text,
+    required String uid,
+    required String name,
+    required String tokenID,
+  });
   Future<String> countComment({required String postId});
 
   Future<User> getFollowerTokens();
+
+  Future<void> logOut();
 }

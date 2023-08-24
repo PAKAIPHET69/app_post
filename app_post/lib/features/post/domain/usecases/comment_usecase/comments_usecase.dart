@@ -9,8 +9,9 @@ class CommentUsecase {
       {required String uid,
       required String postId,
       required String text,
-      required String name}) {
+      required String name,
+      required String tokenID}) {
     return repository.commentUsecase(
-        postId: postId, text: text, uid: uid, name: name);
+        postId: postId, text: text, uid: uid, name: name,tokenID: tokenID);
   }
 }

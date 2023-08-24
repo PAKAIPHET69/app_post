@@ -58,22 +58,7 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
     }
   }
 
-  // Save Post to FireStore
-  @override
-  Future<void> savePost(PostModel postModel) async {
-    try {
-      // if (postModel.imageUrl!.isNotEmpty && postModel.description!.isEmpty) {
-      //   return 'Some error occurred';
-      // }
-      CollectionReference posts = await fireStore.collection('posts');
-      await posts.doc(postModel.pid).set(postModel.toJson());
-      // return 'success';
-    } on FirebaseException catch (e) {
-      throw ServerException(e.message ?? '');
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
-  }
+
 
   // Update Posts
   @override
@@ -179,6 +164,23 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   @override
   Future<void> logOut() async {
-    await FirebaseAuth.instance.signOut();
+    await auth.signOut();
+  }
+
+    // Save Post to FireStore
+  @override
+  Future<void> savePost(PostModel postModel) async {
+    try {
+      // if (postModel.imageUrl!.isNotEmpty && postModel.description!.isEmpty) {
+      //   return 'Some error occurred';}
+      
+      CollectionReference posts = await fireStore.collection('posts');
+      await posts.doc(postModel.pid).set(postModel.toJson());
+      // return 'success';
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? '');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 }
