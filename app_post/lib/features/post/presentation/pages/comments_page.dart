@@ -2,6 +2,7 @@
 
 import 'package:app_post/core/util/colors.dart';
 import 'package:app_post/core/util/constant.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:app_post/features/post/presentation/pages/comment_card.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CommentPage extends StatelessWidget {
-  final String getPostData;
+  final SendParam getPostData;
   CommentPage({super.key, required this.getPostData});
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CommentPage extends StatelessWidget {
               ? Container()
               // ? CommentCard(getPid: getPostData)
               : CommentCard(
-                  getPid: getPostData,
+                  getPid: getPostData.postId,
                 ), //List Post comment
           bottomNavigationBar: SafeArea(
             child: Container(
@@ -67,8 +68,9 @@ class CommentPage extends StatelessWidget {
                         ),
                         onPressed: () {
                           postCubit.saveComment(
-                              postId: getPostData,
-                              text: postCubit.textController.text);
+                              postId: getPostData.postId,
+                              text: postCubit.textController.text,
+                              tokenID: getPostData.listToken??[]);
                           postCubit.textController.clear();
                         },
                       ),

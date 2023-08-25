@@ -1,5 +1,6 @@
 import 'package:app_post/core/util/service_locator.dart';
 import 'package:app_post/core/widgets/navigationbar.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/presentation/pages/post_card.dart';
 import 'package:app_post/features/post/presentation/pages/profileuser_page.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
@@ -131,12 +132,12 @@ class AppRoute {
 
       /// Post Comment
       case commentRoute:
-        final String args = settings.arguments as String;
+        final SendParam args = settings.arguments as SendParam;
         return _materialRoute(CommentPage(getPostData: args), providers: [
           BlocProvider<PostCubit>(
             create: ((context) => getIt<PostCubit>()
               ..getCurrentUser()
-              ..showComments(args)),
+              ..showComments(args.postId)),
           ),
         ]);
 

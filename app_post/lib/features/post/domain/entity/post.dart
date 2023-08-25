@@ -68,6 +68,7 @@ class Post extends Equatable {
   }
 
   PostModel toModel() => PostModel(
+    
         userName: userName,
         description: description,
         pid: pid,

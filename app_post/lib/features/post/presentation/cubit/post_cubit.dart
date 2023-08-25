@@ -117,7 +117,7 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final postId = Uuid().v1();
     final url = await uploadImage(state.imageFile);
-    final List<String> tokenUser = await getToken();
+    final tokenUser = await getToken();
     print(tokenUser);
     Post postData = Post(
       listTokens: tokenUser,
@@ -186,7 +186,9 @@ class PostCubit extends Cubit<PostState> {
 
         final List<Post> updateList = List<Post>.from(post);
         updateList[index] = i.copyWith(
-            followers: result.followers ?? [], countCM: countComment);
+            followers: result.followers ?? [],
+            countCM: countComment,
+            listTokens: result.tokenID);
         print(updateList);
         getList.add(updateList[index]);
         print(getList);
@@ -235,13 +237,13 @@ class PostCubit extends Cubit<PostState> {
   }
 
   /// Save Comment
-  Future<String> saveComment({
-    required String postId,
-    required String text,
-  }) async {
+  Future<String> saveComment(
+      {required String postId,
+      required String text,
+      required List<String> tokenID}) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
     final result = await commentUsecase(
-        tokenID: '',
+        tokenID: tokenID,
         postId: postId,
         text: textController.text,
         uid: state.currentUser?.uid ?? '',

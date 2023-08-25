@@ -86,12 +86,14 @@ class UpdetePostPage extends StatelessWidget {
                           (state.imageFile!),
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width,
+                          height: 250,
                         )
                       : getData.imageUrl != null
                           ? Image.network(
                               getData.imageUrl ?? '',
                               fit: BoxFit.cover,
                               width: MediaQuery.of(context).size.width,
+                              height: 250,
                             )
                           : Container()
                 ],

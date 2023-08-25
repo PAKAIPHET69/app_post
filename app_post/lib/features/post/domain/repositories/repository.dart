@@ -33,21 +33,11 @@ abstract class Repository {
     required String text,
     required String uid,
     required String name,
-    required String tokenID,
+    required List<String> tokenID,
   });
   Future<String> countComment({required String postId});
 
   Future<User> getFollowerTokens();
 
   Future<void> logOut();
-
-  // Future<void> savePost(
-  //     {required String decoration,
-  //     required String imageUrl,
-  //     required String pid,
-  //     required String timestamp,
-  //     required String userId,
-  //     required String userName,
-  //     required List<String> likes,
-  //     required List<String> tokenID});
 }

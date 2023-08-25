@@ -14,7 +14,7 @@ abstract class CommentRemoteDataSoure {
       required String text,
       required String uid,
       required String name,
-      required String tokenID});
+      required List<String> tokenID});
   Stream<List<CommentModel>> showComments({required String pId});
   Future<String> countComment({required String postId});
   Future<String> deleteComment(
@@ -36,7 +36,7 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
     required String text,
     required String uid,
     required String name,
-    required String tokenID,
+    required List<String> tokenID,
   }) async {
     try {
       if (text.isEmpty) {
@@ -67,14 +67,13 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
           'POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
 
       request.body = json.encode({
-        "registration_ids": "$tokenID",
+        "registration_ids": tokenID,
         "notification": {
-          "body": "$text",
+          "title": "New Comment",
+          "body": "$name :$text",
           "content_available": true,
           "priority": "high",
-          "title": "$name",
         },
-        // "data": {"payload": ""}
       });
 
       request.headers.addAll(headers);

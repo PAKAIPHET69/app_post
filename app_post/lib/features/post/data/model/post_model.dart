@@ -13,8 +13,10 @@ class PostModel extends Post {
       String? imageUrl,
       String? userName,
       List? likes,
+      List<String>? listTokens,
       List<String>? following})
       : super(
+          listTokens: listTokens,
           following: following,
           likes: likes,
           userName: userName,

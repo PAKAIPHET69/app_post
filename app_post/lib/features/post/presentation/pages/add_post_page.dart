@@ -96,6 +96,7 @@ class AddPostPage extends StatelessWidget {
                                 (state.imageFile!),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
+                                height: 250,
                               )
                             : Container()
                       ],

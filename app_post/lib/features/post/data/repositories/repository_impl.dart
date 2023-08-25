@@ -111,7 +111,7 @@ class RepositoryImpl implements Repository {
       required String text,
       required String uid,
       required String name,
-      required String tokenID}) async {
+      required List<String> tokenID}) async {
     try {
       final result = await commentRemoteDataSoure.saveComment(
         postId: postId,
@@ -125,16 +125,6 @@ class RepositoryImpl implements Repository {
       throw ServerFailure(e.msg.toString());
     }
   }
-  //   @override
-  // Future<String> commentUsecase(
-  //     {required String postId,
-  //     required String text,
-  //     required String uid,
-  //     required String name,
-  //     required List<String> tokenID}) {
-  //   // TODO: implement commentUsecase
-  //   throw UnimplementedError();
-  // }
 
   @override
   Future<String> deleteCommentUsecase(

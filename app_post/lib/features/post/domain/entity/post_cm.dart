@@ -51,3 +51,10 @@ class Comment extends Equatable {
         name: name,
       );
 }
+
+class SendParam {
+  final String postId;
+  final List<String>? listToken;
+
+  SendParam({required this.postId, required this.listToken});
+}

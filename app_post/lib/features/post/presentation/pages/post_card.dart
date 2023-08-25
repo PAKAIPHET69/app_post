@@ -4,6 +4,7 @@ import 'package:app_post/core/util/app_navigator.dart';
 import 'package:app_post/core/util/colors.dart';
 import 'package:app_post/core/util/route.dart';
 import 'package:app_post/features/post/domain/entity/post.dart';
+import 'package:app_post/features/post/domain/entity/post_cm.dart';
 import 'package:app_post/features/post/presentation/cubit/post_cubit.dart';
 import 'package:app_post/features/post/presentation/cubit/post_state.dart';
 import 'package:awesome_icons/awesome_icons.dart';
@@ -262,12 +263,18 @@ class PostCard extends StatelessWidget {
                                                       icon: Icon(Icons
                                                           .mode_comment_outlined),
                                                       onPressed: () {
+                                                        SendParam sendParam =
+                                                            SendParam(
+                                                                listToken:
+                                                                    getPostUser
+                                                                        .listTokens,
+                                                                postId: getPostUser
+                                                                        .pid ??
+                                                                    '');
                                                         AppNavigator.navigateTo(
                                                             AppRoute
                                                                 .commentRoute,
-                                                            params: getPostUser
-                                                                    .pid ??
-                                                                '');
+                                                            params: sendParam);
                                                       },
                                                     ),
                                                     getPostUser.countCM == "0"
