@@ -59,7 +59,7 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
 
       var headers = {
         'Authorization':
-            'key=AAAAQyDf7is:AAAAfO8o6Ns:APA91bEvfRQPJJEsffaVFYCuZNkcBPzO59TDJaCm_MJAPtpQ7unXtD-0E1RgzPYjIaBN1z6jMQ88FIOoD_3fNVFryPlXwscau1TvHj63M6Ks45VGi9hXMmrVJxzJ_dwu4UscLxngxnri--Zq5cHgCTojGqiSJJ2gz',
+            'key=AAAAfO8o6Ns:APA91bEvfRQPJJEsffaVFYCuZNkcBPzO59TDJaCm_MJAPtpQ7unXtD-0E1RgzPYjIaBN1z6jMQ88FIOoD_3fNVFryPlXwscau1TvHj63M6Ks45VGi9hXMmrVJxzJ_dwu4UscLxngxnri',
         'Content-Type': 'application/json',
       };
 
@@ -67,7 +67,7 @@ class CommentRemoteDataSoureImpl implements CommentRemoteDataSoure {
           'POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
 
       request.body = json.encode({
-        "registration_ids":"$tokenID",
+        "registration_ids": "$tokenID",
         "notification": {
           "body": "$text",
           "content_available": true,
