@@ -11,7 +11,12 @@ abstract class Repository {
   User getCurrentUser();
   Future<User> getInfo({required String uid});
 
-  Future<Either<Failure, void>> postUsecase(Post post);
+  Future<Either<Failure, void>> postUsecase(
+      {required String imageUrl,
+      required String description,
+      required String userId,
+      required String userName,
+      required List<String> listTokens});
   Future<Either<Failure, void>> deletePostUsecase(String pid);
   Future<Either<Failure, void>> updatePostUsecase(Post post);
 

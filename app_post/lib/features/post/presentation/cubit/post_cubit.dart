@@ -115,22 +115,27 @@ class PostCubit extends Cubit<PostState> {
   /// PostUp button to Save ///
   Future<void> postUp(descipController) async {
     emit(state.copyWith(dataStatus: DataStatus.loading));
-    final postId = Uuid().v1();
+    // final postId = Uuid().v1();
     final url = await uploadImage(state.imageFile);
     final tokenUser = await getToken();
+    final userName = state.currentUser?.displayName;
+    final userId = state.currentUser?.uid;
     print(tokenUser);
-    Post postData = Post(
-      listTokens: tokenUser,
-      userName: state.currentUser?.displayName,
-      userId: state.currentUser?.uid, //From current user that logged in
-      pid: postId,
-      likes: [],
-      imageUrl: url,
-      timestamp: DateTime.now(),
-      description: descipController, //From textfield
-    );
+    // Post postData = Post(
+    //   listTokens: tokenUser,
+    //   pid: postId,
+    //   likes: [],
+    //   imageUrl: url,
+    //   timestamp: DateTime.now(),
+    //   description: descipController,
+    // );
 
-    final result = await savepostUsecase(postData);
+    final result = await savepostUsecase(
+        description: descipController,
+        imageUrl: url ?? '',
+        listTokens: tokenUser,
+        userId: userId ?? '',
+        userName: userName ?? '');
     result.fold((error) {
       emit(state.copyWith(dataStatus: DataStatus.failure, error: error.msg));
     }, (user) {

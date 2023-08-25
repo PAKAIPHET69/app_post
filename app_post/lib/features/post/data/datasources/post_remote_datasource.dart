@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../signin/domain/entity/user.dart';
@@ -17,7 +18,12 @@ import '../model/post_model.dart';
 abstract class PostRemoteDatasource {
   User getCurrentUser();
   // save & updata Posts
-  Future<void> savePost(PostModel postModel,);
+  Future<void> savePost(
+      {required String imageUrl,
+      required String description,
+      required String userId,
+      required String userName,
+      required List<String> listTokens});
   Future<void> updatePost(PostModel postModel);
   Future<String> uploadImageToStorage(File imageFile);
   // Show & Dalete Posts
@@ -168,21 +174,37 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
 
   // Save Post to FireStore
   @override
-  Future<void> savePost(PostModel postModel,) async {
+  Future<void> savePost(
+      {required String imageUrl,
+      required String description,
+      required String userId,
+      required String userName,
+      required List<String> listTokens}) async {
     try {
       // if (postModel.imageUrl!.isNotEmpty && postModel.description!.isEmpty) {
       //   return 'Some error occurred';}
-      CollectionReference posts = await fireStore.collection('posts');
-      await posts.doc(postModel.pid).set(postModel.toJson());
+      final postId = const Uuid().v1();
+      final timestamp = DateTime.now();
+      await fireStore
+          .collection('posts')
+          .doc(postId)
+          .set({
+        'description': description,
+        'pid': postId,
+        'imageUrl': imageUrl,
+        'likes': [],
+        'timestamp': timestamp.toIso8601String(),
+        'userId': userId,
+        'userName':userName,
+      });
+      // CollectionReference posts = await fireStore.collection('posts');
+      // await posts.doc(pid).set(postModel.toJson());
       // final tokenId = [
       //   'd8BwsEDHRAyjbG_Ae1QuMP:APA91bEE51bFGA6YwAuJDY99D6NgULsd5xPr1yxC-1zauffp2Sgh541GymF6wv_8nKl7o__OBt8mV-Mb5-qUJYgdVZ03lPEz7t8VN_UZKeFdMdNqVeNhJSBlDy9Xd6gQ_Ujg4LO2H8tE'
       // ];
-      final listTokens = postModel.listTokens;
-      print(listTokens);
-      final tokenId = [listTokens ?? []];
-      final imageUrl = postModel.imageUrl;
-      final nameUser = postModel.userName ?? '';
-      final text = postModel.description ?? '';
+      // final listTokens = postModel.listTokens;
+      // print(listTokens);
+      // final tokenId = [listTokens];
       var headers = {
         'Authorization':
             'key=AAAAfO8o6Ns:APA91bEvfRQPJJEsffaVFYCuZNkcBPzO59TDJaCm_MJAPtpQ7unXtD-0E1RgzPYjIaBN1z6jMQ88FIOoD_3fNVFryPlXwscau1TvHj63M6Ks45VGi9hXMmrVJxzJ_dwu4UscLxngxnri',
@@ -193,10 +215,10 @@ class PostRemoteDatasourceImpl implements PostRemoteDatasource {
           'POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
 
       request.body = json.encode({
-        "registration_ids": tokenId,
+        "registration_ids": [listTokens],
         "notification": {
-          "title": "$nameUser New Post!",
-          "body": "$text",
+          "title": "$userName New Post!",
+          "body": "$description",
           "image": "$imageUrl",
           "content_available": true,
           "priority": "high",

@@ -25,9 +25,19 @@ class RepositoryImpl implements Repository {
     this.followRemotDataSource,
   );
   @override
-  Future<Either<Failure, void>> postUsecase(Post post) async {
+  Future<Either<Failure, void>> postUsecase(
+      {required String imageUrl,
+      required String description,
+      required String userId,
+      required String userName,
+      required List<String> listTokens}) async {
     try {
-      final res = await postRemoteDatasource.savePost(post.toModel());
+      final res = await postRemoteDatasource.savePost(
+          description: description,
+          imageUrl: imageUrl,
+          listTokens: listTokens,
+          userId: userId,
+          userName: userName);
       return Right(res);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.msg));
@@ -186,6 +196,4 @@ class RepositoryImpl implements Repository {
     final res = await postRemoteDatasource.logOut();
     return res;
   }
-
-
 }

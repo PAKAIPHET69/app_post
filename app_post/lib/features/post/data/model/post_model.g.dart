@@ -16,6 +16,9 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       imageUrl: json['imageUrl'] as String?,
       userName: json['userName'] as String?,
       likes: json['likes'] as List<dynamic>?,
+      listTokens: (json['listTokens'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       following: (json['following'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -30,6 +33,7 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'userName': instance.userName,
       'likes': instance.likes,
       'following': instance.following,
+      'listTokens': instance.listTokens,
     };
 
 CommentModel _$CommentModelFromJson(Map<String, dynamic> json) => CommentModel(

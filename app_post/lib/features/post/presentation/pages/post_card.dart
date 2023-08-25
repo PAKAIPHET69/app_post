@@ -219,7 +219,7 @@ class PostCard extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(start: 3, end: 3),
-                                            child: getPostUser.imageUrl != null
+                                            child: getPostUser.imageUrl != ''
                                                 ? Image.network(
                                                     getPostUser.imageUrl ?? '',
                                                     width: double.infinity,

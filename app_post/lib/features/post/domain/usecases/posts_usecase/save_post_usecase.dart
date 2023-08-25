@@ -2,17 +2,24 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../core/error/failures.dart';
-import '../../../../../core/usecases/usecase.dart';
-import '../../entity/post.dart';
 import '../../repositories/repository.dart';
 
 @lazySingleton
-class SavePostUsecase implements UseCase<void, Post> {
+class SavePostUsecase {
   final Repository postRepository;
 
   SavePostUsecase(this.postRepository);
-  @override
-  Future<Either<Failure, void>> call(Post params) async {
-    return await postRepository.postUsecase(params);
+  Future<Either<Failure, void>> call(
+      {required String imageUrl,
+      required String description,
+      required String userId,
+      required String userName,
+      required List<String> listTokens}) async {
+    return await postRepository.postUsecase(
+        description: description,
+        imageUrl: imageUrl,
+        listTokens: listTokens,
+        userId: userId,
+        userName: userName);
   }
 }
