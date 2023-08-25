@@ -22,7 +22,7 @@ class AddPostPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
               backgroundColor: Colors.black,
-              title: Text('Post to'),
+              title: Text('Post'),
               actions: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(8.0),
@@ -54,12 +54,40 @@ class AddPostPage extends StatelessWidget {
                               border: OutlineInputBorder()),
                           maxLines: 3,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            _dialogBuilder(context);
-                          },
-                          child: Text('Add Image'),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                context
+                                    .read<PostCubit>()
+                                    .getImage(ImageSource.gallery);
+                              },
+                              icon: Icon(
+                                Icons.photo_outlined,
+                                color: Color(0xFF57636C),
+                                size: 28,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context
+                                    .read<PostCubit>()
+                                    .getImage(ImageSource.camera);
+                              },
+                              icon: Icon(
+                                Icons.camera_alt,
+                                color: Color(0xFF57636C),
+                                size: 28,
+                              ),
+                            ),
+                          ],
                         ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     _dialogBuilder(context);
+                        //   },
+                        //   child: Text('Add Image'),
+                        // ),
                         SizedBox(
                           height: 15,
                         ),
@@ -68,7 +96,6 @@ class AddPostPage extends StatelessWidget {
                                 (state.imageFile!),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
-                                height: 300,
                               )
                             : Container()
                       ],

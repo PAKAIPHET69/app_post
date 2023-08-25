@@ -52,72 +52,46 @@ class UpdetePostPage extends StatelessWidget {
                         border: OutlineInputBorder()),
                     maxLines: 3,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog<void>(
-                        context: context,
-                        builder: (BuildContext _) {
-                          return SimpleDialog(
-                            title: const Text('Create a Post'),
-                            children: <Widget>[
-                              SimpleDialogOption(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.camera_alt_rounded),
-                                    Text('Take a photo'),
-                                  ],
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  postUpCubit.getImage(ImageSource.camera);
-                                },
-                              ),
-                              SimpleDialogOption(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.image),
-                                      Text('From Gallery'),
-                                    ],
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    postUpCubit.getImage(ImageSource.gallery);
-                                  }),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  textStyle:
-                                      Theme.of(context).textTheme.labelLarge,
-                                ),
-                                child: const Text('Cancel'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          context
+                              .read<PostCubit>()
+                              .getImage(ImageSource.gallery);
                         },
-                      );
-                    },
-                    child: Text('Add Image'),
+                        icon: Icon(
+                          Icons.photo_outlined,
+                          color: Color(0xFF57636C),
+                          size: 28,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          context
+                              .read<PostCubit>()
+                              .getImage(ImageSource.camera);
+                        },
+                        icon: Icon(
+                          Icons.camera_alt,
+                          color: Color(0xFF57636C),
+                          size: 28,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10),
                   state.imageFile != null
                       ? Image.file(
                           (state.imageFile!),
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width,
-                          height: 300,
                         )
                       : getData.imageUrl != null
                           ? Image.network(
                               getData.imageUrl ?? '',
                               fit: BoxFit.cover,
                               width: MediaQuery.of(context).size.width,
-                              height: 300,
                             )
                           : Container()
                 ],

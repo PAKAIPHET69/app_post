@@ -37,45 +37,61 @@ class ProfileUserPage extends StatelessWidget {
                 padding: EdgeInsetsDirectional.only(top: 10),
                 child: Column(
                   children: [
-                    CircleAvatar(
-                      child: Icon(Icons.person, size: 35),
-                      backgroundColor: Colors.black,
-                      radius: 40,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: CircleAvatar(
+                        radius: 40,
+                        child: Icon(Icons.person, size: 50),
+                      ),
                     ),
                     SizedBox(height: 15),
+                    Text(
+                      getDataUser.displayName ?? '',
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        color: Color(0xFF15161E),
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      getDataUser.email ?? '',
+                      style: TextStyle(
+                        fontFamily: 'Plus Jakarta Sans',
+                        color: Color(0xFF606A85),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(children: [
-                                    Text('Followers',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                    Text(listUsers.followers!.length.toString(),
-                                        style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold)),
-                                  ]),
-                                  Column(children: [
-                                    Text('Following',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                    Text(listUsers.following!.length.toString(),
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold)),
-                                  ])
-                                ],
-                              ),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            Column(children: [
+                              Text('Followers',
+                                  style: TextStyle(
+                                      fontFamily: 'Plus Jakarta Sans',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              Text(listUsers.followers!.length.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold)),
+                            ]),
+                            SizedBox(width: 15),
+                            Column(children: [
+                              Text('Following',
+                                  style: TextStyle(
+                                      fontFamily: 'Plus Jakarta Sans',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              Text(listUsers.following!.length.toString(),
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold)),
+                            ])
+                          ],
                         ),
                       ],
                     ),

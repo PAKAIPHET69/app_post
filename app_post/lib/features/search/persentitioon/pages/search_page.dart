@@ -48,9 +48,12 @@ class SearchPage extends StatelessWidget {
                     return InkWell(
                       onTap: () {
                         User sendParams = User(
-                          uid: listUser?.uid ?? '',
-                          displayName: listUser?.displayName ?? '',
-                        );
+                            uid: listUser?.uid ?? '',
+                            displayName: listUser?.displayName ?? '',
+                            email: listUser?.email ?? '',
+                            following: listUser?.following ?? [],
+                            followers: listUser?.followers ?? []);
+                        print(sendParams);
                         AppNavigator.navigateTo(AppRoute.profileUserRoute,
                             params: sendParams);
                       },

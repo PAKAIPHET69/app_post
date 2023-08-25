@@ -35,62 +35,75 @@ class PostCard extends StatelessWidget {
                               getPostUser.followers!.contains(currenteUser.uid)
                           ? SingleChildScrollView(
                               child: Column(
-                                mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 5, 0, 0),
+                                    padding: const EdgeInsetsDirectional.all(3),
                                     child: Container(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.96,
+                                      width: MediaQuery.sizeOf(context).width,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
                                             blurRadius: 10,
                                             color: Colors.grey,
-                                            offset: Offset(0, 2),
+                                            offset: Offset(2, 2),
                                           )
                                         ],
-                                        borderRadius: BorderRadius.circular(0),
                                       ),
                                       child: Column(
-                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Container(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    10, 10, 0, 0),
+                                                EdgeInsetsDirectional.all(3),
                                             child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: <Widget>[
-                                                CircleAvatar(
-                                                  child: Icon(Icons.person),
-                                                ),
+                                              children: [
                                                 Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                12, 0, 0, 0),
                                                     child: Row(
-                                                      children: [
-                                                        Text(
-                                                          getPostUser
-                                                                  .userName ??
-                                                              '',
-                                                          style: TextStyle(
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: 20,
+                                                      child: Icon(
+                                                        Icons.person,
+                                                        size: 30,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 10),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            getPostUser
+                                                                    .userName ??
+                                                                '',
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Plus Jakarta Sans',
+                                                              color: Color(
+                                                                  0xFF14181B),
+                                                              fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
-                                                              fontSize: 16),
-                                                        ),
-                                                        SizedBox(width: 5),
-                                                        Text(timeDate)
-                                                      ],
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                          RichText(
+                                                              text: TextSpan(
+                                                            text: timeDate,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
+                                                          )),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
+                                                  ],
+                                                )),
                                                 getPostUser.userId ==
                                                         currenteUser.uid
                                                     ? IconButton(
@@ -135,13 +148,12 @@ class PostCard extends StatelessWidget {
                                                                       },
                                                                     ),
                                                                     Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      indent:
-                                                                          10,
-                                                                      endIndent:
-                                                                          10,
-                                                                    ),
+                                                                        thickness:
+                                                                            1,
+                                                                        indent:
+                                                                            10,
+                                                                        endIndent:
+                                                                            10),
                                                                     SimpleDialogOption(
                                                                       child:
                                                                           Row(
@@ -186,58 +198,40 @@ class PostCard extends StatelessWidget {
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    10, 5, 10, 5),
+                                            padding: EdgeInsetsDirectional.only(
+                                                start: 5, end: 5, bottom: 5),
                                             child: Row(
-                                              mainAxisSize: MainAxisSize.max,
                                               children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    getPostUser.description ??
-                                                        '',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 16),
+                                                Text(
+                                                  getPostUser.description ?? '',
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        'Plus Jakarta Sans',
+                                                    color: Color(0xFF57636C),
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(0),
-                                              bottomRight: Radius.circular(0),
-                                              topLeft: Radius.circular(0),
-                                              topRight: Radius.circular(0),
-                                            ),
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .only(start: 3, end: 3),
                                             child: getPostUser.imageUrl != null
                                                 ? Image.network(
                                                     getPostUser.imageUrl ?? '',
-                                                    width: MediaQuery.sizeOf(
-                                                            context)
-                                                        .width,
-                                                    height: 450,
+                                                    width: double.infinity,
+                                                    height: 250,
                                                     fit: BoxFit.cover,
                                                   )
                                                 : Container(),
                                           ),
-                                          Divider(
-                                              height: 0,
-                                              thickness: 1,
-                                              indent: 5,
-                                              endIndent: 5,
-                                              color: Colors.grey),
+                                          Divider(thickness: 1),
                                           Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 10, 0),
+                                            padding: EdgeInsetsDirectional.only(
+                                                start: 5, end: 5),
                                             child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
                                               children: [
                                                 Row(
                                                   children: [
@@ -260,8 +254,13 @@ class PostCard extends StatelessWidget {
                                                                 '');
                                                       },
                                                     ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
                                                     IconButton(
-                                                      icon: Icon(Icons.chat),
+                                                      icon: Icon(Icons
+                                                          .mode_comment_outlined),
                                                       onPressed: () {
                                                         AppNavigator.navigateTo(
                                                             AppRoute
@@ -271,20 +270,27 @@ class PostCard extends StatelessWidget {
                                                                 '');
                                                       },
                                                     ),
+                                                    getPostUser.countCM == "0"
+                                                        ? Text('')
+                                                        : Text(
+                                                            ' ${getPostUser.countCM} comment',
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Plus Jakarta Sans',
+                                                              color: Color(
+                                                                  0xFF57636C),
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          )
                                                   ],
                                                 ),
-                                                getPostUser.countCM == "0"
-                                                    ? Text('')
-                                                    : Text(
-                                                        'View all ${getPostUser.countCM} comments',
-                                                        style: const TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      )
                                               ],
                                             ),
                                           ),
+                                          SizedBox(height: 5),
                                         ],
                                       ),
                                     ),

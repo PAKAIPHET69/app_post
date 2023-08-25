@@ -12,87 +12,116 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
-        final getcurrentUser = state.currentUser;
+        // final getcurrentUser = state.currentUser;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: appbarColor,
-            title: Text(getcurrentUser?.displayName ?? ''),
-            actions: [
-              Icon(
-                Icons.settings,
-              ),
-            ],
+            title: Text('Profile',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                )),
+            // actions: [
+            //   Icon(
+            //     Icons.settings,
+            //   ),
+            // ],
           ),
-          body: ListView(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.only(top: 15),
+                child: CircleAvatar(
+                  radius: 40,
+                  child: Icon(Icons.person, size: 50),
+                ),
+              ),
+              Text(
+                state.currentUser?.displayName ?? '',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  color: Color(0xFF15161E),
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                state.currentUser?.email ?? '',
+                style: TextStyle(
+                  fontFamily: 'Plus Jakarta Sans',
+                  color: Color(0xFF606A85),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
+                    Column(
                       children: [
-                        Column(
-                          children: [
-                            CircleAvatar(
-                              child: Icon(Icons.person, size: 35),
-                              backgroundColor: Colors.black,
-                              radius: 40,
-                            ),
-                            Text(
-                              getcurrentUser?.displayName ?? '',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        Text(
+                          '2',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF15161E),
+                            fontSize: 25,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Follow',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text('1')
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Following',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text('2')
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
+                        Text(
+                          'Followers',
+                          style: TextStyle(
+                            fontFamily: 'Plus Jakarta Sans',
+                            color: Color(0xFF606A85),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 150),
-                      child: ElevatedButton(
-                          onPressed: () {}, child: Text('Log Out')),
+                    SizedBox(width: 15),
+                    Column(
+                      children: [
+                        Text(
+                          '2',
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF15161E),
+                            fontSize: 25,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          'Following',
+                          style: TextStyle(
+                            fontFamily: 'Plus Jakarta Sans',
+                            color: Color(0xFF606A85),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
-              )
+              ),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Log out',
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  )),
+              Divider(thickness: 1, indent: 15, endIndent: 15)
             ],
           ),
         );
